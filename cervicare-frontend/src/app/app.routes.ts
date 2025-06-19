@@ -16,7 +16,7 @@ export const routes: Routes = [
     path: 'home', 
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
   },
-   { 
+  { 
     path: 'faqs', 
     loadComponent: () => import('./pages/faqs/faqs.component').then(m => m.FaqsComponent)
   },
@@ -26,36 +26,39 @@ export const routes: Routes = [
   },
   { 
     path: 'about', 
-    loadComponent: () => import('./pages/about/about.component').then(m=>m.AboutComponent)
+    loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent)
   },
-    { 
+  { 
     path: 'register', 
-    loadComponent: () => import('./components/register/register.component').then(m=>m.RegisterComponent)
+    loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent)
   },
-  // { 
-  //   path: 'dashboard/risk-assessment', 
-  //   loadComponent: () => import('./components/dashboard/risk-assesment/risk-assesment.component').then(m => m.RiskAssesmentComponent)
-  // },
-  // { 
-  //   path: 'dashboard/care-recommendations', 
-  //   loadComponent: () => import('./components/dashboard/care-recommendations/care-recommendations.component').then(m => m.CareRecommendationsComponent)
-  // },
-  // { 
-  //   path: 'dashboard/inventory', 
-  //   loadComponent: () => import('./components/dashboard/inventory/inventory.component').then(m => m.InventoryComponent)
-  // },
-  // { 
-  //   path: 'dashboard/financial', 
-  //   loadComponent: () => import('./components/dashboard/financial/financial.component').then(m => m.FinancialComponent)
-  // },
-  // { 
-  //   path: 'dashboard/scheduling', 
-  //   loadComponent: () => import('./components/dashboard/scheduling/scheduling.component').then(m => m.SchedulingComponent)
-  // },
-  // { 
-  //   path: 'dashboard/settings', 
-  //   loadComponent: () => import('./components/dashboard/settings/settings.component').then(m => m.SettingsComponent)
-  // },
-  { path: '**', redirectTo: '/login' },
- 
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
+  },
+  { 
+    path: 'dashboard/risk-assessment', 
+    loadComponent: () => import('./components/dashboard/risk-assesment/risk-assesment.component').then(m => m.RiskAssesmentComponent)
+  },
+  { 
+    path: 'dashboard/care-recommendations', 
+    loadComponent: () => import('./components/dashboard/care-recommendations/care-recommendations.component').then(m => m.CareRecommendationsComponent)
+  },
+  { 
+    path: 'dashboard/inventory', 
+    loadComponent: () => import('./components/dashboard/inventory/inventory.component').then(m => m.InventoryComponent)
+  },
+  { 
+    path: 'dashboard/financial', 
+    loadComponent: () => import('./components/dashboard/financial/financial.component').then(m => m.FinancialComponent)
+  },
+  { 
+    path: 'dashboard/scheduling', 
+    loadComponent: () => import('./components/dashboard/scheduling/scheduling.component').then(m => m.SchedulingComponent)
+  },
+  { 
+    path: 'dashboard/settings', 
+    loadComponent: () => import('./components/dashboard/settings/settings.component').then(m => m.SettingsComponent)
+  },
+  { path: '**', redirectTo: '/login' }
 ];

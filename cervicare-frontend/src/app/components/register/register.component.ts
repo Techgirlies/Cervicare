@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+imports: [CommonModule, FormsModule, RouterModule] 
 
 @Component({
   selector: 'app-register',
@@ -27,30 +28,34 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  onSubmit() {
-    this.error = '';
-    
-    // Validation
-    if (!this.formData.name || !this.formData.email || !this.formData.license || 
-        !this.formData.specialization || !this.formData.password || !this.formData.confirmPassword) {
-      this.error = 'Please fill in all fields';
-      return;
-    }
+onSubmit() {
+  this.error = '';
 
-    if (this.formData.password !== this.formData.confirmPassword) {
-      this.error = 'Passwords do not match';
-      return;
-    }
+  if (!this.formData.name || !this.formData.email || !this.formData.license || 
+      !this.formData.specialization || !this.formData.password || !this.formData.confirmPassword) {
+    this.error = 'Please fill in all fields';
+    return;
+  }
 
-    if (this.formData.password.length < 6) {
-      this.error = 'Password must be at least 6 characters long';
-      return;
-    }
+  if (this.formData.password !== this.formData.confirmPassword) {
+    this.error = 'Passwords do not match';
+    return;
+  }
 
-    if (this.authService.register(this.formData)) {
-      this.router.navigate(['/dashboard']);
-    } else {
+  if (this.formData.password.length < 6) {
+    this.error = 'Password must be at least 6 characters long';
+    return;
+  }
+
+  this.authService.register(this.formData).subscribe({
+    next: res => {
+      alert('Registration successful!');
+      this.router.navigate(['/login']);
+    },
+    error: err => {
+      console.error(err);
       this.error = 'Registration failed. Please try again.';
     }
-  }
+  });
+}
 }

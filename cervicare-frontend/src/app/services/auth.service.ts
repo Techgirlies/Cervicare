@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 
 export interface User {
   id: string;
@@ -15,61 +16,55 @@ export interface User {
 })
 export class AuthService {
   private currentUser: User | null = null;
+  private apiUrl = 'http://localhost:8081/api/users'; // Backend URL
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loadUserFromStorage();
   }
-   private loadUserFromStorage() {
+
+  private loadUserFromStorage() {
     const stored = localStorage.getItem('cervicare_user');
     if (stored) {
       this.currentUser = JSON.parse(stored);
     }
   }
 
-  login(email: string, password: string): boolean {
-    // Simulate login - replace with actual API call
-    if (email && password) {
-      this.currentUser = {
-        id: '1',
-        name: 'Sarah Johnson',
-        email: email,
-        role: 'Healthcare Provider',
-        license: 'MD-2024-001',
-        specialization: 'Gynecology'
-      };
-      localStorage.setItem('cervicare_user', JSON.stringify(this.currentUser));
-      return true;
-    }
-    return false;
-  }
-
-  register(userData: any): boolean {
-    // Simulate registration - replace with actual API call
-    this.currentUser = {
-      id: Date.now().toString(),
-      name: userData.name,
+  register(userData: any): Observable<any> {
+    const payload = {
+      fullName: userData.name,
       email: userData.email,
-      role: 'Healthcare Provider',
-      license: userData.license,
-      specialization: userData.specialization
+      password: userData.password,
+      role: 'DOCTOR' // or 'PATIENT'
     };
-    localStorage.setItem('cervicare_user', JSON.stringify(this.currentUser));
-    return true;
+
+    return this.http.post(`${this.apiUrl}/register`, payload, { responseType: 'text' });
   }
 
+login(email: string, password: string): Observable<any> {
+  const payload = { email, password };
+
+  return this.http.post(`${this.apiUrl}/login`, payload, {
+    headers: {
+      'Content-Type': 'application/json'  // ✅ IMPORTANT: Tell backend you're sending JSON
+    },
+    responseType: 'text'
+  }).pipe(
+    tap((token: string) => {
+      localStorage.setItem('cervicare_token', token);
+    })
+  );
+}
   logout() {
     this.currentUser = null;
     localStorage.removeItem('cervicare_user');
+    localStorage.removeItem('cervicare_token');
   }
 
   isLoggedIn(): boolean {
-    return this.currentUser !== null;
+    return !!localStorage.getItem('cervicare_token');
   }
 
   getCurrentUser(): User | null {
     return this.currentUser;
   }
 }
-
-
-
