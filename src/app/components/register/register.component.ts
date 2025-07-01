@@ -32,7 +32,7 @@ export class RegisterComponent {
     
     // Validation
     if (!this.formData.name || !this.formData.email || !this.formData.license || 
-        !this.formData.specialization || !this.formData.password || !this.formData.confirmPassword) {
+        !this.formData.password || !this.formData.confirmPassword) {
       this.error = 'Please fill in all fields';
       return;
     }

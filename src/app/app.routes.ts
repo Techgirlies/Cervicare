@@ -32,30 +32,6 @@ export const routes: Routes = [
     path: 'register', 
     loadComponent: () => import('./components/register/register.component').then(m=>m.RegisterComponent)
   },
-  // { 
-  //   path: 'dashboard/risk-assessment', 
-  //   loadComponent: () => import('./components/dashboard/risk-assesment/risk-assesment.component').then(m => m.RiskAssesmentComponent)
-  // },
-  // { 
-  //   path: 'dashboard/care-recommendations', 
-  //   loadComponent: () => import('./components/dashboard/care-recommendations/care-recommendations.component').then(m => m.CareRecommendationsComponent)
-  // },
-  // { 
-  //   path: 'dashboard/inventory', 
-  //   loadComponent: () => import('./components/dashboard/inventory/inventory.component').then(m => m.InventoryComponent)
-  // },
-  // { 
-  //   path: 'dashboard/financial', 
-  //   loadComponent: () => import('./components/dashboard/financial/financial.component').then(m => m.FinancialComponent)
-  // },
-  // { 
-  //   path: 'dashboard/scheduling', 
-  //   loadComponent: () => import('./components/dashboard/scheduling/scheduling.component').then(m => m.SchedulingComponent)
-  // },
-  // { 
-  //   path: 'dashboard/settings', 
-  //   loadComponent: () => import('./components/dashboard/settings/settings.component').then(m => m.SettingsComponent)
-  // },
   { path: '**', redirectTo: '/login' },
  
 ];

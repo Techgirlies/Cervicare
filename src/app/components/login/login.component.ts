@@ -37,3 +37,30 @@ export class LoginComponent {
     }
   }
 }
+
+
+// // In your login component
+// onLogin() {
+//   if (this.loginForm.valid) {
+//     this.isLoading = true;
+//     this.errorMessage = '';
+    
+//     const { email, password } = this.loginForm.value;
+    
+//     this.authService.login(email, password).subscribe({
+//       next: (response) => {
+//         this.isLoading = false;
+//         if (response.success) {
+//           console.log('Login successful!');
+//           // Redirect to dashboard or home page
+//           this.router.navigate(['/dashboard']);
+//         }
+//       },
+//       error: (error) => {
+//         this.isLoading = false;
+//         console.error('Login failed:', error);
+//         this.errorMessage = error.error?.message || 'Login failed. Please try again.';
+//       }
+//     });
+//   }
+// }
