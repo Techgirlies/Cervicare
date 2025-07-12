@@ -1,0 +1,4 @@
+com\cervicare\risk\controller\RiskAssessmentController.class
+com\cervicare\risk\dto\RiskAssessmentRequest.class
+com\cervicare\risk\service\RiskAssessmentService.class
+com\cervicare\risk\CervicareRiskAssessmentApplication.class
