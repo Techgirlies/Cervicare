@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +26,35 @@ public class HospitalRecommendationService {
     /**
      * Get aggregated recommendation data by region
      */
+    public Map<String, Object> getItemStockByRegion(String region, String itemName) {
+        List<FacilityItem> items = itemRepo.findByRegionIgnoreCase(region).stream()
+                .filter(item -> item.getItem().equalsIgnoreCase(itemName))
+                .collect(Collectors.toList());
+
+        double avgCost = items.stream()
+                .filter(i -> i.getCost() != null)
+                .mapToDouble(FacilityItem::getCost)
+                .average()
+                .orElse(0.0);
+
+        List<Map<String, Object>> facilityData = items.stream().map(i -> {
+            Map<String, Object> data = new HashMap<>();
+            data.put("facility_name", i.getFacilityName());
+            data.put("cost", i.getCost());
+            data.put("available_stock", i.getAvailableStock());
+            data.put("low_stock", i.getAvailableStock() != null && i.getAvailableStock() < 10);
+            return data;
+        }).collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("region", region);
+        response.put("item", itemName);
+        response.put("average_cost", avgCost);
+        response.put("facilities", facilityData);
+
+        return response;
+    }
+
     public RecommendationResponse getRecommendationsByRegion(String region) {
         List<FacilityItem> items = itemRepo.findByRegionIgnoreCase(region);
         List<FacilityService> services = serviceRepo.findByRegionIgnoreCase(region);
@@ -34,10 +64,29 @@ public class HospitalRecommendationService {
 
         return new RecommendationResponse(region, avgItemPrices, avgServicePrices, items);
     }
+    public Map<String, Object> getPatientOverviewByRegion(String region) {
+        Map<String, Object> response = new HashMap<>();
 
-    /**
-     * Recommend hospitals in a region that provide a specific item, sorted by cost and availability.
-     */
+        List<FacilityItem> items = itemRepo.findByRegionIgnoreCase(region);
+        List<FacilityService> services = serviceRepo.findByRegionIgnoreCase(region);
+
+        Map<String, Double> avgItemPrices = AggregationUtils.computeAverageItemPrices(items);
+        Map<String, Double> avgServicePrices = AggregationUtils.computeAverageServicePrices(services);
+
+        List<FacilityItem> topItems = items.stream()
+                .filter(i -> i.getAvailableStock() != null && i.getAvailableStock() > 0)
+                .sorted(Comparator.comparingDouble(i -> i.getCost() != null ? i.getCost() : Double.MAX_VALUE))
+                .limit(5)
+                .collect(Collectors.toList());
+
+        response.put("region", region);
+        response.put("average_item_prices", avgItemPrices);
+        response.put("average_service_prices", avgServicePrices);
+        response.put("top_available_items", topItems);
+
+        return response;
+    }
+
     public List<FacilityItem> recommendHospitals(String region, String itemName) {
         List<FacilityItem> items = itemRepo.findByRegionIgnoreCase(region);
 

@@ -3,6 +3,9 @@ import com.cervicare.entity.FacilityItem;
 import com.cervicare.entity.FacilityService;
 import com.cervicare.hospitalrecommender.dto.RecommendationResponse;
 import com.cervicare.hospitalrecommender.service.HospitalRecommendationService;
+import org.springframework.http.ResponseEntity;
+import java.util.Map;
+import java.util.HashMap;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
@@ -65,6 +68,17 @@ public class HospitalRecommendationController {
     public FacilityService updateFacilityService(@PathVariable Long id, @RequestBody FacilityService serviceData) {
         return service.updateFacilityService(id, serviceData);
     }
+    @GetMapping("/overview/region/{region}")
+    public ResponseEntity<Map<String, Object>> getPatientOverview(@PathVariable String region) {
+        return ResponseEntity.ok(service.getPatientOverviewByRegion(region));
+    }
+    @GetMapping("/stock/region/{region}/item/{itemName}")
+    public ResponseEntity<Map<String, Object>> getItemStockDetails(
+            @PathVariable String region,
+            @PathVariable String itemName) {
+        return ResponseEntity.ok(service.getItemStockByRegion(region, itemName));
+    }
+
 
     @DeleteMapping("/services/{id}")
     public void deleteFacilityService(@PathVariable Long id) {

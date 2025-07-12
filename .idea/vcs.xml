@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cervicare-ml-api" vcs="Git" />
   </component>
 </project>
