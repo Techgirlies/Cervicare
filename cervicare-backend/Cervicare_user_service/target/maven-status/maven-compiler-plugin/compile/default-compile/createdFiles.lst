@@ -1,7 +1,0 @@
-com\cervicare\UserServiceApplication.class
-com\cervicare\dto\UserRegistrationRequest.class
-com\cervicare\controller\UserController.class
-com\cervicare\dto\UserLoginRequest.class
-com\cervicare\entity\User.class
-com\cervicare\service\UserService.class
-com\cervicare\repository\UserRepository.class
