@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-
+import { Injectable, signal } from '@angular/core';
 
 export interface User {
   id: string;
@@ -15,19 +14,24 @@ export interface User {
 })
 export class AuthService {
   private currentUser: User | null = null;
+  private isLoggedIn = signal<boolean>(false);
+
+  // Expose as readonly signal for components to use
+  getIsLoggedIn = this.isLoggedIn.asReadonly();
 
   constructor() {
     this.loadUserFromStorage();
   }
-   private loadUserFromStorage() {
+
+  private loadUserFromStorage() {
     const stored = localStorage.getItem('cervicare_user');
     if (stored) {
       this.currentUser = JSON.parse(stored);
+      this.isLoggedIn.set(true); // ✅ set signal on reload
     }
   }
 
   login(email: string, password: string): boolean {
-    // Simulate login - replace with actual API call
     if (email && password) {
       this.currentUser = {
         id: '1',
@@ -38,13 +42,13 @@ export class AuthService {
         specialization: 'Gynecology'
       };
       localStorage.setItem('cervicare_user', JSON.stringify(this.currentUser));
+      this.isLoggedIn.set(true); // ✅ signal true
       return true;
     }
     return false;
   }
 
   register(userData: any): boolean {
-    // Simulate registration - replace with actual API call
     this.currentUser = {
       id: Date.now().toString(),
       name: userData.name,
@@ -54,22 +58,17 @@ export class AuthService {
       specialization: userData.specialization
     };
     localStorage.setItem('cervicare_user', JSON.stringify(this.currentUser));
+    this.isLoggedIn.set(true); // ✅ signal true
     return true;
   }
 
   logout() {
     this.currentUser = null;
     localStorage.removeItem('cervicare_user');
-  }
-
-  isLoggedIn(): boolean {
-    return this.currentUser !== null;
+    this.isLoggedIn.set(false); // ✅ signal false
   }
 
   getCurrentUser(): User | null {
     return this.currentUser;
   }
 }
-
-
-

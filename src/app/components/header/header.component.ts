@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,10 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   isMenuOpen = false;
 
-  constructor(private router: Router) {}
+  // Computed value to reactively track login state
+  isLoggedIn = computed(() => this.authService.getIsLoggedIn());
+
+  constructor(private router: Router, private authService: AuthService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -20,6 +24,11 @@ export class HeaderComponent {
 
   navigateTo(route: string) {
     this.router.navigate([route]);
-    this.isMenuOpen = false; // Close mobile menu after navigation
+    this.isMenuOpen = false;
+  }
+
+  onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
