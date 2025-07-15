@@ -1,9 +1,9 @@
 <nav class="navbar">
-  <div class="nav-container">
+  <div class="nav-container" [class.hidden]="isLoggedIn()">
     <!-- Brand/Logo -->
     <div class="nav-logo">
       <a routerLink="/" class="nav-logo-link" >
-        CerviCare Kenya
+        CerviCare 
       </a>
     </div>
 
