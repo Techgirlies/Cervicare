@@ -1,7 +1,6 @@
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 interface TeamMember {
   name: string;
@@ -24,8 +23,6 @@ interface Statistic {
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent {
-
-  constructor(private router:Router){}
   teamMembers: TeamMember[] = [
     {
       name: "Dr. Sarah Johnson",
@@ -92,12 +89,4 @@ export class AboutComponent {
       icon: "🧬"
     }
   ];
-
-  navigateToLogin(){
-    this.router.navigate(['/login']);
-  }
-  navigateToFAQs(){
-    this.router.navigate(['/faqs']);
-  }
- 
 }

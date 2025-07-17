@@ -1,0 +1,6 @@
+com\Assessment\config\CorsConfig.class
+com\Assessment\controller\AssessmentController.class
+com\Assessment\AssessmentApplication.class
+com\Assessment\service\AssessmentService.class
+com\Assessment\repository\AssessmentRepository.class
+com\Assessment\entity\Assessment.class

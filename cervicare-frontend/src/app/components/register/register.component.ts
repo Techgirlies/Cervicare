@@ -28,20 +28,8 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-<<<<<<< HEAD:cervicare-frontend/src/app/components/register/register.component.ts
 onSubmit() {
   this.error = '';
-=======
-  onSubmit() {
-    this.error = '';
-    
-    // Validation
-    if (!this.formData.name || !this.formData.email || !this.formData.license || 
-        !this.formData.password || !this.formData.confirmPassword) {
-      this.error = 'Please fill in all fields';
-      return;
-    }
->>>>>>> 3799b3114c21a6c05aadf9978c22fafe68215d45:src/app/components/register/register.component.ts
 
   if (!this.formData.name || !this.formData.email || !this.formData.license || 
       !this.formData.specialization || !this.formData.password || !this.formData.confirmPassword) {
