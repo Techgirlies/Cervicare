@@ -21,7 +21,7 @@ public class CsvDataLoader {
 
     @PostConstruct
     public void loadData() {
-        try (CSVReader reader = new CSVReader(new InputStreamReader(new ClassPathResource("data/hospital_data.csv").getInputStream()))) {
+        try (CSVReader reader = new CSVReader(new InputStreamReader(new ClassPathResource("data/facility_items.csv").getInputStream()))) {
             String[] line;
             boolean isFirstLine = true;
 

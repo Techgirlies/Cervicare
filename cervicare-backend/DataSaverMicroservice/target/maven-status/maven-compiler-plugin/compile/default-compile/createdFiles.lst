@@ -1,6 +1,0 @@
-com\Assessment\config\CorsConfig.class
-com\example\Assessment\AssessmentApplication.class
-com\yourpackage\repository\AssessmentRepository.class
-com\yourpackage\model\Assessment.class
-com\yourpackage\service\AssessmentService.class
-com\yourpackage\controller\AssessmentController.class

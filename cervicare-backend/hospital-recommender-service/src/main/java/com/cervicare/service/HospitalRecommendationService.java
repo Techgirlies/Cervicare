@@ -54,7 +54,6 @@ public class HospitalRecommendationService {
 
         return response;
     }
-
     public RecommendationResponse getRecommendationsByRegion(String region) {
         List<FacilityItem> items = itemRepo.findByRegionIgnoreCase(region);
         List<FacilityService> services = serviceRepo.findByRegionIgnoreCase(region);
@@ -142,7 +141,6 @@ public class HospitalRecommendationService {
         }
         return null;
     }
-
     public void deleteFacilityService(Long id) {
         serviceRepo.deleteById(id);
     }

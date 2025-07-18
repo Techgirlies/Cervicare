@@ -78,8 +78,6 @@ public class HospitalRecommendationController {
             @PathVariable String itemName) {
         return ResponseEntity.ok(service.getItemStockByRegion(region, itemName));
     }
-
-
     @DeleteMapping("/services/{id}")
     public void deleteFacilityService(@PathVariable Long id) {
         service.deleteFacilityService(id);
