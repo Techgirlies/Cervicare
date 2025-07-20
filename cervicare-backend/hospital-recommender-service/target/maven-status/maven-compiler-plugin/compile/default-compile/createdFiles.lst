@@ -1,0 +1,10 @@
+com\cervicare\repository\FacilityItemRepository.class
+com\cervicare\entity\FacilityItem.class
+com\cervicare\HospitalRecommenderApplication.class
+com\cervicare\hospitalrecommender\dto\RecommendationResponse.class
+com\cervicare\hospitalrecommender\service\HospitalRecommendationService.class
+com\cervicare\hospitalrecommender\util\AggregationUtils.class
+com\cervicare\entity\FacilityService.class
+com\cervicare\loader\CsvDataLoader.class
+com\cervicare\repository\FacilityServiceRepository.class
+com\cervicare\hospitalrecommender\controller\HospitalRecommendationController.class

@@ -59,12 +59,12 @@
 			<version>4.0.2</version>
 		</dependency>
 
-		<!-- Database Connector -->
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>  <!-- or latest stable version -->
 		</dependency>
+
 
 		<!-- Lombok for boilerplate reduction -->
 		<dependency>
