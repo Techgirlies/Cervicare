@@ -3,7 +3,11 @@ package com.controller;
 import com.dto.UserLoginRequest;
 import com.dto.UserRegistrationRequest;
 import com.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,12 +21,18 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserRegistrationRequest request) {
-        return service.register(request);
+    public ResponseEntity<Map<String, String>> register(@RequestBody UserRegistrationRequest request) {
+        String message = service.register(request);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLoginRequest request) {
-        return service.login(request);
+    public ResponseEntity<Map<String, String>> login(@RequestBody UserLoginRequest request) {
+        String message = service.login(request);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", message);
+        return ResponseEntity.ok(response);
     }
 }
