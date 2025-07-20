@@ -72,4 +72,4 @@ databases:
     user: cervicare_user
     plan: free
     region: oregon
-    env: docker
+  
