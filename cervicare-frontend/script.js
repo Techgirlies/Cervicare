@@ -121,10 +121,6 @@ if (assessmentForm) {
 }
 
 // Popup control functions
-function closeAppointmentForm() {
-    const popup = document.getElementById('appointment-popup');
-    if (popup) popup.classList.add('hidden');
-}
     function closeAssessmentPopup() {
         const popup = document.getElementById('assessment-popup');
         if (popup) popup.classList.add('hidden');
@@ -592,7 +588,7 @@ window.closePopup = function () {
 }
 
 function closeInventoryForm() {
-    document.getElementById('inventory-popup').classList.add('hidden');
+    document.getElementById('popup-overlay').classList.add('hidden');
 }
 function renderRecommendationTable(data) {
     if (!Array.isArray(data) || data.length === 0) {
@@ -625,12 +621,6 @@ function renderRecommendationTable(data) {
     html += '</tbody></table>';
     document.getElementById('recommender-results').innerHTML = html;
 }
-function renderRecommendationTable(data) {
-    if (!Array.isArray(data) || data.length === 0) {
-        document.getElementById('recommender-results').innerHTML = "No recommendations found.";
-        return;
-    }
-
     let html = '<table><thead><tr>' +
         '<th>ID</th><th>Region</th><th>Ward</th><th>Facility</th>' +
         '<th>KEPH Level</th><th>Owner</th><th>Code</th>' +
@@ -655,7 +645,6 @@ function renderRecommendationTable(data) {
 
     html += '</tbody></table>';
     document.getElementById('recommender-results').innerHTML = html;
-}
 
 window.getRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value;
@@ -709,7 +698,7 @@ window.getEnhancedRecommendations = function () {
         })
         .then(data => {
             if (!data || data.length === 0) {
-                container.innerText = "⚠️ No matching facilities found.";
+               resultsDiv.innerText = "⚠️ No matching facilities found.";
                 return;
             }
 
@@ -765,7 +754,7 @@ window.searchStock = function () {
         .then(response => response.json())
         .then(data => {
     if (!data || data.length === 0) {
-        container.innerText = "⚠️ No matching facilities found.";
+       resultsDiv.innerText = "⚠️ No matching facilities found.";
         return;
     }
 
