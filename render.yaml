@@ -97,7 +97,6 @@ services:
 
 databases:
   - name: cervicare-db
-    type: mysql
     databaseName: cervicare
     user: cervicare_user
     plan: free
