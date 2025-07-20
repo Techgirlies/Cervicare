@@ -11,10 +11,6 @@ services:
     region: oregon
     envVars:
       - fromGroup: sqlvariable
-      - key: ML_API_RISK_URL
-        fromEnvVar: ML_API_RISK_URL
-      - key: ML_API_RECOMMENDATION_URL
-        fromEnvVar: ML_API_RECOMMENDATION_URL
       - key: PORT
         value: 8080
 
