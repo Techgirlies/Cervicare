@@ -1,9 +1,0 @@
-com\cervicare\appointment\model\Hospital.class
-com\cervicare\appointment\repository\AppointmentRepository.class
-com\cervicare\appointment\model\Appointment.class
-com\cervicare\appointment\model\Region.class
-com\cervicare\appointment\controller\AppointmentController.class
-com\cervicare\appointment\repository\HospitalRepository.class
-com\cervicare\appointment\service\AppointmentService.class
-com\cervicare\appointment\AppointmentApplication.class
-com\cervicare\appointment\repository\RegionRepository.class

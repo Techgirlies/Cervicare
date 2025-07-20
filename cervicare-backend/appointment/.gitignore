@@ -1,0 +1,13 @@
+# === Java / Maven ===
+target/
+
+# === Environment files ===
+.env
+.env.*
+*.env
+*.env.*
+
+# === Build artifacts ===
+*.jar
+*.war
+*.ear

@@ -1,12 +1,14 @@
-# MySQL Configuration
 spring.datasource.url=jdbc:postgresql://dpg-d1uc66vdiees73ajavig-a:5432/cervicare_isdk
 spring.datasource.username=cervicare_user
 spring.datasource.password=zxkSvZ5OR5oVLBxKUEdsFi05jcl7Mz8O
-# Optional Hibernate + JPA settings
-SPRING_JPA_HIBERNATE_DDL_AUTO=update
-SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
-SPRING_JPA_SHOW_SQL=true
+
+# Correct Hibernate + JPA settings for PostgreSQL
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
 
 # ML URLs (adjust ports if needed)
 ML_API_RISK_URL=http://localhost:8086/api/predict-biopsy
 ML_API_RECOMMENDATION_URL=http://localhost:8082/api/predict-recommendation
+
+
