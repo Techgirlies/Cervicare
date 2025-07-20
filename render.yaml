@@ -6,6 +6,7 @@ services:
     branch: main
     dockerfilePath: ./cervicare-backend/DataSaverMicroservice/Dockerfile
     dockerContext: ./cervicare-backend/DataSaverMicroservice
+    buildCommand: ./mvnw clean package -DskipTests
     plan: free
     region: oregon
     envVars:
@@ -29,6 +30,7 @@ services:
     branch: main
     dockerfilePath: ./cervicare-backend/appointment/Dockerfile
     dockerContext: ./cervicare-backend/appointment
+    buildCommand: ./mvnw clean package -DskipTests
     plan: free
     region: oregon
     envVars:
@@ -52,6 +54,7 @@ services:
     branch: main
     dockerfilePath: ./cervicare-backend/Cervicare_user_service/Dockerfile
     dockerContext: ./cervicare-backend/Cervicare_user_service
+    buildCommand: ./mvnw clean package -DskipTests
     plan: free
     region: oregon
     envVars:
@@ -75,6 +78,7 @@ services:
     branch: main
     dockerfilePath: ./cervicare-backend/hospital-recommender-service/Dockerfile
     dockerContext: ./cervicare-backend/hospital-recommender-service
+    buildCommand: ./mvnw clean package -DskipTests
     plan: free
     region: oregon
     envVars:
