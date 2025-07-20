@@ -40,6 +40,16 @@ services:
       - mysql
     ports:
       - "${USER_SERVICE_PORT}:8081"
+
+  cervicare-risk-api:
+    build:
+      context: ./cervicare-backend/cervicare-risk-api
+    container_name: risk_api_service
+    depends_on:
+      - mysql
+    ports:
+      - "${RISK_API_PORT}:8000"
+
   hospital-recommender-service:
     build:
       context: ./cervicare-backend/hospital-recommender-service
