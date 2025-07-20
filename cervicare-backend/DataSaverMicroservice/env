@@ -1,6 +1,6 @@
-SPRING_DATASOURCE_URL=jdbc:mysql://yamanote.proxy.rlwy.net:22013/railway?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-spring.datasource.username=root
-spring.datasource.password=09222315037@Mw
+SPRING_DATASOURCE_URL=jdbc:mysql://yamanote.proxy.rlwy.net:22013/railway?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=UFnIIptywfWdTqEmcGNpjtomGcLsLxoj
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 server.port=8081
