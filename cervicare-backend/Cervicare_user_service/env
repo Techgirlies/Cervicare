@@ -1,6 +1,6 @@
-SPRING_DATASOURCE_URL=jdbc:mysql://yamanote.proxy.rlwy.net:22013/railway?useSSL=false&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
-SPRING_DATASOURCE_USERNAME=root
-SPRING_DATASOURCE_PASSWORD=UFnIIptywfWdTqEmcGNpjtomGcLsLxoj
+spring.datasource.url=jdbc:postgresql://dpg-d1uc66vdiees73ajavig-a:5432/cervicare_isdk
+spring.datasource.username=cervicare_user
+spring.datasource.password=zxkSvZ5OR5oVLBxKUEdsFi05jcl7Mz8O
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 server.port=8083
