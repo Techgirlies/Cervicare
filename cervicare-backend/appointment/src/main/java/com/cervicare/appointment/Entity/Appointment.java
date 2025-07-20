@@ -4,7 +4,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.time.LocalDateTime;
-
+import jakarta.persistence.Table;
 @Entity
 @Table(name = "appointment_data", schema = "cervicare")
 public class Appointment {

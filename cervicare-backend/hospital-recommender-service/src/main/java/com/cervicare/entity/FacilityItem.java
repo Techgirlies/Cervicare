@@ -2,6 +2,7 @@ package com.cervicare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "facility_item", schema = "cervicare")
