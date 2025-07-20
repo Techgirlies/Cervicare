@@ -10,7 +10,18 @@ services:
     plan: free
     region: oregon
     envVars:
-      - fromGroup: sqlvariable
+      - key: SPRING_DATASOURCE_URL
+        fromEnvVar: DATABASE_URL
+      - key: SPRING_DATASOURCE_USERNAME
+        fromEnvVar: DATABASE_USER
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromEnvVar: DATABASE_PASSWORD
+      - key: ML_API_RISK_URL
+        fromEnvVar: ML_API_RISK_URL
+      - key: ML_API_RECOMMENDATION_URL
+        fromEnvVar: ML_API_RECOMMENDATION_URL
+      - key: ALLOWED_ORIGIN
+        fromEnvVar: ALLOWED_ORIGIN
       - key: PORT
         value: 8080
 
@@ -25,7 +36,14 @@ services:
     plan: free
     region: oregon
     envVars:
-      - fromGroup: sqlvariable
+      - key: SPRING_DATASOURCE_URL
+        fromEnvVar: DATABASE_URL
+      - key: SPRING_DATASOURCE_USERNAME
+        fromEnvVar: DATABASE_USER
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromEnvVar: DATABASE_PASSWORD
+      - key: ALLOWED_ORIGIN
+        fromEnvVar: ALLOWED_ORIGIN
       - key: PORT
         value: 8081
 
@@ -40,7 +58,16 @@ services:
     plan: free
     region: oregon
     envVars:
-      - fromGroup: sqlvariable
+      - key: SPRING_DATASOURCE_URL
+        fromEnvVar: DATABASE_URL
+      - key: SPRING_DATASOURCE_USERNAME
+        fromEnvVar: DATABASE_USER
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromEnvVar: DATABASE_PASSWORD
+      - key: JWT_SECRET
+        fromEnvVar: JWT_SECRET
+      - key: ALLOWED_ORIGIN
+        fromEnvVar: ALLOWED_ORIGIN
       - key: PORT
         value: 8082
 
@@ -55,9 +82,29 @@ services:
     plan: free
     region: oregon
     envVars:
-      - fromGroup: sqlvariable
+      - key: SPRING_DATASOURCE_URL
+        fromEnvVar: DATABASE_URL
+      - key: SPRING_DATASOURCE_USERNAME
+        fromEnvVar: DATABASE_USER
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromEnvVar: DATABASE_PASSWORD
+      - key: ALLOWED_ORIGIN
+        fromEnvVar: ALLOWED_ORIGIN
       - key: PORT
         value: 8083
+
+  - type: web
+    name: cervicare-risk-api
+    env: python
+    repo: https://github.com/Techgirlies/cervicare-risk-api
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host=0.0.0.0 --port=5000
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 5000
 
   - type: web
     name: cervicare-frontend
