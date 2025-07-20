@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="4" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="43483077-2e81-4ee4-abe5-18cac5934331" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/Models/risk_model/train_risk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/Models/risk_model/train_risk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/model_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/model_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/prediction.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/prediction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend - Copy/cervicare-risk-api/api/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/model_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/model_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/prediction.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/prediction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api/api/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/dashboard/dashboard.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/components/login/login.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/services/auth.service.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/cervicare-backend/cervicare-risk-api" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2ygfjkNeX0DuWmoHDKiVAgHYLZf" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.UserServiceApplication.executor": "Run",
+    "Docker.DataSaverMicroservice/Dockerfile.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/PROBOOK/Desktop/Cervicare/cervicare-backend/hospital-recommender-service",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\Cervicare_user_service" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\cervicare-risk-api" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\cervicare-risk-api\Models\recommendation_model" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\DataSaverMicroservice\target\classes\com\Assessment" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\DataSaverMicroservice\src\main\java\com\Assessment\config" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\DataSaverMicroservice\src\main\java\com" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\cervicare-risk-api\Models" />
+      <recent name="C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\cervicare-risk-api\Models\risk_model" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="DataSaverMicroservice/Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="cervicare-backend/DataSaverMicroservice/Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.DataSaverMicroservice/Dockerfile" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43483077-2e81-4ee4-abe5-18cac5934331" name="Changes" comment="" />
+      <created>1750261273722</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750261273722</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/cervicare-backend/cervicare-risk-assessment/src/main/java/com/controller/RiskAssessmentController.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
