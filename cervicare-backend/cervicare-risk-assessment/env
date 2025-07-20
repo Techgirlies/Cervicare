@@ -1,0 +1,13 @@
+# MySQL Configuration
+SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/cervicare?createDatabaseIfNotExist=true
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=09222315037@Mw
+
+# Optional Hibernate + JPA settings
+SPRING_JPA_HIBERNATE_DDL_AUTO=update
+SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
+SPRING_JPA_SHOW_SQL=true
+
+# ML URLs (adjust ports if needed)
+ML_API_RISK_URL=http://localhost:8086/api/predict-biopsy
+ML_API_RECOMMENDATION_URL=http://localhost:8082/api/predict-recommendation

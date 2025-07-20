@@ -11,17 +11,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: cervicare-db
-          property: connectionString
+        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: cervicare-db
-          property: user
+        value: ${MYSQL_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: cervicare-db
-          property: password
+        value: ${MYSQL_PASSWORD}
 
   - type: web
     name: appointment
@@ -35,17 +29,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: cervicare-db
-          property: connectionString
+        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: cervicare-db
-          property: user
+        value: ${MYSQL_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: cervicare-db
-          property: password
+        value: ${MYSQL_PASSWORD}
 
   - type: web
     name: cervicare-user-service
@@ -59,17 +47,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: cervicare-db
-          property: connectionString
+        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: cervicare-db
-          property: user
+        value: ${MYSQL_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: cervicare-db
-          property: password
+        value: ${MYSQL_PASSWORD}
 
   - type: web
     name: hospital-recommender-service
@@ -83,17 +65,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: cervicare-db
-          property: connectionString
+        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: cervicare-db
-          property: user
+        value: ${MYSQL_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: cervicare-db
-          property: password
+        value: ${MYSQL_PASSWORD}
 
   - type: web
     name: cervicare-frontend
@@ -111,3 +87,16 @@ databases:
     user: cervicare_user
     plan: free
     region: oregon
+    envVars:
+      - key: MYSQL_HOST
+        fromDatabase:
+          name: cervicare-db
+          property: host
+      - key: MYSQL_USER
+        fromDatabase:
+          name: cervicare-db
+          property: user
+      - key: MYSQL_PASSWORD
+        fromDatabase:
+          name: cervicare-db
+          property: password

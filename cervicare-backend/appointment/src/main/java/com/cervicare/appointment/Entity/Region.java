@@ -4,6 +4,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 @Entity
+@Table(name = "appointment_region", schema = "cervicare")
 public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

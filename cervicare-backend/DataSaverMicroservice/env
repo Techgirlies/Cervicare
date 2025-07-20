@@ -1,0 +1,6 @@
+spring.datasource.url=jdbc:mysql://localhost:3306/cervicare?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=09222315037@Mw
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8081

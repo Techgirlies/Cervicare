@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "facility_item", schema = "cervicare")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
