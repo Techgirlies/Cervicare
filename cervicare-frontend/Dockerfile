@@ -1,14 +1,14 @@
-# Use a minimal NGINX image
+# ---- Static Frontend ----
 FROM nginx:alpine
 
-# Remove default nginx web content
+# Clear the default nginx content
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy all static files (HTML, CSS, JS, images, etc.)
+# Copy your built frontend (HTML/CSS/JS) into nginx directory
 COPY . /usr/share/nginx/html
 
-# Expose port 80
+# Expose default HTTP port
 EXPOSE 80
 
-# Run nginx in the foreground
+# Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
