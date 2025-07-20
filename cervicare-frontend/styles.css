@@ -1,0 +1,617 @@
+/* ============ GENERAL STYLES ============ */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff0f6; /* soft pastel pink */
+    color: #4a3f55; /* muted purple-ish text */
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #b37feb; /* pastel purple */
+    color: #fff0f6; /* very light pink text */
+    padding: 20px;
+}
+
+.sidebar h2 {
+    color: #f8bbd0; /* lighter pink */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 10px;
+    cursor: pointer;
+    color: #fff0f6;
+}
+
+.sidebar li:hover {
+    background-color: #9a63d0; /* deeper purple */
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff0f6; /* very soft pink */
+    overflow-y: scroll;
+}
+
+.content-section {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #4a3f55;
+}
+
+input, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    font-family: Arial, sans-serif;
+}
+
+button {
+    background-color: #f48fb1; /* warm pink */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e0669e; /* deeper pink */
+}
+
+.chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #b37feb; /* pastel purple */
+    color: #fff0f6;
+    padding: 12px 16px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.chatbot:hover {
+    background-color: #9a63d0;
+}
+
+/* ============ POPUP OVERLAY STYLES ============ */
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;     /* Vertically center */
+    justify-content: center; /* Horizontally center */
+}
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px); /* for Safari */
+}
+
+
+.popup-overlay.hidden {
+    display: none;
+}
+
+/* ============ POPUP FORM STYLES ============ */
+.popup-form {
+    position: relative;
+    background-color: #fff0f6; /* soft pink */
+    border-radius: 16px;
+    padding: 30px 25px 20px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    animation: popupFadeIn 0.3s ease-in-out;
+    z-index: 1001;
+}
+
+@keyframes popupFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.popup-form h2 {
+    color: #7e57c2; /* medium purple */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.popup-form .form-group {
+    margin-bottom: 16px;
+}
+
+.popup-form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #4a3f55;
+}
+
+.popup-form input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #f8bbd0; /* light pink border */
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
+    background-color: #fff;
+}
+
+.popup-form input:focus,
+form input[type="date"]:focus,
+form input[type="time"]:focus {
+    outline: none;
+    border-color: #f48fb1; /* pink focus */
+    box-shadow: 0 0 6px rgba(244, 143, 177, 0.5);
+}
+
+form input[type="date"],
+form input[type="time"] {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #f8bbd0;
+}
+
+.popup-form button[type="submit"] {
+    background-color: #f48fb1;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.popup-form button[type="submit"]:hover {
+    background-color: #e0669e;
+}
+
+/* CLOSE BUTTON ❌ */
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.popup-close:hover {
+    color: #f48fb1;
+}
+
+.appointment-nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.appointment-nav li a {
+    text-decoration: none;
+    color: #7e57c2; /* purple */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.appointment-nav li a:hover {
+    text-decoration: underline;
+    color: #f48fb1;
+}
+
+.hidden {
+    display: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table th, table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #f8bbd0; /* light pink */
+    color: #4a3f55;
+}
+
+table th {
+    background-color: #f8bbd0; /* light pink */
+}
+
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 35%;
+    background: #fff0f6;
+    padding: 20px;
+    border: 1px solid #f8bbd0;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Global form container styling */
+#assessment-form {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px;
+    background-color: #fff0f6;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #4a3f55;
+}
+
+/* Form group spacing */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Label styles */
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #4a3f55;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #f8bbd0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.2s ease-in-out;
+    background-color: #fff;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus {
+    border-color: #f48fb1;
+    outline: none;
+}
+
+/* Radio button groups */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.radio-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #ffe4ec; /* very light pink */
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #7e57c2;
+    transition: background 0.3s;
+}
+
+.radio-group input[type="radio"] {
+    margin: 0;
+}
+
+.radio-group label:hover {
+    background: #f8bbd0;
+}
+
+/* Submit Button */
+#assessment-form button[type="submit"] {
+    background-color: #f48fb1;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#assessment-form button[type="submit"]:hover {
+    background-color: #e0669e;
+}
+
+/* Headings */
+#assessment h2 {
+    text-align: center;
+    color: #7e57c2;
+    margin-bottom: 30px;
+}
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.radio-group label {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Additional form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group .radio-group {
+    display: flex;
+    gap: 10px;
+}
+#progress-bar {
+  width: 100%;
+  background: #ddd;
+  height: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+#progress {
+  height: 100%;
+  width: 0%;
+  background: #6a5acd;
+  transition: width 0.4s ease;
+  border-radius: 10px;
+}
+
+.form-step {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.form-step.active {
+  display: block;
+  opacity: 1;
+}
+/* ============ CHATBOT STYLES ============ */
+/* Chatbot container */
+#chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Chatbot toggle button */
+#chatbot-toggle {
+  background: linear-gradient(135deg, #f48fb1, #b37feb);
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
+  color: #fff0f6; /* very light pink */
+  cursor: pointer;
+  box-shadow:
+    0 4px 6px rgba(179, 127, 235, 0.6),
+    0 0 10px rgba(244, 143, 177, 0.8);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#chatbot-toggle:hover {
+  background: linear-gradient(135deg, #e0669e, #9a63d0);
+  box-shadow:
+    0 6px 12px rgba(154, 99, 208, 0.8),
+    0 0 14px rgba(224, 102, 158, 1);
+}
+
+/* Chatbot window */
+#chatbot-window {
+  width: 350px;
+  max-height: 80vh; /* max 80% of viewport height */
+  height: auto;
+  background-color: #fff0f6; /* soft pink */
+  border-radius: 16px;
+  box-shadow:
+    0 8px 24px rgba(179, 127, 235, 0.3),
+    inset 0 0 15px rgba(244, 143, 177, 0.15);
+  overflow-y: auto;
+  padding: 16px;
+  color: #4a3f55;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+}
+
+/* Chatbot header inside window */
+#chatbot-window header {
+  font-weight: 700;
+  color: #7e57c2; /* medium purple */
+  font-size: 18px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Chat messages styling */
+#chatbot-window .chat-message {
+  background: #ffe4ec; /* very light pink bubble */
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  color: #7e57c2;
+  box-shadow: 0 2px 5px rgba(244, 143, 177, 0.3);
+  max-width: 80%;
+}
+
+/* User messages align right */
+#chatbot-window .chat-message.user {
+  background: #f48fb1; /* warm pink */
+  color: #fff;
+  align-self: flex-end;
+}
+
+/* Input area */
+#chatbot-window .chat-input-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+#chatbot-window input[type="text"] {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #f8bbd0;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#chatbot-window input[type="text"]:focus {
+  border-color: #f48fb1;
+  box-shadow: 0 0 8px rgba(244, 143, 177, 0.6);
+}
+
+#chatbot-window button.send-btn {
+  background-color: #b37feb;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: #fff0f6;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#chatbot-window button.send-btn:hover {
+  background-color: #9a63d0;
+}
+/* HIDE SCROLLBARS - WebKit browsers (Chrome, Safari) */
+#chatbot-window::-webkit-scrollbar {
+  width: 8px;
+}
+
+#chatbot-window::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#chatbot-window::-webkit-scrollbar-thumb {
+  background-color: #f8bbd0; /* soft pink thumb */
+  border-radius: 10px;
+  border: 2px solid #fff0f6; /* padding around the thumb */
+}
+
+/* Firefox */
+#chatbot-window {
+  scrollbar-width: thin;
+  scrollbar-color: #f8bbd0 #fff0f6; /* thumb track */
+}
+
+/* Optional: Hide scrollbar completely */
+#chatbot-window::-webkit-scrollbar {
+  display: none;
+}
+#chatbot-window {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+.landing-container {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(to right, #fbd3e9, #bbd0ff);
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.landing-container h1 {
+    font-size: 2.5em;
+    color: #d63384;
+    margin-bottom: 20px;
+}
+
+.landing-container p {
+    font-size: 1.2em;
+    margin: 10px auto;
+    max-width: 600px;
+    color: #333;
+}
+
+.start-assessment-btn {
+    margin-top: 30px;
+    font-size: 1.2em;
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.start-assessment-btn:hover {
+    background-color: #0056b3;
+}
+.landing-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+

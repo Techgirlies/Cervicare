@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CerviCare Signup</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-card {
+          background: #fff0f6;
+          max-width: 400px;
+          margin: 60px auto;
+          padding: 30px 25px;
+          border-radius: 16px;
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        .auth-card h2 {
+          text-align: center;
+          color: #7e57c2;
+          margin-bottom: 20px;
+        }
+        .auth-card input, .auth-card select {
+          width: 100%;
+          padding: 10px;
+          border-radius: 8px;
+          border: 1px solid #f8bbd0;
+          margin-bottom: 15px;
+        }
+        .auth-card button {
+          background-color: #f48fb1;
+          color: white;
+          border: none;
+          padding: 12px;
+          width: 100%;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+        .auth-card button:hover {
+          background-color: #e0669e;
+        }
+        .auth-card p#signupMessage {
+          margin-top: 10px;
+          text-align: center;
+          color: #4a3f55;
+        }
+        .auth-card .switch-link {
+          text-align: center;
+          margin-top: 15px;
+        }
+        .auth-card .switch-link a {
+          color: #7e57c2;
+          text-decoration: none;
+          font-weight: bold;
+        }
+        .auth-card .switch-link a:hover {
+          text-decoration: underline;
+          color: #e0669e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+        <input type="text" id="fullName" placeholder="Full Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <select id="role" required>
+            <option value="">Select Role</option>
+            <option value="DOCTOR">Doctor</option>
+            <option value="PATIENT">Patient</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+    <p id="signupMessage"></p>
+    <div class="switch-link">
+        <span>Already have an account? <a href="login.html">Sign in</a></span>
+    </div>
+</div>
+
+<script>
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const data = {
+        fullName: document.getElementById("fullName").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        role: document.getElementById("role").value
+      };
+
+      const response = await fetch("http://localhost:8080/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const message = await response.text();
+      document.getElementById("signupMessage").innerText = message;
+    });
+</script>
+
+</body>
+</html>

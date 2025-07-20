@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CerviCare</title>
+     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>CerviCare</h2>
+            <nav>
+                <ul>
+                    <li onclick="showSection('assessment')">Assessment</li>
+                    <li onclick="showSection('appointments')">Appointments</li>
+                    <li onclick="showSection('hospital-recommender')">Hospital Recommender</li>
+
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+               <!-- LANDING SECTION -->
+              <section id="landing" class="content-section">
+                <div class="landing-container">
+                    <h1>Welcome to CerviCare 🌸</h1>
+                    <p>Your health is our priority. CerviCare helps healthcare providers assess and guide women in early detection and prevention of cervical cancer.</p>
+                    <p>Together, we can beat cervical cancer — one assessment at a time.</p>
+                    <button class="start-assessment-btn" onclick="showSection('assessment')">🎗️ Take Assessment</button>
+                  <img src="cervicare.png" alt="Women for women by women" class="landing-image">
+                </div>
+            </section>
+
+            <!-- ASSESSMENT SECTION -->
+<!-- Only the assessment form part updated -->
+<section id="assessment" class="content-section">
+  <h2>Biopsy Risk Assessment</h2>
+
+  <form id="assessment-form">
+    <!-- Progress Bar -->
+    <div id="progress-bar">
+      <div id="progress"></div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="form-step active">
+      <div class="form-group">
+        <label>Age</label>
+        <input type="number" name="Age" required />
+      </div>
+      <div class="form-group">
+        <label>Number of Pregnancies</label>
+        <input type="number" name="Number_of_Pregnancies" required />
+      </div>
+
+      <div class="form-group">
+        <label>Smokes</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Smokes" value="1" required /> Yes</label>
+          <label><input type="radio" name="Smokes" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Hormonal Contraceptives</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Hormonal_Contraceptives" value="1" required /> Yes</label>
+          <label><input type="radio" name="Hormonal_Contraceptives" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>HPV</label>
+        <div class="radio-group">
+          <label><input type="radio" name="HPV" value="1" required /> Yes</label>
+          <label><input type="radio" name="HPV" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>IUD</label>
+        <div class="radio-group">
+          <label><input type="radio" name="IUD" value="1" required /> Yes</label>
+          <label><input type="radio" name="IUD" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="next-btn">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="form-step">
+      <div class="form-group">
+        <label>STDs Number</label>
+        <input type="number" name="STDs_Number" required />
+      </div>
+      <div class="form-group">
+        <label>First sexual intercourse age</label>
+        <input type="number" name="First_sexual_intercourse_age" required />
+      </div>
+
+      <div class="form-group">
+        <label>STDs Condylomatosis</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_condylomatosis" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_condylomatosis" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Cervical Condylomatosis</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_cervical_condylomatosis" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_cervical_condylomatosis" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Vaginal Condylomatosis</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_vaginal_condylomatosis" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_vaginal_condylomatosis" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Vulvo Perineal Condylomatosis</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_vulvo_perineal_condylomatosis" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_vulvo_perineal_condylomatosis" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="prev-btn">Previous</button>
+        <button type="button" id="next-btn">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="form-step">
+      <div class="form-group">
+        <label>STDs Syphilis</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_syphilis" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_syphilis" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Pelvic Inflammatory Disease</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_pelvic_inflammatory_disease" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_pelvic_inflammatory_disease" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Genital Herpes</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_genital_herpes" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_genital_herpes" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Molluscum Contagiosum</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_molluscum_contagiosum" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_molluscum_contagiosum" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs HIV</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_HIV" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_HIV" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs Hepatitis B</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_Hepatitis_B" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_Hepatitis_B" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>STDs HPV</label>
+        <div class="radio-group">
+          <label><input type="radio" name="STDs_HPV" value="1" required /> Yes</label>
+          <label><input type="radio" name="STDs_HPV" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="prev-btn">Previous</button>
+        <button type="button" id="next-btn">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="form-step">
+      <div class="form-group">
+        <label>Dx</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Dx" value="1" required /> Yes</label>
+          <label><input type="radio" name="Dx" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Dx Cancer</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Dx_Cancer" value="1" required /> Yes</label>
+          <label><input type="radio" name="Dx_Cancer" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Dx CIN</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Dx_CIN" value="1" required /> Yes</label>
+          <label><input type="radio" name="Dx_CIN" value="0" /> No</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Smokes (Years)</label>
+        <input type="number" name="Smokes_years" step="0.1" required />
+      </div>
+
+      <div class="form-group">
+        <label>Packs Per Year</label>
+        <input type="number" name="Smokes_packs_per_year" step="0.1" required />
+      </div>
+
+      <div class="form-group">
+        <label>Hormonal Contraceptives (Years)</label>
+        <input type="number" name="Hormonal_Contraceptives_years" step="0.1" required />
+      </div>
+
+      <div class="form-group">
+        <label>IUD (Years)</label>
+        <input type="number" name="IUD_years" step="0.1" required />
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="prev-btn">Previous</button>
+        <button type="button" id="next-btn">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="form-step">
+      <div class="form-group">
+        <label>Time Since First STD Diagnosis</label>
+        <input type="number" name="STDs_Time_since_first_diagnosis" step="0.1" required />
+      </div>
+
+      <div class="form-group">
+        <label>Time Since Last STD Diagnosis</label>
+        <input type="number" name="STDs_Time_since_last_diagnosis" step="0.1" required />
+      </div>
+
+      <div class="form-group">
+        <label>Hinselmann Test</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Hinselmann" value="1" required /> Yes</label>
+          <label><input type="radio" name="Hinselmann" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Schiller Test</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Schiller" value="1" required /> Yes</label>
+          <label><input type="radio" name="Schiller" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Cytology</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Citology" value="1" required /> Yes</label>
+          <label><input type="radio" name="Citology" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Biopsy</label>
+        <div class="radio-group">
+          <label><input type="radio" name="Biopsy" value="1" required /> Yes</label>
+          <label><input type="radio" name="Biopsy" value="0" /> No</label>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="prev-btn">Previous</button>
+         <button type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+</section>
+            <!-- APPOINTMENTS SECTION -->
+            <section id="appointments" class="content-section hidden">
+                <h2>Appointments</h2>
+                <div class="crud-buttons">
+                    <button onclick="openAppointmentForm()">➕ Add Appointment</button>
+                    <button id="btn-get-appointments">📋 View Appointments</button>
+                </div>
+                <div id="appointments-results"></div>
+            </section>
+
+            <!-- INVENTORY SECTION -->
+            <section id="inventory" class="content-section hidden">
+                <h2>Inventory</h2>
+                <div class="crud-buttons">
+                    <button onclick="showInventoryForm()">➕ Add Item</button>
+                    <button onclick="getInventory()">📋 View Inventory</button>
+
+                </div>
+                <div id="inventory-results"></div>
+            </section>
+
+            <!-- STOCK CHECK SECTION -->
+            <section id="stock-check" class="content-section hidden">
+                <h2>Stock Check</h2>
+                <div class="form-group">
+                    <label for="stock-region">Region</label>
+                    <input type="text" id="stock-region" placeholder="Enter region...">
+                </div>
+                <div class="form-group">
+                    <label for="stock-item">Item Name</label>
+                    <input type="text" id="stock-item" placeholder="Enter item name...">
+                </div>
+                <div class="crud-buttons">
+                    <button onclick="searchStock()">🔍 Check Stock</button>
+                </div>
+                <div id="stock-results"></div>
+            </section>
+
+            <!-- HOSPITAL RECOMMENDER SECTION -->
+             <section id="hospital-recommender" class="content-section hidden">
+    <h2>Hospital Recommender</h2>
+    <div class="form-group">
+    <label for="recommender-region">Region</label>
+    <input type="text" id="recommender-region" placeholder="Enter region...">
+    </div>
+<div class="form-group">
+    <label for="recommender-item">Item Name (optional)</label>
+   <input type="text" id="recommender-item" placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)">
+</div>
+<div class="form-group">
+    <label for="recommender-budget">Max Budget (KES)</label>
+    <input type="number" id="recommender-budget" placeholder="e.g. 1000">
+</div>
+<div class="form-group">
+    <label for="recommender-insurance">Insurance (optional)</label>
+    <input type="text" id="recommender-insurance" placeholder="e.g. NHIF">
+</div>
+<div class="crud-buttons">
+    <button onclick="getEnhancedRecommendations()">📍 View Enhanced Recommendations</button>
+</div>
+          <div id="recommender-results"></div>
+            </section>
+        </main>
+    </div>
+   <!-- Popup Form for Inventory Management -->
+<div id="popup-overlay" class="popup-overlay hidden">
+  <div class="popup-form" id="popup-form">
+    <h2>Inventory Management</h2>
+    <form id="inventory-form">
+      <input type="hidden" id="item-id">
+      <div class="form-group"><label>Region</label><input type="text" id="region" required></div>
+      <div class="form-group"><label>Ward</label><input type="text" id="ward"></div>
+      <div class="form-group"><label>Facility Name</label><input type="text" id="facilityName" required></div>
+      <div class="form-group"><label>KEPH Level</label><input type="text" id="kephLevel"></div>
+      <div class="form-group"><label>Owner</label><input type="text" id="owner"></div>
+      <div class="form-group"><label>Code</label><input type="text" id="code"></div>
+      <div class="form-group"><label>Item</label><input type="text" id="item" required></div>
+      <div class="form-group"><label>Cost</label><input type="number" id="cost" step="0.01"></div>
+      <div class="form-group"><label>Available Stock</label><input type="number" id="availableStock"></div>
+      <div class="form-group"><label>Price</label><input type="number" id="price" step="0.01"></div>
+      <button type="submit">💾 Save Item</button>
+    </form>
+    <button onclick="closePopupinventory()">Close</button>
+  </div>
+</div>
+
+    <!-- ASSESSMENT RESULT POPUP -->
+<div id="assessment-popup" class="popup-overlay hidden">
+    <div class="popup-form">
+        <h2>Assessment Result</h2>
+        <p><strong>Biopsy Risk:</strong> <span id="biopsy-risk"></span></p>
+        <p><strong>Confidence:</strong> <span id="confidence"></span></p>
+        <p><strong>Recommendation:</strong> <span id="screening-recommendation"></span></p>
+        
+        <div class="crud-buttons">
+            <button onclick="openAppointmentForm()">📅 Book Appointment</button>
+            <button onclick="window.print()">🖨️ Print Results</button>
+            <button onclick="triggerSaveAssessment()">💾 Save Data</button>
+        </div>
+        <button onclick="closeAssessmentPopup()">Close</button>
+    </div>
+</div>
+<!-- APPOINTMENT FORM POPUP -->
+<div id="appointment-popup" class="popup-overlay hidden">
+    <div class="popup-form">
+        <button class="popup-close" onclick="closeAppointmentForm()">❌</button>
+        <h2 id="form-title">📅 Book Appointment</h2>
+        <form id="appointment-form">
+            <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text" id="patientName" required>
+            </div>
+            <div class="form-group">
+                <label>Contact Info</label>
+                <input type="text" id="contactInfo" required>
+            </div>
+            <div class="form-group">
+                <label>Appointment Date</label>
+                <input type="date" id="appointmentDate" required>
+            </div>
+            <div class="form-group">
+                <label>Appointment Time</label>
+                <input type="time" id="appointmentTime" required>
+            </div>
+            <div class="form-group">
+                <label>Purpose</label>
+                <input type="text" id="purpose" required>
+            </div>
+            <div class="form-group">
+                <label>Region</label>
+                <input type="text" id="region" required>
+            </div>
+            <div class="form-group">
+                <label>Hospital</label>
+                <input type="text" id="hospital" required>
+            </div>
+            <button type="submit" id="submit-button">Book Now</button>
+        </form>
+    </div>
+</div>
+
+<!-- EDIT APPOINTMENT FORM POPUP (moved outside) -->
+<div id="edit-appointment-popup" class="popup hidden">
+  <form id="edit-appointment-form">
+    <h3>Edit Appointment</h3>
+
+    <input type="hidden" id="edit-appointment-id">
+
+    <label for="edit-patientName">Name:</label>
+    <input type="text" id="edit-patientName" required>
+
+    <label for="edit-contactInfo">Contact Info:</label>
+    <input type="text" id="edit-contactInfo" required>
+
+    <label for="edit-appointmentDate">Date:</label>
+    <input type="date" id="edit-appointmentDate" required>
+
+    <label for="edit-appointmentTime">Time:</label>
+    <input type="time" id="edit-appointmentTime" required>
+
+    <label for="edit-purpose">Purpose:</label>
+    <input type="text" id="edit-purpose" required>
+
+    <label for="edit-region">Region:</label>
+    <input type="text" id="edit-region" required>
+
+    <label for="edit-hospital">Hospital:</label>
+    <input type="text" id="edit-hospital" required>
+
+    <button type="submit">Update</button>
+    <button type="button" onclick="closeEditAppointmentPopup()">Cancel</button>
+  </form>
+</div>
+  <!-- Chatbot container -->
+<div id="chatbot-container">
+  <button id="chatbot-toggle" title="Chat with us">💬</button>
+  <div id="chatbot-window" class="hidden">
+    <iframe 
+  src="https://copilotstudio.microsoft.com/environments/Default-2b46485c-d418-44a1-861e-c150c60c3429/bots/cr6d8_agent3htR0j8/webchat?__version__=2" 
+  frameborder="0" 
+  style="width: 350px; height: 700px; border-radius: 10px; overflow: hidden;">
+    </iframe>
+</iframe>
+  </div>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
