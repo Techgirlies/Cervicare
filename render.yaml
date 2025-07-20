@@ -26,6 +26,29 @@ services:
         value: 8080
 
   - type: web
+    name: data-saver-microservice
+    env: docker
+    repo: https://github.com/Techgirlies/Cervicare
+    branch: main
+    dockerfilePath: ./cervicare-backend/DataSaverMicroservice/Dockerfile
+    dockerContext: ./cervicare-backend/DataSaverMicroservice
+    buildCommand: ./mvnw clean package -DskipTests
+    plan: free
+    region: oregon
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromEnvVar: DATABASE_URL
+      - key: SPRING_DATASOURCE_USERNAME
+        fromEnvVar: DATABASE_USER
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromEnvVar: DATABASE_PASSWORD
+      - key: ALLOWED_ORIGIN
+        fromEnvVar: ALLOWED_ORIGIN
+      - key: PORT
+        value: 8084
+
+
+  - type: web
     name: appointment
     env: docker
     repo: https://github.com/Techgirlies/Cervicare
@@ -92,19 +115,6 @@ services:
         fromEnvVar: ALLOWED_ORIGIN
       - key: PORT
         value: 8083
-
-  - type: web
-    name: cervicare-risk-api
-    env: python
-    repo: https://github.com/Techgirlies/cervicare-risk-api
-    branch: main
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn api.main:app --host=0.0.0.0 --port=5000
-    plan: free
-    region: oregon
-    envVars:
-      - key: PORT
-        value: 5000
 
   - type: web
     name: cervicare-frontend
