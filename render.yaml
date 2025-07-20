@@ -17,11 +17,13 @@ services:
       - key: SPRING_DATASOURCE_PASSWORD
         fromEnvVar: DATABASE_PASSWORD
       - key: ML_API_RISK_URL
-        value: https://cervicare-risk-api.onrender.com/risk
+        fromEnvVar: ML_API_RISK_URL
       - key: ML_API_RECOMMENDATION_URL
-        value: https://cervicare-risk-api.onrender.com/recommendation
+        fromEnvVar: ML_API_RECOMMENDATION_URL
       - key: ALLOWED_ORIGIN
-        value: https://cervicare-frontend.onrender.com
+        fromEnvVar: ALLOWED_ORIGIN
+      - key: PORT
+        value: 8080
 
   - type: web
     name: appointment
@@ -41,7 +43,9 @@ services:
       - key: SPRING_DATASOURCE_PASSWORD
         fromEnvVar: DATABASE_PASSWORD
       - key: ALLOWED_ORIGIN
-        value: https://cervicare-frontend.onrender.com
+        fromEnvVar: ALLOWED_ORIGIN
+      - key: PORT
+        value: 8081
 
   - type: web
     name: cervicare-user-service
@@ -63,7 +67,9 @@ services:
       - key: JWT_SECRET
         fromEnvVar: JWT_SECRET
       - key: ALLOWED_ORIGIN
-        value: https://cervicare-frontend.onrender.com
+        fromEnvVar: ALLOWED_ORIGIN
+      - key: PORT
+        value: 8082
 
   - type: web
     name: hospital-recommender-service
@@ -83,7 +89,9 @@ services:
       - key: SPRING_DATASOURCE_PASSWORD
         fromEnvVar: DATABASE_PASSWORD
       - key: ALLOWED_ORIGIN
-        value: https://cervicare-frontend.onrender.com
+        fromEnvVar: ALLOWED_ORIGIN
+      - key: PORT
+        value: 8083
 
   - type: web
     name: cervicare-risk-api
