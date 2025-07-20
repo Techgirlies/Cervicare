@@ -5,6 +5,9 @@ services:
     repo: https://github.com/Techgirlies/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/DataSaverMicroservice/Dockerfile
+    dockerContext: ./cervicare-backend/DataSaverMicroservice
+    plan: free
+    region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
@@ -18,8 +21,6 @@ services:
         fromDatabase:
           name: cervicare-db
           property: password
-    plan: free
-    region: oregon
 
   - type: web
     name: appointment
@@ -27,8 +28,22 @@ services:
     repo: https://github.com/Techgirlies/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/appointment/Dockerfile
+    dockerContext: ./cervicare-backend/appointment
     plan: free
     region: oregon
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: cervicare-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: cervicare-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: cervicare-db
+          property: password
 
   - type: web
     name: cervicare-user-service
@@ -36,8 +51,22 @@ services:
     repo: https://github.com/Techgirlies/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/Cervicare_user_service/Dockerfile
+    dockerContext: ./cervicare-backend/Cervicare_user_service
     plan: free
     region: oregon
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: cervicare-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: cervicare-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: cervicare-db
+          property: password
 
   - type: web
     name: hospital-recommender-service
@@ -45,8 +74,22 @@ services:
     repo: https://github.com/Techgirlies/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/hospital-recommender-service/Dockerfile
+    dockerContext: ./cervicare-backend/hospital-recommender-service
     plan: free
     region: oregon
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: cervicare-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: cervicare-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: cervicare-db
+          property: password
 
   - type: web
     name: cervicare-frontend
@@ -54,6 +97,7 @@ services:
     repo: https://github.com/Techgirlies/Cervicare
     branch: main
     dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
     plan: free
     region: oregon
 
@@ -63,4 +107,3 @@ databases:
     user: cervicare_user
     plan: free
     region: oregon
-  
