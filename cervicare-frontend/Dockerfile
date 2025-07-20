@@ -1,17 +1,14 @@
-# Use the official NGINX image
+# Use a minimal NGINX image
 FROM nginx:alpine
 
-# Remove the default NGINX static content
+# Remove default nginx web content
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy all frontend files (HTML, CSS, JS, images, etc.) to NGINX web root
+# Copy all static files (HTML, CSS, JS, images, etc.)
 COPY . /usr/share/nginx/html
 
-# Optional: Copy a custom nginx config (you can skip this if using defaults)
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# Expose port 80 for the container
+# Expose port 80
 EXPOSE 80
 
-# Start NGINX
+# Run nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
