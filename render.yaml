@@ -11,11 +11,17 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
+        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${MYSQL_USER}
+        value: ${DATABASE_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${MYSQL_PASSWORD}
+        value: ${DATABASE_PASSWORD}
+      - key: ML_API_RISK_URL
+        value: https://cervicare-risk-api.onrender.com/risk
+      - key: ML_API_RECOMMENDATION_URL
+        value: https://cervicare-risk-api.onrender.com/recommendation
+      - key: ALLOWED_ORIGIN
+        value: https://cervicare-frontend.onrender.com
 
   - type: web
     name: appointment
@@ -29,11 +35,13 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
+        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${MYSQL_USER}
+        value: ${DATABASE_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${MYSQL_PASSWORD}
+        value: ${DATABASE_PASSWORD}
+      - key: ALLOWED_ORIGIN
+        value: https://cervicare-frontend.onrender.com
 
   - type: web
     name: cervicare-user-service
@@ -47,11 +55,15 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
+        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${MYSQL_USER}
+        value: ${DATABASE_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${MYSQL_PASSWORD}
+        value: ${DATABASE_PASSWORD}
+      - key: JWT_SECRET
+        value: your_very_secret_jwt_key_here
+      - key: ALLOWED_ORIGIN
+        value: https://cervicare-frontend.onrender.com
 
   - type: web
     name: hospital-recommender-service
@@ -65,11 +77,13 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${MYSQL_HOST}:3306/cervicare?useSSL=false&allowPublicKeyRetrieval=true
+        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${MYSQL_USER}
+        value: ${DATABASE_USER}
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${MYSQL_PASSWORD}
+        value: ${DATABASE_PASSWORD}
+      - key: ALLOWED_ORIGIN
+        value: https://cervicare-frontend.onrender.com
 
   - type: web
     name: cervicare-frontend
@@ -83,20 +97,8 @@ services:
 
 databases:
   - name: cervicare-db
+    type: mysql
     databaseName: cervicare
     user: cervicare_user
     plan: free
     region: oregon
-    envVars:
-      - key: MYSQL_HOST
-        fromDatabase:
-          name: cervicare-db
-          property: host
-      - key: MYSQL_USER
-        fromDatabase:
-          name: cervicare-db
-          property: user
-      - key: MYSQL_PASSWORD
-        fromDatabase:
-          name: cervicare-db
-          property: password
