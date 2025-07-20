@@ -100,8 +100,8 @@ services:
     env: docker
     repo: https://github.com/Techgirlies/Cervicare
     branch: main
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
+    dockerfilePath: ./cervicare-frontend/Dockerfile
+    dockerContext: ./cervicare-frontend
     plan: free
     region: oregon
 
