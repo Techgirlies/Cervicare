@@ -40,15 +40,6 @@ services:
     region: oregon
 
   - type: web
-    name: cervicare-risk-api
-    env: docker
-    repo: https://github.com/Techgirlies/Cervicare
-    branch: main
-    dockerfilePath: ./cervicare-backend/cervicare-risk-api/Dockerfile
-    plan: free
-    region: oregon
-
-  - type: web
     name: hospital-recommender-service
     env: docker
     repo: https://github.com/Techgirlies/Cervicare
