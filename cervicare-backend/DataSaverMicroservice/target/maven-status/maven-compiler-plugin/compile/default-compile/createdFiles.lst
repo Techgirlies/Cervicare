@@ -1,0 +1,5 @@
+com\example\Assessment\controller\AssessmentController.class
+com\example\Assessment\repository\AssessmentRepository.class
+com\example\Assessment\entity\Assessment.class
+com\example\Assessment\AssessmentApplication.class
+com\example\Assessment\service\AssessmentService.class
