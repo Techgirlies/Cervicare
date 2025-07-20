@@ -87,7 +87,7 @@ if (assessmentForm) {
         setText('confidence', '...');
         setText('screening-recommendation', '...');
 
-        fetch('http://localhost:8000/predict-full-assessment', {
+        fetch('https://web-production-25934.up.railway.app/predict-full-assessment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -150,8 +150,7 @@ if (assessmentForm) {
             screening_recommendation: document.getElementById('screening-recommendation')?.textContent
         };
 
-        fetch('http://localhost:5000/api/save-assessment', {
-            method: 'POST',
+        fetch('https://data-saver-microservice-mknk.onrender.com/api/save-assessment', {            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         })
@@ -187,7 +186,7 @@ const appointmentData = {
 };
 
     try {
-        const response = await fetch("http://localhost:8080/api/appointments", {
+        const response = await fetch("https://appointment-mknk.onrender.com", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(appointmentData),
@@ -220,8 +219,8 @@ const appointmentData = {
             const id = document.getElementById("itemId")?.value;
             const itemName = document.getElementById("itemName")?.value;
             const url = id
-                ? `http://localhost:8083/api/hospitals/items/${id}`
-                : 'http://localhost:8083/api/hospitals/items';
+                ? `https://hospital-recommender-service-mknk.onrender.com/items/${id}`
+                : 'https://hospital-recommender-service-mknk.onrender.com/items';
             const method = id ? 'PUT' : 'POST';
             const itemData = {
     region: document.getElementById("region")?.value,
@@ -250,7 +249,7 @@ const appointmentData = {
         });
     }
     window.getInventory = function () {
-        fetch('http://localhost:8083/api/hospitals/items')
+        fetch('https://hospital-recommender-service-mknk.onrender.com/items')
             .then(response => response.json())
             .then(data => {
                 let html = '<table><tr><th>ID</th><th>Facility</th><th>Item</th><th>Stock</th><th>Cost</th><th>Actions</th></tr>';
@@ -273,7 +272,7 @@ const appointmentData = {
     }
     
     window.editInventory = function (id) {
-    fetch(`http://localhost:8083/api/hospitals/items/${id}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/items/${id}`)
         .then(response => response.json())
         .then(item => {
            document.getElementById("item-id").value = item.id;          // changed itemId -> item-id
@@ -295,7 +294,7 @@ const appointmentData = {
 
     window.deleteInventory = function (id) {
         if (confirm("Are you sure you want to delete this item?")) {
-            fetch(`http://localhost:8083/api/hospitals/items/${id}`, {
+            fetch(`https://hospital-recommender-service-mknk.onrender.com/items/${id}`, {
                 method: 'DELETE'
             }).then(() => {
                 alert("Item deleted.");
@@ -333,7 +332,7 @@ window.getAppointments = function () {
         return;
     }
 
-    fetch(`http://localhost:8080/api/appointments/user?email=${encodeURIComponent(email)}`)
+    fetch(`https://appointment-mknk.onrender.com/user?email=${encodeURIComponent(email)}`)
         .then(response => {
             if (!response.ok) throw new Error("Failed to fetch appointments.");
             return response.json();
@@ -376,7 +375,7 @@ window.getAppointments = function () {
         });
 };
     // Fetch appointment data
-    fetch(`http://localhost:8080/api/appointments/${id}`)
+    fetch(`https://appointment-mknk.onrender.com/${id}`)
         .then(res => res.json())
         .then(app => {
             document.getElementById("patientName").value = app.patientName;
@@ -405,7 +404,7 @@ window.getAppointments = function () {
                     hospital: form.hospital.value,
                 };
 
-                const response = await fetch(`http://localhost:8080/api/appointments/${id}`, {
+                const response = await fetch(`https://appointment-mknk.onrender.com/${id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(updatedData),
@@ -441,7 +440,7 @@ const appointmentData = {
 };
 
     try {
-        const response = await fetch("http://localhost:8080/api/appointments", {
+        const response = await fetch("https://appointment-mknk.onrender.com", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(appointmentData),
@@ -471,7 +470,7 @@ window.getEnhancedRecommendations = function () {
     container.style.display = 'block';  // Show results container now
     container.innerText = `🔄 Searching for "${itemOrService}" in "${region}"...`;
 
-    const url = `http://localhost:8083/api/hospitals/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
+    const url = `https://hospital-recommender-service-mknk.onrender.com/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
 
     fetch(url)
         .then(res => {
@@ -524,7 +523,7 @@ window.startDeleteAppointment = function (id) {
     if (!id) return;
 
     if (confirm("Are you sure you want to delete appointment ID " + id + "?")) {
-        fetch(`http://localhost:8080/api/appointments/${id}`, {
+        fetch(`https://appointment-mknk.onrender.com/${id}`, {
             method: "DELETE"
         })
         .then(() => {
@@ -539,7 +538,7 @@ window.startDeleteAppointment = function (id) {
 };
 document.getElementById("btn-get-appointments").addEventListener("click", getAppointments);
 function getAppointments() {
-    fetch("http://localhost:8080/api/appointments")
+    fetch("https://appointment-mknk.onrender.com")
         .then(response => response.json())
         .then(data => {
             let html = `
@@ -579,7 +578,7 @@ function getAppointments() {
         });
 }
 window.editAppointment = function (id) {
-    fetch(`http://localhost:8080/api/appointments/${id}`)
+    fetch(`https://appointment-mknk.onrender.com/${id}`)
         .then(response => response.json())
         .then(app => {
             document.getElementById("edit-appointment-id").value = app.id;
@@ -612,7 +611,7 @@ document.getElementById("edit-appointment-form").addEventListener("submit", func
         hospital: document.getElementById("edit-hospital").value
     };
 
-    fetch(`http://localhost:8080/api/appointments/${id}`, {
+    fetch(`https://appointment-mknk.onrender.com/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -636,7 +635,7 @@ document.getElementById("edit-appointment-form").addEventListener("submit", func
 
 window.deleteAppointment = function (id) {
     if (confirm("Are you sure you want to delete this appointment?")) {
-        fetch(`http://localhost:8080/api/appointments/${id}`, {
+        fetch(`https://appointment-mknk.onrender.com/${id}`, {
             method: "DELETE"
         })
         .then(() => {
@@ -715,7 +714,7 @@ window.getRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value;
     if (!region) return alert("Please enter a region.");
 
-    fetch(`http://localhost:8083/api/hospitals/recommendations/region/${region}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/recommendations/region/${region}`)
         .then(response => response.json())
         .then(data => renderRecommendationTable(data))
         .catch(err => {
@@ -729,7 +728,7 @@ window.getRecommendationsByItem = function () {
     const item = document.getElementById('recommender-item')?.value;
     if (!region || !item) return alert("Please enter both region and item name.");
 
-    fetch(`http://localhost:8083/api/hospitals/recommendations/region/${region}/item/${item}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/recommendations/region/${region}/item/${item}`)
         .then(response => response.json())
         .then(data => renderRecommendationTable(data))
         .catch(err => {
@@ -750,7 +749,7 @@ window.searchStock = function () {
 
     resultsDiv.innerText = `Searching for "${item}" in region "${region}"...`;
 
-    fetch(`http://localhost:8083/api/hospitals/stock/region/${region}/item/${item}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/stock/region/${region}/item/${item}`)
         .then(response => response.json())
         .then(data => {
     if (!data || data.length === 0) {
