@@ -2,7 +2,7 @@ services:
   - type: web
     name: assessment-microservice
     env: docker
-    repo: https://github.com/Techgirlies/Cervicare
+    repo: https://github.com/Karanja6/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/DataSaverMicroservice/Dockerfile
     envVars:
@@ -24,7 +24,7 @@ services:
   - type: web
     name: appointment
     env: docker
-    repo: https://github.com/Techgirlies/Cervicare
+    repo: https://github.com/Karanja6/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/appointment/Dockerfile
     plan: free
@@ -33,7 +33,7 @@ services:
   - type: web
     name: cervicare-user-service
     env: docker
-    repo: https://github.com/Techgirlies/Cervicare
+    repo: https://github.com/Karanja6/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/Cervicare_user_service/Dockerfile
     plan: free
@@ -42,7 +42,7 @@ services:
   - type: web
     name: cervicare-risk-api
     env: docker
-    repo: https://github.com/Techgirlies/Cervicare
+    repo: https://github.com/Karanja6/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/cervicare-risk-api/Dockerfile
     plan: free
@@ -51,7 +51,7 @@ services:
   - type: web
     name: hospital-recommender-service
     env: docker
-    repo: https://github.com/Techgirlies/Cervicare
+    repo: https://github.com/Karanja6/Cervicare
     branch: main
     dockerfilePath: ./cervicare-backend/hospital-recommender-service/Dockerfile
     plan: free
@@ -60,16 +60,8 @@ services:
   - type: web
     name: cervicare-frontend
     env: docker
-    repo: https://github.com/Techgirlies/Cervicare
+    repo: https://github.com/Karanja6/Cervicare
     branch: main
     dockerfilePath: ./frontend/Dockerfile
     plan: free
     region: oregon
-
-databases:
-  - name: cervicare-db
-    databaseName: cervicare
-    user: cervicare_user
-    plan: free
-    region: oregon
-    env: docker
