@@ -79,24 +79,50 @@
 </div>
 
 <script>
-    document.getElementById("signupForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const data = {
-        fullName: document.getElementById("fullName").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        role: document.getElementById("role").value
-      };
+  document.getElementById("signupForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
+    const data = {
+      fullName: document.getElementById("fullName").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      role: document.getElementById("role").value
+    };
+
+    try {
       const response = await fetch("http://localhost:8080/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
 
-      const message = await response.text();
-      document.getElementById("signupMessage").innerText = message;
-    });
+      if (!response.ok) {
+        const errorMsg = await response.text();
+        document.getElementById("signupMessage").innerText = errorMsg || "Signup failed.";
+        return;
+      }
+
+      const user = await response.json();
+
+      if (user && user.id && user.email && user.role) {
+        // ✅ Store session data
+        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userEmail", user.email);
+
+        // ✅ Redirect based on role
+        if (user.role === "DOCTOR") {
+          window.location.href = "/doctor-dashboard.html";
+        } else {
+          window.location.href = "/patient-dashboard.html";
+        }
+      } else {
+        document.getElementById("signupMessage").innerText = "Unexpected response from server.";
+      }
+    } catch (error) {
+      document.getElementById("signupMessage").innerText = "Error during signup. Please try again.";
+      console.error(error);
+    }
+  });
 </script>
 
 </body>

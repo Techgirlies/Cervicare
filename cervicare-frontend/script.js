@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
+    const id = localStorage.getItem("userId");
     // === PAGE NAVIGATION ===
     window.showSection = function(id) {
         document.querySelectorAll('.content-section').forEach(section => {
@@ -271,6 +271,7 @@ const appointmentData = {
                 document.getElementById("inventory-results").innerHTML = html;
             });
     }
+    
     window.editInventory = function (id) {
     fetch(`http://localhost:8083/api/hospitals/items/${id}`)
         .then(response => response.json())
@@ -378,7 +379,6 @@ window.getAppointments = function () {
     fetch(`http://localhost:8080/api/appointments/${id}`)
         .then(res => res.json())
         .then(app => {
-            // Pre-fill the form with existing data
             document.getElementById("patientName").value = app.patientName;
             document.getElementById("contactInfo").value = app.contactInfo;
 
@@ -453,6 +453,71 @@ const appointmentData = {
     } catch (error) {
         alert("Error: " + error.message);
     }
+};
+window.getEnhancedRecommendations = function () {
+    const region = document.getElementById('recommender-region')?.value.trim();
+    const itemOrService = document.getElementById('recommender-item')?.value.trim();
+    const budget = document.getElementById('recommender-budget')?.value.trim();
+    const insurance = document.getElementById('recommender-insurance')?.value.trim();
+
+    const container = document.getElementById('recommender-results');
+
+    if (!region || !itemOrService) {
+        container.style.display = 'block';
+        container.innerText = "❌ Please enter both region and keyword (item / service / category).";
+        return;
+    }
+
+    container.style.display = 'block';  // Show results container now
+    container.innerText = `🔄 Searching for "${itemOrService}" in "${region}"...`;
+
+    const url = `http://localhost:8083/api/hospitals/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
+
+    fetch(url)
+        .then(res => {
+            if (!res.ok) throw new Error("Server error: " + res.status);
+            return res.json();
+        })
+        .then(data => {
+            if (!data || data.length === 0) {
+               resultsDiv.innerText = "⚠️ No matching facilities found.";
+                return;
+            }
+
+            let html = `
+                <h3>Recommended Facilities</h3>
+                <table border="1" cellpadding="5" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Facility</th>
+                            <th>Item / Service</th>
+                            <th>Category</th>
+                            <th>Cost (KES)</th>
+                            <th>Available Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            for (const entry of data) {
+                html += `
+                    <tr>
+                        <td>${entry.facilityName}</td>
+                        <td>${entry.item || entry.service || '-'}</td>
+                        <td>${entry.category || '-'}</td>
+                        <td>KES ${entry.price || entry.baseCost || entry.cost}</td>
+                        <td>${entry.availableStock !== undefined ? entry.availableStock : '-'}</td>
+                    </tr>
+                `;
+            }
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        })
+        .catch(err => {
+            console.error("Error fetching recommendations:", err);
+            container.innerText = "❌ Failed to fetch recommendations.";
+        });
 };
 // Delete appointment
 window.startDeleteAppointment = function (id) {
@@ -670,71 +735,6 @@ window.getRecommendationsByItem = function () {
         .catch(err => {
             console.error("Error fetching item-based recommendations:", err);
             document.getElementById('recommender-results').innerText = 'Error fetching item-based recommendations.';
-        });
-};
-window.getEnhancedRecommendations = function () {
-    const region = document.getElementById('recommender-region')?.value.trim();
-    const itemOrService = document.getElementById('recommender-item')?.value.trim();
-    const budget = document.getElementById('recommender-budget')?.value.trim();
-    const insurance = document.getElementById('recommender-insurance')?.value.trim();
-
-    const container = document.getElementById('recommender-results');
-
-    if (!region || !itemOrService) {
-        container.style.display = 'block';
-        container.innerText = "❌ Please enter both region and keyword (item / service / category).";
-        return;
-    }
-
-    container.style.display = 'block';  // Show results container now
-    container.innerText = `🔄 Searching for "${itemOrService}" in "${region}"...`;
-
-    const url = `http://localhost:8083/api/hospitals/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
-
-    fetch(url)
-        .then(res => {
-            if (!res.ok) throw new Error("Server error: " + res.status);
-            return res.json();
-        })
-        .then(data => {
-            if (!data || data.length === 0) {
-               resultsDiv.innerText = "⚠️ No matching facilities found.";
-                return;
-            }
-
-            let html = `
-                <h3>Recommended Facilities</h3>
-                <table border="1" cellpadding="5" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Facility</th>
-                            <th>Item / Service</th>
-                            <th>Category</th>
-                            <th>Cost (KES)</th>
-                            <th>Available Stock</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            for (const entry of data) {
-                html += `
-                    <tr>
-                        <td>${entry.facilityName}</td>
-                        <td>${entry.item || entry.service || '-'}</td>
-                        <td>${entry.category || '-'}</td>
-                        <td>KES ${entry.price || entry.baseCost || entry.cost}</td>
-                        <td>${entry.availableStock !== undefined ? entry.availableStock : '-'}</td>
-                    </tr>
-                `;
-            }
-
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        })
-        .catch(err => {
-            console.error("Error fetching recommendations:", err);
-            container.innerText = "❌ Failed to fetch recommendations.";
         });
 };
 
