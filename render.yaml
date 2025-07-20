@@ -11,11 +11,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
+        fromEnvVar: DATABASE_URL
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${DATABASE_USER}
+        fromEnvVar: DATABASE_USER
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${DATABASE_PASSWORD}
+        fromEnvVar: DATABASE_PASSWORD
       - key: ML_API_RISK_URL
         value: https://cervicare-risk-api.onrender.com/risk
       - key: ML_API_RECOMMENDATION_URL
@@ -35,11 +35,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
+        fromEnvVar: DATABASE_URL
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${DATABASE_USER}
+        fromEnvVar: DATABASE_USER
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${DATABASE_PASSWORD}
+        fromEnvVar: DATABASE_PASSWORD
       - key: ALLOWED_ORIGIN
         value: https://cervicare-frontend.onrender.com
 
@@ -55,13 +55,13 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
+        fromEnvVar: DATABASE_URL
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${DATABASE_USER}
+        fromEnvVar: DATABASE_USER
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${DATABASE_PASSWORD}
+        fromEnvVar: DATABASE_PASSWORD
       - key: JWT_SECRET
-        value: your_very_secret_jwt_key_here
+        fromEnvVar: JWT_SECRET
       - key: ALLOWED_ORIGIN
         value: https://cervicare-frontend.onrender.com
 
@@ -77,11 +77,11 @@ services:
     region: oregon
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://${DATABASE_HOST}:3306/${DATABASE_NAME}?useSSL=false&allowPublicKeyRetrieval=true
+        fromEnvVar: DATABASE_URL
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${DATABASE_USER}
+        fromEnvVar: DATABASE_USER
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${DATABASE_PASSWORD}
+        fromEnvVar: DATABASE_PASSWORD
       - key: ALLOWED_ORIGIN
         value: https://cervicare-frontend.onrender.com
 
@@ -92,12 +92,5 @@ services:
     branch: main
     dockerfilePath: ./cervicare-frontend/Dockerfile
     dockerContext: ./cervicare-frontend
-    plan: free
-    region: oregon
-
-databases:
-  - name: cervicare-db
-    databaseName: cervicare
-    user: cervicare_user
     plan: free
     region: oregon
