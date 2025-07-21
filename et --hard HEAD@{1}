@@ -1,0 +1,120 @@
+[33mb609b69a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: commit: update
+[33m3819f182[m HEAD@{1}: commit: changing user
+[33m0df90aea[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{2}: commit: Update
+[33mb9b472a1[m HEAD@{3}: commit: Update
+[33m8efe7955[m HEAD@{4}: commit: Update
+[33mcb51ab87[m HEAD@{5}: commit: Update
+[33mcc36f07d[m HEAD@{6}: commit: adding correct url
+[33m7cde8f48[m HEAD@{7}: commit: Update
+[33medfd603e[m HEAD@{8}: commit: Updated application properties
+[33mfa83e799[m HEAD@{9}: commit: Update
+[33m255cb591[m HEAD@{10}: commit: Update
+[33m8dd1753e[m HEAD@{11}: commit: Update
+[33mdc8331b7[m HEAD@{12}: commit: Update
+[33mab5811ea[m HEAD@{13}: commit: Updated application properties
+[33mc6b5dba0[m HEAD@{14}: commit: adding correct url
+[33m3c6720aa[m HEAD@{15}: commit: adding correct url
+[33m5eff94e3[m HEAD@{16}: commit: Refactored script to online url
+[33mdb80dfd2[m HEAD@{17}: commit: Refactored script to online url
+[33m2c6fa64a[m HEAD@{18}: commit: Refactored render.yaml to use sqlvariable env group
+[33m3d80f7e6[m HEAD@{19}: commit: Refactored render.yaml to use sqlvariable env group
+[33md95552e4[m HEAD@{20}: commit: Added DataSaverMicroservice to repo
+[33me55a2fab[m HEAD@{21}: commit: Update
+[33m6843eaf8[m HEAD@{22}: commit: adding correct url
+[33mb788b871[m HEAD@{23}: commit: Updated render.yaml to use env group sqlvariable
+[33m02badc05[m HEAD@{24}: commit: Update
+[33m1c237618[m HEAD@{25}: commit: Updated application properties
+[33m73de4dce[m HEAD@{26}: commit: Updated render.yaml to use env group sqlvariable
+[33ma59c7b31[m HEAD@{27}: commit: Updated render.yaml to use env group sqlvariable
+[33m6d03467e[m HEAD@{28}: commit: Remove large jar file from Git history
+[33m1f2ad95b[m HEAD@{29}: commit: adding correct postgress url
+[33m59622fc3[m HEAD@{30}: commit: Remove built jar and ignore target folder
+[33mbc9f258e[m HEAD@{31}: commit: corrected error in pom
+[33m91669cd4[m HEAD@{32}: commit: corrected error in pom
+[33m4b993102[m HEAD@{33}: commit: corrected error in pom
+[33mb19b0010[m HEAD@{34}: commit: corrected error in pom
+[33mc503a0e4[m HEAD@{35}: commit: corrected error in pom
+[33m20bb427f[m HEAD@{36}: commit: Added pgsql
+[33m855a568a[m HEAD@{37}: commit: Added pgsql
+[33m9db20615[m HEAD@{38}: commit: adding code to assessment file
+[33mf70f3658[m HEAD@{39}: commit: changed docker
+[33m4cb44cd9[m HEAD@{40}: commit: add correct url for mysql
+[33m2f76183e[m HEAD@{41}: commit: adding env file
+[33m023870b2[m HEAD@{42}: commit: final lap
+[33macb8a3e8[m HEAD@{43}: commit: add
+[33m5e299f58[m HEAD@{44}: commit: final lap
+[33m0ee7c995[m HEAD@{45}: commit: final lap
+[33m54b99818[m HEAD@{46}: commit: adding env file
+[33m4b761d69[m HEAD@{47}: commit: add correct application properties
+[33m0c3d72e3[m HEAD@{48}: commit: add correct url
+[33mda74e4e0[m HEAD@{49}: commit: final lap
+[33mcb93d199[m HEAD@{50}: commit: final lap
+[33m6c2ae89d[m HEAD@{51}: commit: add correct url
+[33m9efa213c[m HEAD@{52}: commit: Add buildCommand to Java services in render.yaml
+[33m22efdaef[m HEAD@{53}: commit: Add render.yaml for Render deployment
+[33m674ce01d[m HEAD@{54}: commit: add correct url
+[33m1c49ff41[m HEAD@{55}: commit: final lap
+[33m158b2b7c[m HEAD@{56}: commit: final lap
+[33m6035c089[m HEAD@{57}: commit: add frontend
+[33m90d8adcf[m HEAD@{58}: commit: final lap
+[33mbb929334[m HEAD@{59}: commit: removed risk api for deployment
+[33m6759aee3[m HEAD@{60}: commit: add correct url
+[33m8ea416f4[m HEAD@{61}: commit: Add render.yaml for Render deployment
+[33m5fb72b7f[m HEAD@{62}: commit: Add render.yaml
+[33mb6b3e82f[m HEAD@{63}: commit: add docker
+[33maf29e6c1[m HEAD@{64}: commit: removed risk api for deployment
+[33me28749e2[m HEAD@{65}: checkout: moving from 05c08e304fa4873aeabc68d23588ee1b750e7b5a to main
+[33m05c08e30[m HEAD@{66}: commit: removed risk api for deployment
+[33me4c32662[m HEAD@{67}: commit: full code
+[33me6590f31[m HEAD@{68}: commit: styling
+[33mbce56a2e[m HEAD@{69}: commit: Nice
+[33mf98c8ea5[m HEAD@{70}: commit: search stock added
+[33m094666da[m HEAD@{71}: commit: added edit for appointment
+[33m470d1bb9[m HEAD@{72}: commit: few changes on datasaver microservice
+[33m04797363[m HEAD@{73}: checkout: moving from main to 04797363
+[33me28749e2[m HEAD@{74}: commit: Save current work before checkout
+[33mc356cbe5[m HEAD@{75}: commit: Added the new data saver
+[33me25a7394[m HEAD@{76}: reset: moving to e25a7394
+[33me25a7394[m HEAD@{77}: checkout: moving from e25a739416d1c47abf73a36acce051da8347a43d to main
+[33me25a7394[m HEAD@{78}: checkout: moving from main to e25a7394
+[33me25a7394[m HEAD@{79}: commit (merge): Added the new frontend
+[33mdd0914b3[m HEAD@{80}: commit: Added the new frontend
+[33m04797363[m HEAD@{81}: checkout: moving from master to main
+[33m81fed73f[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{82}: commit: WIP: local changes before switching to main
+[33mce7a7b25[m HEAD@{83}: commit: Add cervicare-risk-api as part of main repo (not submodule)
+[33m053c178c[m HEAD@{84}: commit: Half baked
+[33mdeaa6d6b[m HEAD@{85}: commit: Working on the book appointment
+[33mcc96ec91[m HEAD@{86}: commit: Risk assessment functionality with front end
+[33m1397f331[m HEAD@{87}: reset: moving to 1397f33
+[33m04797363[m HEAD@{88}: checkout: moving from main to master
+[33m04797363[m HEAD@{89}: reset: moving to 0479736
+[33m1397f331[m HEAD@{90}: reset: moving to 1397f33
+[33m6fb01252[m HEAD@{91}: reset: moving to 6fb0125
+[33m0515e3ff[m HEAD@{92}: checkout: moving from temp-master to main
+[33mb4ddb241[m[33m ([m[1;32mtemp-master[m[33m)[m HEAD@{93}: checkout: moving from main to temp-master
+[33m0515e3ff[m HEAD@{94}: commit: Submodule updates
+[33m6fb01252[m HEAD@{95}: checkout: moving from main to main
+[33m6fb01252[m HEAD@{96}: checkout: moving from main to main
+[33m6fb01252[m HEAD@{97}: commit: Removed old frontend
+[33m04797363[m HEAD@{98}: checkout: moving from main to main
+[33m04797363[m HEAD@{99}: checkout: moving from main to main
+[33m04797363[m HEAD@{100}: commit (merge): Merge master into main and resolve conflicts
+[33m1397f331[m HEAD@{101}: commit (merge): Add recommend and hospital microservice
+[33mb4ddb241[m[33m ([m[1;32mtemp-master[m[33m)[m HEAD@{102}: commit: Initial commit: CerviCare ML and hospital recommender microservices
+[33m69bbe742[m HEAD@{103}: commit: readding the backend
+[33mdb72e5b1[m HEAD@{104}: commit: readding the backend
+[33m84a43ec4[m HEAD@{105}: commit: Add hospital recommender service
+[33m8c249ecc[m HEAD@{106}: pull: Fast-forward
+[33m3ff61637[m HEAD@{107}: commit: Syncing local changes from laptop
+[33mc7acd512[m HEAD@{108}: reset: moving to c7acd51
+[33m99ff7bd5[m HEAD@{109}: checkout: moving from main to main
+[33m99ff7bd5[m HEAD@{110}: reset: moving to HEAD
+[33m99ff7bd5[m HEAD@{111}: commit: Initial commit: Added ML model loader, training scripts, and saved models
+[33mc7acd512[m HEAD@{112}: commit: Adding both models
+[33m0134953c[m HEAD@{113}: commit: Adding User service
+[33m9a9ffd2b[m HEAD@{114}: checkout: moving from main to main
+[33m9a9ffd2b[m HEAD@{115}: commit: Restructure project: move frontend to cervicare-frontend and ML code to cervicare-ml-api
+[33m84d61485[m HEAD@{116}: checkout: moving from main to main
+[33m84d61485[m HEAD@{117}: checkout: moving from main to main
+[33m84d61485[m HEAD@{118}: commit (merge): merging all the files
+[33mb305fe07[m HEAD@{119}: clone: from https://github.com/Techgirlies/Cervicare.git
