@@ -393,26 +393,6 @@ function validateStep(step) {
     }
     return true;
 }
-form.addEventListener("click", (e) => {
-    if (e.target.matches("#next-btn")) {
-        e.preventDefault();
-        if (validateStep(currentStep)) {
-            if (currentStep < formSteps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        } else {
-            alert("Please fill out all required fields in this step.");
-        }
-    } else if (e.target.matches("#prev-btn")) {
-        e.preventDefault();
-        if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    }
-});
-showStep(currentStep);
 window.closePopup = function () {
     const popup = document.getElementById('inventory-popup');
     if (popup) popup.classList.add('hidden');
@@ -605,7 +585,7 @@ function validateStep(step) {
     return true;
 }
 form.addEventListener("click", (e) => {
-    if (e.target.matches("#next-btn")) {
+    if (e.target.matches(".next-btn")) {
         e.preventDefault();
         if (validateStep(currentStep)) {
             if (currentStep < formSteps.length - 1) {
@@ -615,13 +595,12 @@ form.addEventListener("click", (e) => {
         } else {
             alert("Please fill out all required fields in this step.");
         }
-    } else if (e.target.matches("#prev-btn")) {
+    } else if (e.target.matches(".prev-btn")) {
         e.preventDefault();
         if (currentStep > 0) {
             currentStep--;
             showStep(currentStep);
         }
     }
-   showStep(currentStep);
-  });
 });
+
