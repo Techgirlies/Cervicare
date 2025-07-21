@@ -77,7 +77,6 @@
     <span>Already have an account? <a href="index.html">Sign in</a></span>
   </div>
 </div>
-
 <script>
   document.getElementById("signupForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -89,25 +88,26 @@
       role: document.getElementById("role").value
     };
 
-     const response = await fetch("https://cervicare-user-service-mknk.onrender.com/api/users/register", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(data),
-  credentials: "include" // ✅ Add this
-   });
-  const user = await response.json();
-  console.log("User response:", user);
+    try {
+      const response = await fetch("https://cervicare-user-service-mknk.onrender.com/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include"
+      });
+
+      const result = await response.json();
 
       if (!response.ok) {
-        document.getElementById("signupMessage").innerText = user.message || "Signup failed.";
+        document.getElementById("signupMessage").innerText = result.message || "Signup failed.";
         return;
       }
 
-      if (user && user.id && user.email && user.role) {
-        localStorage.setItem("userId", user.id);
-        localStorage.setItem("userEmail", user.email);
+      if (result && result.id && result.email && result.role) {
+        localStorage.setItem("userId", result.id);
+        localStorage.setItem("userEmail", result.email);
 
-        if (user.role === "DOCTOR") {
+        if (result.role === "DOCTOR") {
           window.location.href = "doctor-dashboard.html";
         } else {
           window.location.href = "patient-dashboard.html";
@@ -115,6 +115,11 @@
       } else {
         document.getElementById("signupMessage").innerText = "Unexpected response from server.";
       }
+
+    } catch (error) {
+      document.getElementById("signupMessage").innerText = "An error occurred. Please try again.";
+      console.error("Signup error:", error);
+    }
   });
 </script>
 

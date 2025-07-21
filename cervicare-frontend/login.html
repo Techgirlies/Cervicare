@@ -74,40 +74,48 @@
 
 <script>
   document.getElementById("loginForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const response = await fetch("https://cervicare-user-service-xxxxx.onrender.com/api/users/register", {
+  const data = { email, password };
+
+  try {
+    const response = await fetch("https://cervicare-user-service-mknk.onrender.com/api/users/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify(data),
+      credentials: "include"
     });
 
+    const result = await response.json();
+
     if (!response.ok) {
-      document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
+      // Show backend error message if available
+      document.getElementById("loginMessage").innerText = result.message || "Login failed.";
       return;
     }
 
-    const user = await response.json();
+    if (result && result.email && result.role) {
+      localStorage.setItem("userId", result.id);
+      localStorage.setItem("userEmail", result.email);
 
-    if (user && user.email && user.role) {
-  // ✅ Save user ID and email in localStorage
-  localStorage.setItem("userId", user.id);   // <-- Store ID
-  localStorage.setItem("userEmail", user.email);
-
-  // ✅ Redirect based on role
-  if (user.role === "DOCTOR") {
-    window.location.href = "/doctor-dashboard.html";
-  } else {
-    window.location.href = "/patient-dashboard.html";
-  }
-}
-    else {
+      if (result.role === "DOCTOR") {
+        window.location.href = "doctor-dashboard.html";
+      } else {
+        window.location.href = "patient-dashboard.html";
+      }
+    } else {
       document.getElementById("loginMessage").innerText = "Login failed. Invalid user data.";
     }
-  });
+
+  } catch (error) {
+    document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
+    console.error("Login error:", error);
+  }
+});
+
 </script>
 </body>
 </html>
