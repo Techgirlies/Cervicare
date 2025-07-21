@@ -96,6 +96,7 @@
   credentials: "include" // ✅ Add this
    });
   const user = await response.json();
+  console.log("User response:", user);
 
       if (!response.ok) {
         document.getElementById("signupMessage").innerText = user.message || "Signup failed.";
@@ -107,9 +108,9 @@
         localStorage.setItem("userEmail", user.email);
 
         if (user.role === "DOCTOR") {
-          window.location.href = "/doctor-dashboard.html";
+          window.location.href = "doctor-dashboard.html";
         } else {
-          window.location.href = "/patient-dashboard.html";
+          window.location.href = "patient-dashboard.html";
         }
       } else {
         document.getElementById("signupMessage").innerText = "Unexpected response from server.";
