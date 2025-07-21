@@ -1,6 +1,6 @@
+com\config\WebConfig.class
 com\controller\UserController.class
 com\repository\UserRepository.class
-WebConfig.class
 com\dto\UserRegistrationRequest.class
 com\entity\User.class
 com\UserServiceApplication.class
