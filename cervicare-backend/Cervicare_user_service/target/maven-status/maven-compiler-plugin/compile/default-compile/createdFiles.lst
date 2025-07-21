@@ -1,7 +1,6 @@
-com\config\CorsConfig$1.class
 com\controller\UserController.class
 com\repository\UserRepository.class
-com\config\CorsConfig.class
+WebConfig.class
 com\dto\UserRegistrationRequest.class
 com\entity\User.class
 com\UserServiceApplication.class
