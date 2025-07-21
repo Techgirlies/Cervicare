@@ -7,44 +7,7 @@ window.showSection = function(id) {
             activeSection.classList.remove('hidden');
         }
     };
-document.addEventListener('DOMContentLoaded', function () {
-    const id = localStorage.getItem("userId");
-    showSection('landing');
-    function extractBiopsyData(data) {
-        return {
-            Age: parseFloat(data.Age),
-            Number_of_Pregnancies: parseInt(data.Number_of_Pregnancies),
-            Smokes: parseInt(data.Smokes),
-            Hormonal_Contraceptives: parseInt(data.Hormonal_Contraceptives),
-            STDs: parseInt(data.STDs),
-            HPV: parseInt(data.HPV),
-            IUD: parseInt(data.IUD),
-            STDs_Number: parseInt(data.STDs_Number),
-            First_sexual_intercourse_age: parseFloat(data.First_sexual_intercourse_age),
-            STDs_condylomatosis: parseInt(data.STDs_condylomatosis),
-            STDs_cervical_condylomatosis: parseInt(data.STDs_cervical_condylomatosis),
-            STDs_vaginal_condylomatosis: parseInt(data.STDs_vaginal_condylomatosis),
-            STDs_vulvo_perineal_condylomatosis: parseInt(data.STDs_vulvo_perineal_condylomatosis),
-            STDs_syphilis: parseInt(data.STDs_syphilis),
-            STDs_pelvic_inflammatory_disease: parseInt(data.STDs_pelvic_inflammatory_disease),
-            STDs_genital_herpes: parseInt(data.STDs_genital_herpes),
-            STDs_molluscum_contagiosum: parseInt(data.STDs_molluscum_contagiosum),
-            STDs_HIV: parseInt(data.STDs_HIV),
-            STDs_Hepatitis_B: parseInt(data.STDs_Hepatitis_B),
-            STDs_HPV: parseInt(data.STDs_HPV),
-            Dx: parseInt(data.Dx),
-            Dx_Cancer: parseInt(data.Dx_Cancer),
-            Dx_CIN: parseInt(data.Dx_CIN),
-            Smokes_years: parseFloat(data.Smokes_years),
-            Smokes_packs_per_year: parseFloat(data.Smokes_packs_per_year),
-            Hormonal_Contraceptives_years: parseFloat(data.Hormonal_Contraceptives_years),
-            IUD_years: parseFloat(data.IUD_years),
-            STDs_Time_since_first_diagnosis: parseFloat(data.STDs_Time_since_first_diagnosis),
-            STDs_Time_since_last_diagnosis: parseFloat(data.STDs_Time_since_last_diagnosis),
-            Hinselmann: parseInt(data.Hinselmann),
-            Schiller: parseInt(data.Schiller),
-            Citology: parseInt(data.Citology),
-        };
+;
     }
     function extractRecommendationData(data) {
         return {
@@ -603,25 +566,14 @@ form.addEventListener("click", (e) => {
         }
     }
 });
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.sidebar li').forEach(li => {
-        li.addEventListener('click', () => {
-            const section = li.getAttribute('onclick').match(/showSection\('([^']+)'\)/)[1];
-            showSection(section);
-        });
+);
     });
 });
 
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Replace data-section
-    document.querySelectorAll("[data-section]").forEach(el => {
-        el.addEventListener("click", () => {
-            const target = el.getAttribute("data-section");
-            if (target) showSection(target);
-        });
+);
     });
 
     // Replace data-action
@@ -643,3 +595,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 })
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Default section
+    showSection('landing');
+
+    // Navigation buttons (sidebar + landing)
+    document.querySelectorAll("[data-section]").forEach(el => {
+        el.addEventListener("click", () => {
+            const id = el.getAttribute("data-section");
+            showSection(id);
+        });
+    });
+
+    // Action buttons
+    document.querySelectorAll("[data-action]").forEach(el => {
+        el.addEventListener("click", () => {
+            const fnName = el.getAttribute("data-action");
+            if (typeof window[fnName] === "function") {
+                window[fnName]();
+            }
+        });
+    });
+
+    // Print buttons
+    document.querySelectorAll("[data-print]").forEach(el => {
+        el.addEventListener("click", () => window.print());
+    });
+
+    // Start assessment button
+    document.querySelector('.start-assessment-btn')?.addEventListener('click', () => {
+        showSection('assessment');
+    });
+});

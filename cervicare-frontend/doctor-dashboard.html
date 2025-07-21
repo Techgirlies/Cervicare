@@ -6,7 +6,7 @@
     <title>CerviCare</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <script src="script.js" defer></script>
+    <script src="script-fixed.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -14,11 +14,11 @@
             <h2>CerviCare</h2>
             <nav>
                 <ul>
-                    <li data-section="assessment">Assessment</li>
-                    <li data-section="appointments">Appointments</li>
-                    <li data-section="inventory">Inventory</li>
-                    <li data-section="stock-check">Stock Check</li>
-                    <li data-section="hospital-recommender">Hospital Recommender</li>
+                    <li onclick="showSection('assessment')">Assessment</li>
+                    <li onclick="showSection('appointments')">Appointments</li>
+                    <li onclick="showSection('inventory')">Inventory</li>
+                    <li onclick="showSection('stock-check')">Stock Check</li>
+                    <li onclick="showSection('hospital-recommender')">Hospital Recommender</li>
 
                 </ul>
             </nav>
@@ -30,7 +30,7 @@
                     <h1>Welcome to CerviCare 🌸</h1>
                     <p>Your health is our priority. CerviCare helps healthcare providers assess and guide women in early detection and prevention of cervical cancer.</p>
                     <p>Together, we can beat cervical cancer — one assessment at a time.</p>
-                    <button class="start-assessment-btn" data-section="assessment">🎗️ Take Assessment</button>
+                    <button class="start-assessment-btn" onclick="showSection('assessment')">🎗️ Take Assessment</button>
                   <img src="images/cervicare.png" alt="Women for women by women" class="landing-image">
                 </div>
             </section>
@@ -323,7 +323,7 @@
             <section id="appointments" class="content-section hidden">
                 <h2>Appointments</h2>
                 <div class="crud-buttons">
-                    <button data-action="openAppointmentForm">➕ Add Appointment</button>
+                    <button onclick="openAppointmentForm()">➕ Add Appointment</button>
                     <button id="btn-get-appointments">📋 View Appointments</button>
                 </div>
                 <div id="appointments-results"></div>
@@ -333,8 +333,8 @@
             <section id="inventory" class="content-section hidden">
                 <h2>Inventory</h2>
                 <div class="crud-buttons">
-                    <button data-action="showInventoryForm">➕ Add Item</button>
-                    <button data-action="getInventory">📋 View Inventory</button>
+                    <button onclick="showInventoryForm()">➕ Add Item</button>
+                    <button onclick="getInventory()">📋 View Inventory</button>
 
                 </div>
                 <div id="inventory-results"></div>
@@ -352,7 +352,7 @@
                     <input type="text" id="stock-item" placeholder="Enter item name...">
                 </div>
                 <div class="crud-buttons">
-                    <button data-action="searchStock">🔍 Check Stock</button>
+                    <button onclick="searchStock()">🔍 Check Stock</button>
                 </div>
                 <div id="stock-results"></div>
             </section>
@@ -377,7 +377,7 @@
     <input type="text" id="recommender-insurance" placeholder="e.g. NHIF">
 </div>
 <div class="crud-buttons">
-    <button data-action="getEnhancedRecommendations">📍 View Enhanced Recommendations</button>
+    <button onclick="getEnhancedRecommendations()">📍 View Enhanced Recommendations</button>
 </div>
           <div id="recommender-results"></div>
             </section>
@@ -401,7 +401,7 @@
       <div class="form-group"><label>Price</label><input type="number" id="price" step="0.01"></div>
       <button type="submit">💾 Save Item</button>
     </form>
-    <button data-action="closePopupinventory">Close</button>
+    <button onclick="closePopupinventory()">Close</button>
   </div>
 </div>
 
@@ -414,17 +414,17 @@
         <p><strong>Recommendation:</strong> <span id="screening-recommendation"></span></p>
         
         <div class="crud-buttons">
-            <button data-action="openAppointmentForm">📅 Book Appointment</button>
-            <button data-print>🖨️ Print Results</button>
-            <button data-action="triggerSaveAssessment">💾 Save Data</button>
+            <button onclick="openAppointmentForm()">📅 Book Appointment</button>
+            <button onclick="window.print()">🖨️ Print Results</button>
+            <button onclick="triggerSaveAssessment()">💾 Save Data</button>
         </div>
-        <button data-action="closeAssessmentPopup">Close</button>
+        <button onclick="closeAssessmentPopup()">Close</button>
     </div>
 </div>
 <!-- APPOINTMENT FORM POPUP -->
 <div id="appointment-popup" class="popup-overlay hidden">
     <div class="popup-form">
-        <button class="popup-close" data-action="closeAppointmentForm">❌</button>
+        <button class="popup-close" onclick="closeAppointmentForm()">❌</button>
         <h2 id="form-title">📅 Book Appointment</h2>
         <form id="appointment-form">
             <div class="form-group">
@@ -489,16 +489,20 @@
     <input type="text" id="edit-hospital" required>
 
     <button type="submit">Update</button>
-    <button type="button" data-action="closeEditAppointmentPopup">Cancel</button>
+    <button type="button" onclick="closeEditAppointmentPopup()">Cancel</button>
   </form>
 </div>
   <!-- Chatbot container -->
 <div id="chatbot-container">
   <button id="chatbot-toggle" title="Chat with us">💬</button>
   <div id="chatbot-window" class="hidden">
-      <div id="chatbot-window" class="hidden">
-          <!-- [Report Only] Refused to frame 'https://copilotstudio.microsoft.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".[Report Only] Refused to frame 'https://copilotstudio.microsoft.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".[Report Only] Refused to frame 'https://copilotstudio.microsoft.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".[Report Only] Refused to frame 'https://copilotstudio.microsoft.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".[Report Only] Refused to frame 'https://copilotstudio.microsoft.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".[Report Only] Refused to frame 'https://copilotstudio.microsoft.com/' because an ancestor violates the following Content Security Policy directive: "frame-ancestors 'none'".-->
-      </div>
+    <iframe 
+  src="https://copilotstudio.microsoft.com/environments/Default-2b46485c-d418-44a1-861e-c150c60c3429/bots/cr6d8_agent3htR0j8/webchat?__version__=2" 
+  frameborder="0" 
+  style="width: 350px; height: 700px; border-radius: 10px; overflow: hidden;">
+    </iframe>
+</iframe>
+  </div>
 </div>
 </body>
 </html>
