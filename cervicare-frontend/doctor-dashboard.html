@@ -14,11 +14,11 @@
             <h2>CerviCare</h2>
             <nav>
                 <ul>
-                    <li onclick="showSection('assessment')">Assessment</li>
-                    <li onclick="showSection('appointments')">Appointments</li>
-                    <li onclick="showSection('inventory')">Inventory</li>
-                    <li onclick="showSection('stock-check')">Stock Check</li>
-                    <li onclick="showSection('hospital-recommender')">Hospital Recommender</li>
+                    <li data-section="assessment">Assessment</li>
+                    <li data-section="appointments">Appointments</li>
+                    <li data-section="inventory">Inventory</li>
+                    <li data-section="stock-check">Stock Check</li>
+                    <li data-section="hospital-recommender">Hospital Recommender</li>
 
                 </ul>
             </nav>
@@ -30,7 +30,7 @@
                     <h1>Welcome to CerviCare 🌸</h1>
                     <p>Your health is our priority. CerviCare helps healthcare providers assess and guide women in early detection and prevention of cervical cancer.</p>
                     <p>Together, we can beat cervical cancer — one assessment at a time.</p>
-                    <button class="start-assessment-btn" onclick="showSection('assessment')">🎗️ Take Assessment</button>
+                    <button class="start-assessment-btn" data-section="assessment">🎗️ Take Assessment</button>
                   <img src="images/cervicare.png" alt="Women for women by women" class="landing-image">
                 </div>
             </section>
@@ -496,12 +496,11 @@
 <div id="chatbot-container">
   <button id="chatbot-toggle" title="Chat with us">💬</button>
   <div id="chatbot-window" class="hidden">
-    <iframe 
-  src="https://copilotstudio.microsoft.com/environments/Default-2b46485c-d418-44a1-861e-c150c60c3429/bots/cr6d8_agent3htR0j8/webchat?__version__=2" 
-  frameborder="0" 
-  style="width: 350px; height: 700px; border-radius: 10px; overflow: hidden;">
-    </iframe>
-</iframe>
+      <!--<iframe
+          src="https://copilotstudio.microsoft.com/environments/Default-2b46485c-d418-44a1-861e-c150c60c3429/bots/cr6d8_agent3htR0j8/webchat?__version__=2"
+          frameborder="0"
+          style="width: 350px; height: 700px; border-radius: 10px; overflow: hidden;">
+            </iframe> -->
   </div>
 </div>
 </body>

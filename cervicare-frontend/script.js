@@ -1,3 +1,13 @@
+function showSection(id) {
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+    });
+    const sectionToShow = document.getElementById(id);
+    if (sectionToShow) {
+        sectionToShow.classList.remove('hidden');
+    }
+}
+
 window.showSection = function(id) {
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.add('hidden');
