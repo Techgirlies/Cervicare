@@ -1,13 +1,10 @@
 package com.service;
-
 import com.dto.UserLoginRequest;
 import com.dto.UserRegistrationRequest;
 import com.entity.User;
 import com.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-
 @Service
 public class UserService {
 

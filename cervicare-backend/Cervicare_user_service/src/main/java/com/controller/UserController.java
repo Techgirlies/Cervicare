@@ -20,7 +20,6 @@ public class UserController {
     public UserController(UserService service) {
         this.service = service;
     }
-
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody UserRegistrationRequest request) {
         User user = service.register(request);
@@ -30,7 +29,6 @@ public class UserController {
             response.put("message", "Email already registered");
             return ResponseEntity.badRequest().body(response);
         }
-
         response.put("id", user.getId());
         response.put("email", user.getEmail());
         response.put("role", user.getRole());
