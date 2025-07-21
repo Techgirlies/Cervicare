@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const id = localStorage.getItem("userId");
-    window.showSection = function(id) {
+window.showSection = function(id) {
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.add('hidden');
         });
@@ -9,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
             activeSection.classList.remove('hidden');
         }
     };
+document.addEventListener('DOMContentLoaded', function () {
+    const id = localStorage.getItem("userId");
     showSection('landing');
     function extractBiopsyData(data) {
         return {
