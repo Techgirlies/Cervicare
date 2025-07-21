@@ -98,9 +98,9 @@
 
       // ✅ Redirect based on role
       if (user.role === "DOCTOR") {
-        window.location.href = "/doctor-dashboard.html";
+       window.location.href = "doctor-dashboard.html";
       } else {
-        window.location.href = "/patient-dashboard.html";
+        window.location.href = "patient-dashboard.html";
       }
     } else {
       document.getElementById("loginMessage").innerText = "Invalid response from server.";
