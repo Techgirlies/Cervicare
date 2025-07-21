@@ -603,4 +603,42 @@ form.addEventListener("click", (e) => {
         }
     }
 });
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.sidebar li').forEach(li => {
+        li.addEventListener('click', () => {
+            const section = li.getAttribute('onclick').match(/showSection\('([^']+)'\)/)[1];
+            showSection(section);
+        });
+    });
+});
 
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Replace data-section
+    document.querySelectorAll("[data-section]").forEach(el => {
+        el.addEventListener("click", () => {
+            const target = el.getAttribute("data-section");
+            if (target) showSection(target);
+        });
+    });
+
+    // Replace data-action
+    document.querySelectorAll("[data-action]").forEach(el => {
+        el.addEventListener("click", () => {
+            const fn = window[el.getAttribute("data-action")];
+            if (typeof fn === "function") fn();
+        });
+    });
+
+    // Replace data-print
+    document.querySelectorAll("[data-print]").forEach(el => {
+        el.addEventListener("click", () => window.print());
+    });
+
+    // Replace data-save-assessment
+    document.querySelectorAll("[data-save-assessment]").forEach(el => {
+        el.addEventListener("click", () => triggerSaveAssessment());
+    });
+});
