@@ -8,8 +8,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("*") // ✅ use allowedOriginPatterns instead of allowedOrigins
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedOrigins("https://cervicare-frontend-mknk.onrender.com")  // ✅ Use specific origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")       // ✅ Include OPTIONS for preflight
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
