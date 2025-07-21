@@ -1,5 +1,6 @@
 package com.dto;
 import jakarta.validation.constraints.NotBlank;
+
 public class UserRegistrationRequest {
     @NotBlank(message = "Full name is required")
     private String fullName;
