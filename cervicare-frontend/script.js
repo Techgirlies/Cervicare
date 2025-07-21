@@ -641,4 +641,5 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-save-assessment]").forEach(el => {
         el.addEventListener("click", () => triggerSaveAssessment());
     });
-});
+  });
+})
