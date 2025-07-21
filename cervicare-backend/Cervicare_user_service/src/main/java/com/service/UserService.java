@@ -6,6 +6,8 @@ import com.entity.User;
 import com.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -15,23 +17,27 @@ public class UserService {
         this.repo = repo;
     }
 
-    public String register(UserRegistrationRequest request) {
+    public User register(UserRegistrationRequest request) {
         if (repo.findByEmail(request.getEmail()).isPresent()) {
-            return "Email already registered";
+            return null;
         }
 
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword()); // Plain for now
-        repo.save(user);
-        return "User registered successfully";
+        user.setPassword(request.getPassword()); // Consider hashing
+        user.setRole(request.getRole() != null ? request.getRole() : "DOCTOR");
+        return repo.save(user);
     }
 
-    public String login(UserLoginRequest request) {
-        return repo.findByEmail(request.getEmail())
-                .filter(u -> u.getPassword().equals(request.getPassword()))
-                .map(u -> "Login successful")
-                .orElse("Invalid email or password");
+    public User login(UserLoginRequest request) {
+        Optional<User> userOpt = repo.findByEmail(request.getEmail());
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (user.getPassword().equals(request.getPassword())) {
+                return user;
+            }
+        }
+        return null;
     }
 }
