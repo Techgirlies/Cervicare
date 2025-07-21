@@ -18,7 +18,6 @@ window.showSection = function(id) {
         }
     };
 ;
-    }
     function extractRecommendationData(data) {
         return {
             Age: parseInt(data.Age),
@@ -576,18 +575,7 @@ form.addEventListener("click", (e) => {
         }
     }
 });
-);
-    });
-});
-
-
-
-
-);
-    });
-
-    // Replace data-action
-    document.querySelectorAll("[data-action]").forEach(el => {
+ document.querySelectorAll("[data-action]").forEach(el => {
         el.addEventListener("click", () => {
             const fn = window[el.getAttribute("data-action")];
             if (typeof fn === "function") fn();
@@ -603,10 +591,6 @@ form.addEventListener("click", (e) => {
     document.querySelectorAll("[data-save-assessment]").forEach(el => {
         el.addEventListener("click", () => triggerSaveAssessment());
     });
-  });
-})
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Default section
     showSection('landing');
