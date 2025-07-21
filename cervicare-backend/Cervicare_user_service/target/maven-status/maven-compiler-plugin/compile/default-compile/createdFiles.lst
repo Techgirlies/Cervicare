@@ -4,5 +4,6 @@ com\repository\UserRepository.class
 com\dto\UserRegistrationRequest.class
 com\entity\User.class
 com\UserServiceApplication.class
+com\config\SecurityConfig.class
 com\dto\UserLoginRequest.class
 com\service\UserService.class
