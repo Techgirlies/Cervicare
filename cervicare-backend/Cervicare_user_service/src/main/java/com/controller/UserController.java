@@ -4,6 +4,7 @@ import com.dto.UserLoginRequest;
 import com.dto.UserRegistrationRequest;
 import com.entity.User;
 import com.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService service;
@@ -20,15 +20,18 @@ public class UserController {
     public UserController(UserService service) {
         this.service = service;
     }
+
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> register(@RequestBody UserRegistrationRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationRequest request) {
         User user = service.register(request);
-        Map<String, Object> response = new HashMap<>();
 
         if (user == null) {
-            response.put("message", "Email already registered");
-            return ResponseEntity.badRequest().body(response);
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Email already registered");
+            return ResponseEntity.badRequest().body(error);
         }
+
+        Map<String, Object> response = new HashMap<>();
         response.put("id", user.getId());
         response.put("email", user.getEmail());
         response.put("role", user.getRole());
@@ -37,15 +40,16 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest request) {
         User user = service.login(request);
-        Map<String, Object> response = new HashMap<>();
 
         if (user == null) {
-            response.put("message", "Invalid email or password");
-            return ResponseEntity.badRequest().body(response);
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "Invalid email or password");
+            return ResponseEntity.badRequest().body(error);
         }
 
+        Map<String, Object> response = new HashMap<>();
         response.put("id", user.getId());
         response.put("email", user.getEmail());
         response.put("role", user.getRole());
