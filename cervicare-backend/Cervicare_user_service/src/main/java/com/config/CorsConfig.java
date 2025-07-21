@@ -13,10 +13,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://cervicare-frontend-mknk.onrender.com") // ✅ Frontend origin
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")      // ✅ Allowed methods
-                        .allowedHeaders("*")                                            // ✅ All headers
-                        .allowCredentials(true);                                        // ✅ For localStorage/cookies
+                        .allowedOriginPatterns("https://cervicare-frontend-mknk.onrender.com") // ✅ FIXED
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
