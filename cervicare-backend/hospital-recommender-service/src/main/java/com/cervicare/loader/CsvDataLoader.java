@@ -22,7 +22,8 @@ public class CsvDataLoader {
     @PostConstruct
     public void load() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("data.csv"))))) {
+                Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("facility_services.csv"))
+        ))) {
 
             // Skip header
             String line = reader.readLine();
