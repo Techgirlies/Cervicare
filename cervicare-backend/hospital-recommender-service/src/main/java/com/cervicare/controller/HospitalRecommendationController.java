@@ -61,4 +61,20 @@ public class HospitalRecommendationController {
             @RequestParam(required = false) Boolean insurance) {
         return ResponseEntity.ok(service.smartRecommendServices(query, region, budget, insurance));
     }
+    @GetMapping("/recommendations/region/{region}/item/{item}")
+    public ResponseEntity<List<FacilityItem>> recommendItemRegionWise(
+            @PathVariable String region,
+            @PathVariable String item,
+            @RequestParam(required = false) Boolean insurance,
+            @RequestParam(required = false) Double maxBudget) {
+        return ResponseEntity.ok(service.recommendByRegionAndItem(region, item, insurance, maxBudget));
+    }
+
+    @GetMapping("/stock/region/{region}/item/{item}")
+    public ResponseEntity<List<FacilityItem>> searchStockByRegionAndItem(
+            @PathVariable String region,
+            @PathVariable String item) {
+        return ResponseEntity.ok(service.searchStockByRegionAndItem(region, item));
+    }
+
 }

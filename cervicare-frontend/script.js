@@ -375,7 +375,7 @@ window.closePopup = function () {
     if (popup) popup.classList.add('hidden');
 };
 window.getInventory = function () {
-    fetch("https://hospital-recommender-service-mknk.onrender.com/api/inventory/all")
+    fetch("https://hospital-recommender-service-mknk.onrender.com/api/inventory")
         .then(response => response.json())
         .then(data => {
             console.log("Inventory Data:", data);

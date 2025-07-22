@@ -64,4 +64,19 @@ public class HospitalRecommendationService {
                 .filter(s -> insurance == null || (s.getNhifCovered() != null && s.getNhifCovered().equals(insurance)))
                 .collect(Collectors.toList());
     }
+    public List<FacilityItem> recommendByRegionAndItem(String region, String item, Boolean insurance, Double budget) {
+        return itemRepo.findAll().stream()
+                .filter(i -> i.getRegion() != null && i.getRegion().equalsIgnoreCase(region))
+                .filter(i -> i.getItem() != null && i.getItem().equalsIgnoreCase(item))
+                .filter(i -> insurance == null || (i.getInsurance() != null && i.getInsurance().equals(insurance)))
+                .filter(i -> budget == null || (i.getCost() != null && i.getCost() <= budget))
+                .collect(Collectors.toList());
+    }
+
+    public List<FacilityItem> searchStockByRegionAndItem(String region, String item) {
+        return itemRepo.findAll().stream()
+                .filter(i -> i.getRegion() != null && i.getRegion().equalsIgnoreCase(region))
+                .filter(i -> i.getItem() != null && i.getItem().equalsIgnoreCase(item))
+                .collect(Collectors.toList());
+    }
 }
