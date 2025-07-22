@@ -1,15 +1,13 @@
 package com.cervicare.service;
-
 import com.cervicare.entity.FacilityItem;
 import com.cervicare.entity.FacilityService;
 import com.cervicare.repository.FacilityItemRepository;
 import com.cervicare.repository.FacilityServiceRepository;
 import org.springframework.stereotype.Service;
-
+import com.cervicare.dto.FacilityResourceDto;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 @Service
 public class HospitalRecommendationService {
 
@@ -65,17 +63,37 @@ public class HospitalRecommendationService {
                 .collect(Collectors.toList());
     }
     public List<FacilityItem> recommendByRegionAndItem(String region, String item, Boolean insurance, Double budget) {
+        String query = item.toLowerCase();
         return itemRepo.findAll().stream()
                 .filter(i -> i.getRegion() != null && i.getRegion().equalsIgnoreCase(region))
-                .filter(i -> i.getItem() != null && i.getItem().equalsIgnoreCase(item))
+                .filter(i ->
+                        (i.getItem() != null && i.getItem().toLowerCase().contains(query)) ||
+                                (i.getCategory() != null && i.getCategory().toLowerCase().contains(query))
+                )
                 .filter(i -> insurance == null || (i.getInsurance() != null && i.getInsurance().equals(insurance)))
                 .filter(i -> budget == null || (i.getCost() != null && i.getCost() <= budget))
                 .collect(Collectors.toList());
     }
+
     public List<FacilityItem> searchStockByRegionAndItem(String region, String item) {
         return itemRepo.findAll().stream()
                 .filter(i -> i.getRegion() != null && i.getRegion().equalsIgnoreCase(region))
                 .filter(i -> i.getItem() != null && i.getItem().equalsIgnoreCase(item))
                 .collect(Collectors.toList());
     }
+    public List<FacilityResourceDto> getUnifiedStockData(String region, String item) {
+        return itemRepo.findAll().stream()
+                .filter(i -> i.getRegion() != null && i.getRegion().equalsIgnoreCase(region))
+                .filter(i -> i.getItem() != null && i.getItem().equalsIgnoreCase(item))
+                .map(i -> new FacilityResourceDto(
+                        i.getItem(),
+                        null,  // category not applicable for items
+                        i.getFacilityName(),
+                        i.getRegion(),
+                        i.getCost(),
+                        i.getInsurance()
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

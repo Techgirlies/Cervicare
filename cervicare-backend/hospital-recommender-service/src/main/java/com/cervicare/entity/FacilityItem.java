@@ -12,7 +12,6 @@ public class FacilityItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String region;
     private String ward;
     private String facilityName;
@@ -20,12 +19,13 @@ public class FacilityItem {
     private String owner;
     private String code;
     private String item;
-
     @Column(nullable = true)
     private Double cost;
 
     @Column(nullable = true)
     private Integer availableStock;
+    @Column(name = "category")
+    private String category;
 
     @Column(nullable = true)
     private Double price;
@@ -35,6 +35,9 @@ public class FacilityItem {
     // Optional convenience methods
     public void setCategory(String itemCategory) {
         this.item = itemCategory;
+    }
+    public String getCategory() {
+        return category;
     }
 
     public void setStock(int stock) {

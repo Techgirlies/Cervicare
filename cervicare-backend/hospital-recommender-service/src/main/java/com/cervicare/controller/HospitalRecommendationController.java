@@ -1,11 +1,10 @@
 package com.cervicare.controller;
-
+import com.cervicare.dto.FacilityResourceDto;
 import com.cervicare.entity.FacilityItem;
 import com.cervicare.entity.FacilityService;
 import com.cervicare.service.HospitalRecommendationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,8 +17,6 @@ public class HospitalRecommendationController {
     public HospitalRecommendationController(HospitalRecommendationService service) {
         this.service = service;
     }
-
-    // --- INVENTORY ENDPOINTS ---
 
     @GetMapping("/inventory")
     public ResponseEntity<List<FacilityItem>> getAllInventory() {
@@ -47,8 +44,6 @@ public class HospitalRecommendationController {
         return ResponseEntity.noContent().build();
     }
 
-    // --- SMART RECOMMENDATIONS ---
-
     @GetMapping("/recommendations")
     public ResponseEntity<List<FacilityItem>> recommendItems(
             @RequestParam String query,
@@ -66,8 +61,9 @@ public class HospitalRecommendationController {
         return ResponseEntity.ok(service.smartRecommendServices(query, region, budget, insurance));
     }
 
+    // ✔ Main recommendation by region and item
     @GetMapping("/recommendations/region/{region}/item/{item}")
-    public ResponseEntity<List<FacilityItem>> recommendItemByRegionAndItem(
+    public ResponseEntity<List<FacilityItem>> recommendByRegionAndItem(
             @PathVariable String region,
             @PathVariable String item,
             @RequestParam(required = false) Boolean insurance,
@@ -75,12 +71,28 @@ public class HospitalRecommendationController {
         return ResponseEntity.ok(service.recommendByRegionAndItem(region, item, insurance, maxBudget));
     }
 
-    // --- STOCK LOOKUP ---
-
+    // ✔ Basic stock query (no filters)
     @GetMapping("/stock/region/{region}/item/{item}")
-    public ResponseEntity<List<FacilityItem>> getStockByRegionAndItem(
+    public ResponseEntity<List<FacilityItem>> searchStockByRegionAndItem(
             @PathVariable String region,
             @PathVariable String item) {
         return ResponseEntity.ok(service.searchStockByRegionAndItem(region, item));
     }
+
+    // 🔁 Filtered stock search (separate endpoint)
+    @GetMapping("/stock/region/{region}/item/{item}/filtered")
+    public ResponseEntity<List<FacilityItem>> getStockFiltered(
+            @PathVariable String region,
+            @PathVariable String item,
+            @RequestParam(required = false) Boolean insurance,
+            @RequestParam(required = false) Double maxBudget) {
+        return ResponseEntity.ok(service.recommendByRegionAndItem(region, item, insurance, maxBudget));
+    }
+    @GetMapping("/stock/region/{region}/item/{item}/unified")
+    public ResponseEntity<List<FacilityResourceDto>> getUnifiedStock(
+            @PathVariable String region,
+            @PathVariable String item) {
+        return ResponseEntity.ok(service.getUnifiedStockData(region, item));
+    }
+
 }

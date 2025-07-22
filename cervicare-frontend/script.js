@@ -274,6 +274,118 @@ window.deleteAppointment = function (id) {
         });
     }
 };
+  // === INVENTORY CRUD ===
+    const inventoryForm = document.getElementById("inventory-form");
+    if (inventoryForm) {
+        inventoryForm.addEventListener("submit", function(e) {
+            e.preventDefault();document.getElementById("item-id")?.value;
+            const id = document.getElementById("itemId")?.value;
+            const itemName = document.getElementById("itemName")?.value;
+            const url = id
+                ? `http://localhost:8083/api/hospitals/items/${id}`
+                : 'http://localhost:8083/api/hospitals/items';
+            const method = id ? 'PUT' : 'POST';
+            const itemData = {
+    region: document.getElementById("region")?.value,
+    ward: document.getElementById("ward")?.value,
+    facilityName: document.getElementById("facilityName")?.value,
+    kephLevel: document.getElementById("kephLevel")?.value,
+    owner: document.getElementById("owner")?.value,
+    code: document.getElementById("code")?.value,
+    item: document.getElementById("itemName")?.value,
+    cost: parseFloat(document.getElementById("cost")?.value),
+    availableStock: parseInt(document.getElementById("availableStock")?.value),
+    price: parseFloat(document.getElementById("price")?.value),
+};
+
+            fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(itemData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(`Item ${id ? 'updated' : 'created'} successfully.`);
+                inventoryForm.reset();
+                getInventory();
+            });
+        });
+    }
+    window.getInventory = function () {
+        fetch('http://localhost:8083/api/hospitals/items')
+            .then(response => response.json())
+            .then(data => {
+                let html = '<table><tr><th>ID</th><th>Facility</th><th>Item</th><th>Stock</th><th>Cost</th><th>Actions</th></tr>';
+                data.forEach(item => {
+                    html += `<tr>
+                        <td>${item.id}</td>
+                        <td>${item.facilityName}</td>
+                        <td>${item.item}</td>
+                        <td>${item.availableStock}</td>
+                        <td>${item.cost}</td>
+                        <td>
+                            <button onclick="editInventory(${item.id})">✏️ Edit</button>
+                            <button onclick="deleteInventory(${item.id})">🗑️ Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById("inventory-results").innerHTML = html;
+            });
+    }
+    window.editInventory = function (id) {
+    fetch(`http://localhost:8083/api/hospitals/items/${id}`)
+        .then(response => response.json())
+        .then(item => {
+           document.getElementById("item-id").value = item.id;          // changed itemId -> item-id
+            document.getElementById("region").value = item.region;
+            document.getElementById("ward").value = item.ward;
+            document.getElementById("facilityName").value = item.facilityName;
+            document.getElementById("kephLevel").value = item.kephLevel;
+            document.getElementById("owner").value = item.owner;
+            document.getElementById("code").value = item.code;
+            document.getElementById("item").value = item.item;            // changed itemName -> item
+            document.getElementById("cost").value = item.cost;
+            document.getElementById("availableStock").value = item.availableStock;
+            document.getElementById("price").value = item.price;
+            // Show the popup for editing
+            document.getElementById("popup-form").classList.remove("hidden");
+
+        });
+};
+
+    window.deleteInventory = function (id) {
+        if (confirm("Are you sure you want to delete this item?")) {
+            fetch(`http://localhost:8083/api/hospitals/items/${id}`, {
+                method: 'DELETE'
+            }).then(() => {
+                alert("Item deleted.");
+                getInventory();
+            });
+        }
+    }
+    function showInventoryForm() {
+  const overlay = document.getElementById('popup-overlay');
+  const popup = document.getElementById('popup-form');
+  if (overlay) overlay.classList.remove('hidden');
+  if (popup) popup.classList.remove('hidden');
+}
+window.showInventoryForm = showInventoryForm;
+    // Inventory form popup
+   const popup = document.getElementById('inventory-popup');
+if (popup) popup.classList.remove('hidden');
+
+    window.closePopup = function () {
+        document.getElementById('popup-overlay').style.display = 'none';
+        document.getElementById('popup-form').style.display = 'none';
+    }
+    function closePopupinventory() {
+    const overlay = document.getElementById('popup-overlay');
+    const popup = document.getElementById('popup-form');
+    if (overlay) overlay.classList.add('hidden');
+    if (popup) popup.classList.add('hidden');
+}
+window.closePopupinventory = closePopupinventory;
 window.getEnhancedRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value.trim();
     const itemOrService = document.getElementById('recommender-item')?.value.trim();
@@ -287,7 +399,7 @@ window.getEnhancedRecommendations = function () {
     }
     container.style.display = 'block';
     container.innerText = `🔄 Searching for "${itemOrService}" in "${region}"...`;
-    const url = `https://hospital-recommender-service-mknk.onrender.com/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
+    const url = `https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
     fetch(url)
         .then(res => {
             if (!res.ok) throw new Error("Server error: " + res.status);
@@ -338,7 +450,7 @@ window.searchStock = function () {
         return;
     }
     resultsDiv.innerText = `Searching for "${item}" in region "${region}"...`;
-    fetch(`https://hospital-recommender-service-mknk.onrender.com/stock/region/${region}/item/${encodeURIComponent(item)}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/api/stock/region/${region}/item/${encodeURIComponent(item)}`)
         .then(response => {
             if (!response.ok) throw new Error("Server error: " + response.status);
             return response.json();
@@ -415,7 +527,31 @@ window.getInventory = function () {
     fetch("https://hospital-recommender-service-mknk.onrender.com/api/inventory")
         .then(response => response.json())
         .then(data => {
-            console.log("Inventory Data:", data);
+            let html = `
+                <table border="1" cellpadding="5" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Facility</th>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Cost</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+            data.forEach(item => {
+                html += `
+                    <tr>
+                        <td>${item.facilityName}</td>
+                        <td>${item.item}</td>
+                        <td>${item.category || '-'}</td>
+                        <td>KES ${item.cost || '-'}</td>
+                        <td>${item.availableStock !== undefined ? item.availableStock : '-'}</td>
+                    </tr>`;
+            });
+            html += `</tbody></table>`;
+            document.getElementById("inventory-results").innerHTML = html;
+
         })
         .catch(err => {
             console.error("Error fetching inventory:", err);
@@ -467,7 +603,7 @@ window.getRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value;
     if (!region) return alert("Please enter a region.");
 
-    fetch(`https://hospital-recommender-service-mknk.onrender.com/recommendations/region/${region}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${region}`)
         .then(response => response.json())
         .then(data => renderRecommendationTable(data))
         .catch(err => {
@@ -479,7 +615,7 @@ window.getRecommendationsByItem = function () {
     const region = document.getElementById('recommender-region')?.value;
     const item = document.getElementById('recommender-item')?.value;
     if (!region || !item) return alert("Please enter both region and item name.");
-    fetch(`https://hospital-recommender-service-mknk.onrender.com/recommendations/region/${region}/item/${encodeURIComponent(item)}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${region}/item/${encodeURIComponent(item)}`)
         .then(response => response.json())
         .then(data => renderRecommendationTable(data))
         .catch(err => {
@@ -497,13 +633,13 @@ window.searchStock = function () {
         return;
     }
     resultsDiv.innerText = `Searching for "${item}" in region "${region}"...`;
-    fetch(`https://hospital-recommender-service-mknk.onrender.com/stock/region/${region}/item/${encodeURIComponent(item)}`)
+    fetch(`https://hospital-recommender-service-mknk.onrender.com/api/stock/region/${region}/item/${encodeURIComponent(item)}`)
         .then(response => response.json())
         .then(data => {
-            if (!data || data.length === 0) {
-                resultsDiv.innerText = "⚠️ No matching facilities found.";
-                return;
-            }
+          if (!Array.isArray(data) || data.length === 0) {
+              resultsDiv.innerText = "⚠️ No matching facilities found.";
+              return;
+          }
             let html = `
                 <h3>Stock Availability</h3>
                 <table border="1" cellpadding="5" cellspacing="0">
