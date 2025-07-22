@@ -1,3 +1,7 @@
+const isLocal = window.location.hostname === "localhost";
+const API_BASE_URL = isLocal
+  ? "http://localhost:8083"
+  : "https://hospital-recommender-service-mknk.onrender.com";
 function showSection(id) {
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.add('hidden');
@@ -369,7 +373,22 @@ window.closePopup = function () {
     const popup = document.getElementById('inventory-popup');
     if (popup) popup.classList.add('hidden');
 };
-
+window.getInventory = function () {
+    fetch("https://hospital-recommender-service-mknk.onrender.com/api/inventory/all")
+        .then(response => response.json())
+        .then(data => {
+            console.log("Inventory Data:", data);
+        })
+        .catch(err => {
+            console.error("Error fetching inventory:", err);
+        });
+};
+window.showInventoryForm = function () {
+    const overlay = document.getElementById("popup-overlay");
+    if (overlay) {
+        overlay.classList.remove("hidden");
+    }
+};
 function closeInventoryForm() {
     const overlay = document.getElementById('popup-overlay');
     if (overlay) overlay.classList.add('hidden');
@@ -389,7 +408,6 @@ function renderRecommendationTable(data) {
                     <th>Category</th>
                     <th>Item / Service</th>
                     <th>Cost (KES)</th>
-                    <th>Available Stock</th>
                 </tr>
             </thead>
             <tbody>
@@ -401,7 +419,6 @@ function renderRecommendationTable(data) {
                 <td>${facility.category || '-'}</td>
                 <td>${facility.itemOrService || '-'}</td>
                 <td>KES ${facility.cost || '-'}</td>
-                <td>${facility.availableStock !== null && facility.availableStock !== undefined ? facility.availableStock : '-'}</td>
             </tr>
         `;
     }

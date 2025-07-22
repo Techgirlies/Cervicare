@@ -1,15 +1,15 @@
-package com.cervicare.hospitalrecommender.controller;
+package com.cervicare.controller;
+
 import com.cervicare.entity.FacilityItem;
 import com.cervicare.entity.FacilityService;
-import com.cervicare.hospitalrecommender.dto.RecommendationResponse;
-import com.cervicare.hospitalrecommender.service.HospitalRecommendationService;
+import com.cervicare.service.HospitalRecommendationService;
 import org.springframework.http.ResponseEntity;
-import java.util.Map;
-import java.util.HashMap;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 @RestController
-@RequestMapping("/api/hospitals")
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class HospitalRecommendationController {
 
@@ -19,67 +19,46 @@ public class HospitalRecommendationController {
         this.service = service;
     }
 
-    // ---------- RECOMMENDATION ENDPOINTS ----------
-    @GetMapping("/recommendations/region/{region}")
-    public RecommendationResponse getRecommendations(@PathVariable String region) {
-        return service.getRecommendationsByRegion(region);
+    @GetMapping("/inventory")
+    public ResponseEntity<List<FacilityItem>> getAllInventory() {
+        return ResponseEntity.ok(service.getAllInventory());
     }
 
-    @GetMapping("/recommendations/region/{region}/item/{itemName}")
-    public List<FacilityItem> getRecommendationsForItem(
-            @PathVariable String region,
-            @PathVariable String itemName) {
-        return service.recommendHospitals(region, itemName);
+    @GetMapping("/inventory/search")
+    public ResponseEntity<List<FacilityItem>> searchItem(@RequestParam String query) {
+        return ResponseEntity.ok(service.searchItem(query));
     }
 
-    // ---------- CRUD FOR FacilityItem ----------
-    @GetMapping("/items")
-    public List<FacilityItem> getAllFacilityItems() {
-        return service.getAllFacilityItems();
+    @PostMapping("/inventory")
+    public ResponseEntity<FacilityItem> addItem(@RequestBody FacilityItem item) {
+        return ResponseEntity.ok(service.addItem(item));
     }
 
-    @PostMapping("/items")
-    public FacilityItem createFacilityItem(@RequestBody FacilityItem item) {
-        return service.saveFacilityItem(item);
+    @PutMapping("/inventory/{id}")
+    public ResponseEntity<FacilityItem> updateItem(@PathVariable Long id, @RequestBody FacilityItem updated) {
+        return ResponseEntity.ok(service.updateItem(id, updated));
     }
 
-    @PutMapping("/items/{id}")
-    public FacilityItem updateFacilityItem(@PathVariable Long id, @RequestBody FacilityItem item) {
-        return service.updateFacilityItem(id, item);
+    @DeleteMapping("/inventory/{id}")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
+        service.deleteItem(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/items/{id}")
-    public void deleteFacilityItem(@PathVariable Long id) {
-        service.deleteFacilityItem(id);
+    @GetMapping("/recommendations")
+    public ResponseEntity<List<FacilityItem>> recommendItems(
+            @RequestParam String query,
+            @RequestParam(required = false) String region,
+            @RequestParam(required = false) Double budget) {
+        return ResponseEntity.ok(service.smartRecommendItems(query, region, budget));
     }
 
-    // ---------- CRUD FOR FacilityService ----------
-    @GetMapping("/services")
-    public List<FacilityService> getAllFacilityServices() {
-        return service.getAllFacilityServices();
-    }
-
-    @PostMapping("/services")
-    public FacilityService createFacilityService(@RequestBody FacilityService serviceData) {
-        return service.saveFacilityService(serviceData);
-    }
-
-    @PutMapping("/services/{id}")
-    public FacilityService updateFacilityService(@PathVariable Long id, @RequestBody FacilityService serviceData) {
-        return service.updateFacilityService(id, serviceData);
-    }
-    @GetMapping("/overview/region/{region}")
-    public ResponseEntity<Map<String, Object>> getPatientOverview(@PathVariable String region) {
-        return ResponseEntity.ok(service.getPatientOverviewByRegion(region));
-    }
-    @GetMapping("/stock/region/{region}/item/{itemName}")
-    public ResponseEntity<Map<String, Object>> getItemStockDetails(
-            @PathVariable String region,
-            @PathVariable String itemName) {
-        return ResponseEntity.ok(service.getItemStockByRegion(region, itemName));
-    }
-    @DeleteMapping("/services/{id}")
-    public void deleteFacilityService(@PathVariable Long id) {
-        service.deleteFacilityService(id);
+    @GetMapping("/recommendations/services")
+    public ResponseEntity<List<FacilityService>> recommendServices(
+            @RequestParam String query,
+            @RequestParam(required = false) String region,
+            @RequestParam(required = false) Double budget,
+            @RequestParam(required = false) Boolean insurance) {
+        return ResponseEntity.ok(service.smartRecommendServices(query, region, budget, insurance));
     }
 }

@@ -2,10 +2,8 @@ package com.cervicare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "facility_service")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,16 +13,13 @@ public class FacilityService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String facilityCode;
-    private String service;
-    private String serviceCategory;
-
-    @Column(nullable = true)
-    private Double baseCost;
-
     private String facility;
     private String region;
     private String category;
+    private String service;
+
+    @Column(nullable = true)
+    private Double baseCost;
 
     @Column(nullable = true)
     private Boolean nhifCovered;
@@ -34,9 +29,4 @@ public class FacilityService {
 
     @Column(nullable = true)
     private Double outOfPocket;
-
-    // Optional convenience setters
-    public void setFacility(String facility) { this.facility = facility; }
-    public void setRegion(String region) { this.region = region; }
-    public void setCategory(String category) { this.category = category; }
 }

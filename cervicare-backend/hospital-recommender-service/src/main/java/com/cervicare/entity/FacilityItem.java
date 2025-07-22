@@ -2,10 +2,8 @@ package com.cervicare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "facility_item")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +19,6 @@ public class FacilityItem {
     private String kephLevel;
     private String owner;
     private String code;
-
     private String item;
 
     @Column(nullable = true)
@@ -32,6 +29,8 @@ public class FacilityItem {
 
     @Column(nullable = true)
     private Double price;
+    @Column(nullable = true)
+    private Boolean insurance;
 
     // Optional convenience methods
     public void setCategory(String itemCategory) {
@@ -41,4 +40,14 @@ public class FacilityItem {
     public void setStock(int stock) {
         this.availableStock = stock;
     }
+
+    // ✅ Add the missing method
+    public void setItemName(String itemName) {
+        this.item = itemName;
+    }
+
+    public void setInsurance(Boolean insurance) {
+        this.insurance = insurance;
+    }
+
 }

@@ -1,93 +1,101 @@
 package com.cervicare.loader;
-import com.cervicare.repository.FacilityItemRepository;
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
+
 import com.cervicare.entity.FacilityItem;
-import java.io.IOException;
+import com.cervicare.entity.FacilityService;
+import com.cervicare.repository.FacilityItemRepository;
+import com.cervicare.repository.FacilityServiceRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.logging.Logger;
+import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class CsvDataLoader {
 
-    private static final Logger logger = Logger.getLogger(CsvDataLoader.class.getName());
-
-    @Autowired
-    private FacilityItemRepository facilityItemRepository;
+    private final FacilityItemRepository itemRepository;
+    private final FacilityServiceRepository serviceRepository;
 
     @PostConstruct
-    public void loadData() {
-        try (CSVReader reader = new CSVReader(new InputStreamReader(new ClassPathResource("data/facility_items.csv").getInputStream()))) {
-            String[] line;
-            boolean isFirstLine = true;
+    public void load() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("data.csv"))))) {
 
-            while ((line = reader.readNext()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false; // Skip header
-                    continue;
-                }
+            // Skip header
+            String line = reader.readLine();
 
-                if (line.length < 10) {
-                    logger.warning("Skipping line due to insufficient columns: " + String.join(",", line));
-                    continue;
-                }
+            while ((line = reader.readLine()) != null) {
+                String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-                try {
-                    FacilityItem item = new FacilityItem();
-                    item.setRegion(line[0].trim());
-                    item.setWard(line[1].trim());
-                    item.setFacilityName(line[2].trim());
-                    item.setOwner(line[3].trim());
-                    item.setKephLevel(line[4].trim());
-                    item.setItem(line[5].trim());
+                String facility = tokens[0].trim();
+                String region = tokens[1].trim();
+                String category = tokens[2].trim();
+                String item = tokens[3].trim();
+                String baseCostStr = tokens[4].trim();
+                String stockStr = tokens[5].trim();
+                String service = tokens[6].trim();
+                String nhifCoveredStr = tokens[8].trim();
+                String copayStr = tokens[9].trim();
+                String outOfPocketStr = tokens[10].trim();
 
-                    try {
-                        item.setAvailableStock(parseIntSafe(line[6]));
-                    } catch (NumberFormatException e) {
-                        logger.warning("Invalid available stock: " + line[6]);
-                        item.setAvailableStock(null);
-                    }
+                boolean isService = !service.isEmpty();
 
-                    item.setCode(line[7].trim());
+                if (isService) {
+                    // Map to FacilityService
+                    FacilityService s = new FacilityService();
+                    s.setFacility(facility);
+                    s.setRegion(region);
+                    s.setCategory(category);
+                    s.setService(service);
+                    s.setBaseCost(parseDouble(baseCostStr));
+                    s.setNhifCovered("Yes".equalsIgnoreCase(nhifCoveredStr));
+                    s.setInsuranceCopay(parseDouble(copayStr));
+                    s.setOutOfPocket(parseDouble(outOfPocketStr));
 
-                    try {
-                        item.setPrice(parseDoubleSafe(line[8]));
-                    } catch (NumberFormatException e) {
-                        logger.warning("Invalid price: " + line[8]);
-                        item.setPrice(null);
-                    }
+                    serviceRepository.save(s);
+                } else {
+                    // Map to FacilityItem
+                    FacilityItem i = new FacilityItem();
+                    i.setFacilityName(facility);
+                    i.setRegion(region);
+                    i.setWard(region); // using region as ward if missing
+                    i.setKephLevel(null); // or parse if available in CSV later
+                    i.setOwner(null);     // same as above
+                    i.setCode(null);      // same as above
+                    i.setItem(item.isEmpty() ? category : item);
+                    i.setCost(parseDouble(baseCostStr));
+                    i.setAvailableStock(parseInt(stockStr));
+                    i.setPrice(null);     // could be computed or separate column
+                    i.setInsurance("Yes".equalsIgnoreCase(nhifCoveredStr));
 
-                    try {
-                        item.setCost(parseDoubleSafe(line[9]));
-                    } catch (NumberFormatException e) {
-                        logger.warning("Invalid cost: " + line[9]);
-                        item.setCost(null);
-                    }
-
-                    facilityItemRepository.save(item);
-                } catch (Exception e) {
-                    logger.warning("Skipping row due to unexpected error: " + e.getMessage());
+                    itemRepository.save(i);
                 }
             }
 
-            logger.info("Facility items loaded successfully.");
+            System.out.println("✅ CSV data loaded successfully.");
 
-        } catch (IOException | CsvValidationException e) {
-            logger.severe("Error reading CSV file: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("❌ Failed to load CSV data: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    private Integer parseIntSafe(String value) {
-        value = value.trim();
-        return value.isEmpty() ? null : Integer.parseInt(value);
+    private Double parseDouble(String s) {
+        try {
+            return s.isEmpty() ? null : Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
-    private Double parseDoubleSafe(String value) {
-        value = value.trim().replaceAll("[^0-9.]", ""); // Remove non-numeric characters
-        return value.isEmpty() ? null : Double.parseDouble(value);
+    private Integer parseInt(String s) {
+        try {
+            return s.isEmpty() ? null : Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

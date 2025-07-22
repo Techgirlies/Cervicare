@@ -1,17 +1,20 @@
-package com.config;
+package com.cervicare.config;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://cervicare-frontend-mknk.onrender.com")  // ✅ Use specific origin
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")       // ✅ Include OPTIONS for preflight
-                .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowedOrigins(
+                        "http://localhost:8083",// Local frontend
+                        "http://localhost:63342",
+                        "https://hospital-recommender-service-mknk.onrender.com" // Deployed frontend (adjust if needed)
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*");
     }
 }

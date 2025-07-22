@@ -1,23 +1,15 @@
-package com.cervicare.hospitalrecommender.util;
+package com.cervicare.util;
+
 import com.cervicare.entity.FacilityItem;
 import com.cervicare.entity.FacilityService;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 public class AggregationUtils {
-    public static Map<String, Double> computeAverageItemPrices(List<FacilityItem> items) {
-        return items.stream()
-                .collect(Collectors.groupingBy(
-                        FacilityItem::getItem,
-                        Collectors.averagingDouble(FacilityItem::getCost)
-                ));
+    public static double calculateTotalCost(List<FacilityItem> items) {
+        return items.stream().mapToDouble(i -> i.getCost() != null ? i.getCost() : 0).sum();
     }
 
-    public static Map<String, Double> computeAverageServicePrices(List<FacilityService> services) {
-        return services.stream()
-                .collect(Collectors.groupingBy(
-                        FacilityService::getService,
-                        Collectors.averagingDouble(FacilityService::getBaseCost)
-                ));
+    public static double calculateAverageServiceCost(List<FacilityService> services) {
+        return services.stream().mapToDouble(s -> s.getBaseCost() != null ? s.getBaseCost() : 0).average().orElse(0);
     }
 }
