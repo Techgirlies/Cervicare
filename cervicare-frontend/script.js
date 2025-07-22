@@ -75,15 +75,25 @@ window.showSection = function(id) {
             };
         }
         let itemSuggestions = [];
-        async function fetchItemSuggestions() {
-          try {
-            const response = await fetch(`${API_BASE_URL}/inventory`);
-            const data = await response.json();
-            itemSuggestions = [...new Set(data.map(item => item.item?.toLowerCase().trim()).filter(Boolean))];
-          } catch (err) {
-            console.error("❌ Error fetching item suggestions:", err);
-          }
-        }
+       function fetchItemSuggestions() {
+         fetch(`${API_BASE_URL}/api/inventory`)
+           .then(res => {
+             if (!res.ok) throw new Error(`HTTP ${res.status}`);
+             return res.json();
+           })
+           .then(data => {
+             if (!Array.isArray(data)) throw new Error("Invalid data format");
+             itemSuggestions = [...new Set(
+               data
+                 .map(item => item.item?.toLowerCase().trim())
+                 .filter(Boolean)
+             )];
+           })
+           .catch(err => {
+             console.error("❌ Error fetching item suggestions:", err);
+           });
+       }
+
         fetchItemSuggestions();  // call once
 
 
@@ -816,6 +826,41 @@ form.addEventListener("click", (e) => {
         }
     }
 });
+let currentStep = 0;
+const steps = document.querySelectorAll('.form-step');
+const progress = document.getElementById('progress');
+
+function showStep(index) {
+  steps.forEach((step, i) => {
+    step.classList.toggle('active', i === index);
+  });
+  progress.style.width = `${((index + 1) / steps.length) * 100}%`;
+}
+
+function nextStep() {
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    showStep(currentStep);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 0) {
+    currentStep--;
+    showStep(currentStep);
+  }
+}
+
+document.querySelectorAll('.next-btn').forEach(btn => {
+  btn.addEventListener('click', nextStep);
+});
+
+document.querySelectorAll('.prev-btn').forEach(btn => {
+  btn.addEventListener('click', prevStep);
+});
+
+showStep(currentStep); // Init
+
  document.querySelectorAll("[data-action]").forEach(el => {
         el.addEventListener("click", () => {
             const fn = window[el.getAttribute("data-action")];
