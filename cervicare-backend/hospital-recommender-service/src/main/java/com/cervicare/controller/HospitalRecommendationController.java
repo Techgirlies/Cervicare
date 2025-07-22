@@ -19,6 +19,8 @@ public class HospitalRecommendationController {
         this.service = service;
     }
 
+    // --- INVENTORY ENDPOINTS ---
+
     @GetMapping("/inventory")
     public ResponseEntity<List<FacilityItem>> getAllInventory() {
         return ResponseEntity.ok(service.getAllInventory());
@@ -45,6 +47,8 @@ public class HospitalRecommendationController {
         return ResponseEntity.noContent().build();
     }
 
+    // --- SMART RECOMMENDATIONS ---
+
     @GetMapping("/recommendations")
     public ResponseEntity<List<FacilityItem>> recommendItems(
             @RequestParam String query,
@@ -61,8 +65,9 @@ public class HospitalRecommendationController {
             @RequestParam(required = false) Boolean insurance) {
         return ResponseEntity.ok(service.smartRecommendServices(query, region, budget, insurance));
     }
+
     @GetMapping("/recommendations/region/{region}/item/{item}")
-    public ResponseEntity<List<FacilityItem>> recommendItemRegionWise(
+    public ResponseEntity<List<FacilityItem>> recommendItemByRegionAndItem(
             @PathVariable String region,
             @PathVariable String item,
             @RequestParam(required = false) Boolean insurance,
@@ -70,11 +75,12 @@ public class HospitalRecommendationController {
         return ResponseEntity.ok(service.recommendByRegionAndItem(region, item, insurance, maxBudget));
     }
 
+    // --- STOCK LOOKUP ---
+
     @GetMapping("/stock/region/{region}/item/{item}")
-    public ResponseEntity<List<FacilityItem>> searchStockByRegionAndItem(
+    public ResponseEntity<List<FacilityItem>> getStockByRegionAndItem(
             @PathVariable String region,
             @PathVariable String item) {
         return ResponseEntity.ok(service.searchStockByRegionAndItem(region, item));
     }
-
 }

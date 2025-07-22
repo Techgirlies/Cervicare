@@ -72,7 +72,6 @@ public class HospitalRecommendationService {
                 .filter(i -> budget == null || (i.getCost() != null && i.getCost() <= budget))
                 .collect(Collectors.toList());
     }
-
     public List<FacilityItem> searchStockByRegionAndItem(String region, String item) {
         return itemRepo.findAll().stream()
                 .filter(i -> i.getRegion() != null && i.getRegion().equalsIgnoreCase(region))
