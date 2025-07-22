@@ -37,6 +37,43 @@ window.showSection = function(id) {
             Screening_Type_Last: data.Screening_Type_Last || null
         };
     }
+
+    function extractBiopsyData(data) {
+            return {
+                Age: parseFloat(data.Age),
+                Number_of_Pregnancies: parseInt(data.Number_of_Pregnancies),
+                Smokes: parseInt(data.Smokes),
+                Hormonal_Contraceptives: parseInt(data.Hormonal_Contraceptives),
+                STDs: parseInt(data.STDs),
+                HPV: parseInt(data.HPV),
+                IUD: parseInt(data.IUD),
+                STDs_Number: parseInt(data.STDs_Number),
+                First_sexual_intercourse_age: parseFloat(data.First_sexual_intercourse_age),
+                STDs_condylomatosis: parseInt(data.STDs_condylomatosis),
+                STDs_cervical_condylomatosis: parseInt(data.STDs_cervical_condylomatosis),
+                STDs_vaginal_condylomatosis: parseInt(data.STDs_vaginal_condylomatosis),
+                STDs_vulvo_perineal_condylomatosis: parseInt(data.STDs_vulvo_perineal_condylomatosis),
+                STDs_syphilis: parseInt(data.STDs_syphilis),
+                STDs_pelvic_inflammatory_disease: parseInt(data.STDs_pelvic_inflammatory_disease),
+                STDs_genital_herpes: parseInt(data.STDs_genital_herpes),
+                STDs_molluscum_contagiosum: parseInt(data.STDs_molluscum_contagiosum),
+                STDs_HIV: parseInt(data.STDs_HIV),
+                STDs_Hepatitis_B: parseInt(data.STDs_Hepatitis_B),
+                STDs_HPV: parseInt(data.STDs_HPV),
+                Dx: parseInt(data.Dx),
+                Dx_Cancer: parseInt(data.Dx_Cancer),
+                Dx_CIN: parseInt(data.Dx_CIN),
+                Smokes_years: parseFloat(data.Smokes_years),
+                Smokes_packs_per_year: parseFloat(data.Smokes_packs_per_year),
+                Hormonal_Contraceptives_years: parseFloat(data.Hormonal_Contraceptives_years),
+                IUD_years: parseFloat(data.IUD_years),
+                STDs_Time_since_first_diagnosis: parseFloat(data.STDs_Time_since_first_diagnosis),
+                STDs_Time_since_last_diagnosis: parseFloat(data.STDs_Time_since_last_diagnosis),
+                Hinselmann: parseInt(data.Hinselmann),
+                Schiller: parseInt(data.Schiller),
+                Citology: parseInt(data.Citology),
+            };
+        }
     function showAssessmentPopup() {
         const popup = document.getElementById('assessment-popup');
         if (popup) popup.classList.remove('hidden');
