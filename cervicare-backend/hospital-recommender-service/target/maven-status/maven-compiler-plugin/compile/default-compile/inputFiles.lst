@@ -1,4 +1,5 @@
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\dto\FacilityItemDTO.java
+C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\dto\FacilityResourceDto.java
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\HospitalRecommenderApplication.java
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\repository\FacilityItemRepository.java
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\service\HospitalRecommendationService.java
@@ -13,4 +14,3 @@ C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-servic
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\config\WebConfig.java
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\entity\FacilityService.java
 C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\dto\FacilityServiceDTO.java
-C:\Users\PROBOOK\Desktop\Cervicare\cervicare-backend\hospital-recommender-service\src\main\java\com\cervicare\dto\Placeholder.java

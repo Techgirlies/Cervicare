@@ -11,4 +11,5 @@ com\cervicare\dto\FacilityServiceDTO.class
 com\cervicare\HospitalRecommenderApplication.class
 com\config\GlobalExceptionHandler.class
 com\cervicare\loader\CsvDataLoader.class
+com\cervicare\dto\FacilityResourceDto.class
 com\cervicare\repository\FacilityServiceRepository.class

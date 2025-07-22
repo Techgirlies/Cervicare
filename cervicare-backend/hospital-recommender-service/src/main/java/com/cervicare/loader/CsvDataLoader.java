@@ -32,12 +32,12 @@ public class CsvDataLoader {
                 String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 String facility = tokens[0].trim();
-                String region = tokens[1].trim();
-                String category = tokens[2].trim();
-                String item = tokens[3].trim();
+                String region = tokens[1].trim().toLowerCase();
+                String category = tokens[2].trim().toLowerCase();
+                String item = tokens[3].trim().toLowerCase();
                 String baseCostStr = tokens[4].trim();
                 String stockStr = tokens[5].trim();
-                String service = tokens[6].trim();
+                String service = tokens[6].trim().toLowerCase();
                 String nhifCoveredStr = tokens[8].trim();
                 String copayStr = tokens[9].trim();
                 String outOfPocketStr = tokens[10].trim();
@@ -52,11 +52,22 @@ public class CsvDataLoader {
                     s.setCategory(category);
                     s.setService(service);
                     s.setBaseCost(parseDouble(baseCostStr));
-                    s.setNhifCovered("Yes".equalsIgnoreCase(nhifCoveredStr));
+                    s.setNhifCovered("yes".equalsIgnoreCase(nhifCoveredStr));
                     s.setInsuranceCopay(parseDouble(copayStr));
                     s.setOutOfPocket(parseDouble(outOfPocketStr));
 
-                    serviceRepository.save(s);
+                    boolean exists = serviceRepository.findAll().stream().anyMatch(existing ->
+                            Objects.equals(existing.getFacility(), s.getFacility()) &&
+                                    Objects.equals(existing.getRegion(), s.getRegion()) &&
+                                    Objects.equals(existing.getCategory(), s.getCategory()) &&
+                                    Objects.equals(existing.getService(), s.getService()) &&
+                                    Objects.equals(existing.getBaseCost(), s.getBaseCost())
+                    );
+
+                    if (!exists) {
+                        serviceRepository.save(s);
+                    }
+
                 } else {
                     // Map to FacilityItem
                     FacilityItem i = new FacilityItem();
@@ -67,12 +78,23 @@ public class CsvDataLoader {
                     i.setOwner(null);     // same as above
                     i.setCode(null);      // same as above
                     i.setItem(item.isEmpty() ? category : item);
+                    i.setCategory(category);
                     i.setCost(parseDouble(baseCostStr));
                     i.setAvailableStock(parseInt(stockStr));
                     i.setPrice(null);     // could be computed or separate column
-                    i.setInsurance("Yes".equalsIgnoreCase(nhifCoveredStr));
+                    i.setInsurance("yes".equalsIgnoreCase(nhifCoveredStr));
 
-                    itemRepository.save(i);
+                    boolean exists = itemRepository.findAll().stream().anyMatch(existing ->
+                            Objects.equals(existing.getFacilityName(), i.getFacilityName()) &&
+                                    Objects.equals(existing.getRegion(), i.getRegion()) &&
+                                    Objects.equals(existing.getItem(), i.getItem()) &&
+                                    Objects.equals(existing.getCategory(), i.getCategory()) &&
+                                    Objects.equals(existing.getCost(), i.getCost())
+                    );
+
+                    if (!exists) {
+                        itemRepository.save(i);
+                    }
                 }
             }
 

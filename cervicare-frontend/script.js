@@ -74,6 +74,19 @@ window.showSection = function(id) {
                 Citology: parseInt(data.Citology),
             };
         }
+        let itemSuggestions = [];
+        async function fetchItemSuggestions() {
+          try {
+            const response = await fetch(`${API_BASE_URL}/inventory`);
+            const data = await response.json();
+            itemSuggestions = [...new Set(data.map(item => item.item?.toLowerCase().trim()).filter(Boolean))];
+          } catch (err) {
+            console.error("❌ Error fetching item suggestions:", err);
+          }
+        }
+        fetchItemSuggestions();  // call once
+
+
     function showAssessmentPopup() {
         const popup = document.getElementById('assessment-popup');
         if (popup) popup.classList.remove('hidden');
@@ -364,6 +377,32 @@ window.deleteAppointment = function (id) {
             });
         }
     }
+    function suggestItems() {
+      const input = document.getElementById("itemName");
+      const suggestionsBox = document.getElementById("itemSuggestions");
+      const value = input.value.toLowerCase().trim();
+
+      // Filter suggestions
+      const matches = itemSuggestions.filter(i => i.includes(value)).slice(0, 5); // limit 5 results
+
+      if (!value || matches.length === 0) {
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.style.display = "none";
+        return;
+      }
+
+      // Render suggestion list
+      suggestionsBox.innerHTML = matches.map(match =>
+        `<div class="suggestion" onclick="selectSuggestion('${match}')">${match}</div>`
+      ).join("");
+      suggestionsBox.style.display = "block";
+    }
+
+    function selectSuggestion(value) {
+      document.getElementById("itemName").value = value;
+      document.getElementById("itemSuggestions").style.display = "none";
+    }
+
     function showInventoryForm() {
   const overlay = document.getElementById('popup-overlay');
   const popup = document.getElementById('popup-form');
@@ -654,17 +693,28 @@ window.searchStock = function () {
                     </thead>
                     <tbody>
             `;
-            for (const facility of data) {
-                html += `
-                    <tr>
-                        <td>${facility.facilityName}</td>
-                        <td>${facility.category || '-'}</td>
-                        <td>${facility.itemOrService || '-'}</td>
-                        <td>KES ${facility.cost || '-'}</td>
-                        <td>${facility.availableStock !== null && facility.availableStock !== undefined ? facility.availableStock : '-'}</td>
-                    </tr>
-                `;
-            }
+           const seenRows = new Set();
+           for (const facility of data) {
+               const facilityName = facility.facilityName || '-';
+               const category = facility.category || '-';
+               const itemOrService = facility.itemOrService || '-';
+               const cost = facility.cost || '-';
+               const stock = (facility.availableStock !== null && facility.availableStock !== undefined) ? facility.availableStock : '-';
+
+               const rowKey = `${facilityName}|${category}|${itemOrService}|${cost}|${stock}`;
+               if (seenRows.has(rowKey)) continue;
+               seenRows.add(rowKey);
+
+               html += `
+                   <tr>
+                       <td>${facilityName}</td>
+                       <td>${category}</td>
+                       <td>${itemOrService}</td>
+                       <td>KES ${cost}</td>
+                       <td>${stock}</td>
+                   </tr>
+               `;
+           }
 
             html += '</tbody></table>';
             resultsDiv.innerHTML = html;

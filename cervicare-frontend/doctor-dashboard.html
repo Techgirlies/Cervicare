@@ -366,8 +366,16 @@
             </div>
             <div class="form-group">
                 <label for="recommender-item">Item Name (optional)</label>
-                <input type="text" id="recommender-item" placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)">
+                <input type="text"
+                       id="recommender-item"
+                       list="item-suggestions"
+                       placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)"
+                       oninput="suggestItems(this.value)">
+                <datalist id="item-suggestions">
+                    <!-- Suggestions will be added here dynamically -->
+                </datalist>
             </div>
+
             <div class="form-group">
                 <label for="recommender-budget">Max Budget (KES)</label>
                 <input type="number" id="recommender-budget" placeholder="e.g. 1000">
