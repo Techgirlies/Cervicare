@@ -10,10 +10,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                        "http://localhost:8083",// Local frontend
+                        "http://localhost:8083", // Local frontend
                         "http://localhost:63342",
-                        "https://hospital-recommender-service-mknk.onrender.com" // Deployed frontend (adjust if needed)
+                        "https://cervicare-frontend-mknk.onrender.com", // Deployed frontend
+                        "https://hospital-recommender-service-mknk.onrender.com"
                 )
+
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
     }
