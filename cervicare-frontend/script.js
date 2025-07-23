@@ -196,12 +196,18 @@ window.showSection = function(id) {
             alert("User email not found. Please log in.");
             return;
         }
+
         fetch(`https://appointment-mknk.onrender.com/user?email=${encodeURIComponent(email)}`)
             .then(response => {
                 if (!response.ok) throw new Error("Failed to fetch appointments.");
                 return response.json();
             })
             .then(data => {
+                if (data.length === 0) {
+                    document.getElementById("appointments-results").innerHTML = "<p>❌ You have no appointments.</p>";
+                    return;
+                }
+
                 let html = `
                     <table>
                         <tr>
@@ -214,6 +220,7 @@ window.showSection = function(id) {
                             <th>Region</th>
                             <th>Actions</th>
                         </tr>`;
+
                 data.forEach(app => {
                     html += `
                         <tr>
@@ -230,6 +237,7 @@ window.showSection = function(id) {
                             </td>
                         </tr>`;
                 });
+
                 html += '</table>';
                 document.getElementById("appointments-results").innerHTML = html;
             })
@@ -238,6 +246,7 @@ window.showSection = function(id) {
                 alert("Could not load appointments.");
             });
     };
+
     window.editAppointment = function (id) {
         fetch(`https://appointment-mknk.onrender.com/${id}`)
             .then(response => response.json())
@@ -394,32 +403,6 @@ window.deleteAppointment = function (id) {
             });
         }
     }
-    function suggestItems() {
-      const input = document.getElementById("itemName");
-      const suggestionsBox = document.getElementById("itemSuggestions");
-      const value = input.value.toLowerCase().trim();
-
-      // Filter suggestions
-      const matches = itemSuggestions.filter(i => i.includes(value)).slice(0, 5); // limit 5 results
-
-      if (!value || matches.length === 0) {
-        suggestionsBox.innerHTML = "";
-        suggestionsBox.style.display = "none";
-        return;
-      }
-
-      // Render suggestion list
-      suggestionsBox.innerHTML = matches.map(match =>
-        `<div class="suggestion" onclick="selectSuggestion('${match}')">${match}</div>`
-      ).join("");
-      suggestionsBox.style.display = "block";
-    }
-
-    function selectSuggestion(value) {
-      document.getElementById("itemName").value = value;
-      document.getElementById("itemSuggestions").style.display = "none";
-    }
-
     function showInventoryForm() {
   const overlay = document.getElementById('popup-overlay');
   const popup = document.getElementById('popup-form');
@@ -446,13 +429,42 @@ window.getEnhancedRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value.trim();
     const itemOrService = document.getElementById('recommender-item')?.value.trim();
     const budget = document.getElementById('recommender-budget')?.value.trim();
-    const insurance = document.getElementById('recommender-insurance')?.value.trim();
+    // Insurance is optional
+    const insuranceEl = document.getElementById('recommender-insurance');
+    // const insurance = insuranceEl ? insuranceEl.value.trim() : "";
+    const insurance = ""; // effectively disables it
     const container = document.getElementById('recommender-results');
     if (!region || !itemOrService) {
         container.style.display = 'block';
         container.innerText = "❌ Please enter both region and keyword (item / service / category).";
         return;
     }
+    const url = `https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${encodeURIComponent(region)}/item/${encodeURIComponent(itemOrService)}?maxBudget=${encodeURIComponent(budget || "")}`;
+    container.innerHTML = "🔄 Fetching recommendations...";
+
+    fetch(url)
+        .then(res => {
+            if (!res.ok) throw new Error("Server error: " + res.status);
+            return res.json();
+        })
+        .then(data => {
+            if (!data.length) {
+                container.innerHTML = "⚠️ No recommendations found for the given inputs.";
+                return;
+            }
+            container.innerHTML = data.map(hospital => `
+                <div class="hospital-card">
+                    <h4>${hospital.name}</h4>
+                    <p>📍 ${hospital.location}</p>
+                    <p>💰 Cost: KES ${hospital.price}</p>
+                    <p>✅ Insurance: ${hospital.insurance || "N/A"}</p>
+                </div>
+            `).join('');
+        })
+        .catch(err => {
+            container.innerHTML = `❌ Error fetching recommendations: ${err.message}`;
+        });
+};
     container.style.display = 'block';
     container.innerText = `🔄 Searching for "${itemOrService}" in "${region}"...`;
     const url = `https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
@@ -496,7 +508,6 @@ window.getEnhancedRecommendations = function () {
             console.error("Error fetching recommendations:", err);
             container.innerText = "❌ Failed to fetch recommendations.";
         });
-};
 window.searchStock = function () {
     const region = document.getElementById('stock-region')?.value.trim();
     const item = document.getElementById('stock-item')?.value.trim();
@@ -777,6 +788,9 @@ function openAppointmentForm() {
     const popup = document.getElementById('appointment-form-popup');
     if (popup) popup.classList.remove('hidden');
 }
+window.openAppointmentForm = openAppointmentForm;
+
+
 function closeAppointmentForm() {
     const popup = document.getElementById('appointment-form-popup');
     if (popup) popup.classList.add('hidden');

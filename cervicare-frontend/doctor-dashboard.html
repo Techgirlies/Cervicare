@@ -326,7 +326,7 @@
             <h2>Appointments</h2>
             <div class="crud-buttons">
                 <button onclick="openAppointmentForm()">➕ Book Appointment</button>
-                <button id="getAppointments">📋 View Appointments</button>
+                <button onclick="getAppointments()">View Appointments</button>
             </div>
         </section>
             <!-- INVENTORY SECTION -->
@@ -365,17 +365,16 @@
                 <label for="recommender-item">Item Name (optional)</label>
                 <input type="text"
                        id="recommender-item"
-                       list="item-suggestions"
-                       placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)"
-                       oninput="suggestItems(this.value)">
-                <datalist id="item-suggestions">
-                    <!-- Suggestions will be added here dynamically -->
-                </datalist>
+                       placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)">
             </div>
 
             <div class="form-group">
                 <label for="recommender-budget">Max Budget (KES)</label>
                 <input type="number" id="recommender-budget" placeholder="e.g. 1000">
+            </div>
+            <div class="form-group">
+                  <label for="recommender-insurance">Insurance</label>
+                  <input type="text" id="recommender-insurance" placeholder="Insurance">
             </div>
             <div class="crud-buttons">
                 <button onclick="getEnhancedRecommendations()">📍 View Enhanced Recommendations</button>
@@ -402,7 +401,7 @@
             <div class="form-group"><label>Price</label><input type="number" id="price" step="0.01"></div>
             <button type="submit">💾 Save Item</button>
         </form>
-        <button onclick="closePopupinventory()">Close</button>
+        <button onclick="closeInventoryPopup()">Close</button>
     </div>
 </div>
 
@@ -423,74 +422,38 @@
     </div>
 </div>
 <!-- APPOINTMENT FORM POPUP -->
-<div id="appointment-popup" class="popup-overlay hidden">
+<!-- 📅 Book Appointment Popup -->
+<div id="appointment-form-popup" class="popup-overlay hidden">
     <div class="popup-form">
-        <button class="popup-close" onclick="closeAppointmentForm()">❌</button>
-        <h2 id="form-title">📅 Book Appointment</h2>
-        <form id="appointment-form">
-            <div class="form-group">
-                <label>Patient Name</label>
-                <input type="text" id="patientName" required>
-            </div>
-            <div class="form-group">
-                <label>Contact Info</label>
-                <input type="text" id="contactInfo" required>
-            </div>
-            <div class="form-group">
-                <label>Appointment Date</label>
-                <input type="date" id="appointmentDate" required>
-            </div>
-            <div class="form-group">
-                <label>Appointment Time</label>
-                <input type="time" id="appointmentTime" required>
-            </div>
-            <div class="form-group">
-                <label>Purpose</label>
-                <input type="text" id="purpose" required>
-            </div>
-            <div class="form-group">
-                <label>Region</label>
-                <input type="text" id="region" required>
-            </div>
-            <div class="form-group">
-                <label>Hospital</label>
-                <input type="text" id="hospital" required>
-            </div>
-            <button type="submit" id="submit-button">Book Now</button>
-        </form>
-    </div>
+    <form id="appointment-form">
+        <h2>Book Appointment</h2>
+        <input type="text" name="patientName" placeholder="Patient Name" required />
+        <input type="text" name="contactInfo" placeholder="Contact Info" required />
+        <input type="date" name="appointmentDate" required />
+        <input type="time" name="appointmentTime" required />
+        <input type="text" name="purpose" placeholder="Purpose" required />
+        <input type="text" name="region" placeholder="Region" required />
+        <input type="text" name="hospital" placeholder="Hospital" required />
+        <button type="submit">Submit</button>
+        <button type="button" onclick="closeAppointmentForm()">Close</button>
+    </form>
 </div>
 
-<!-- EDIT APPOINTMENT FORM POPUP (moved outside) -->
-<div id="edit-appointment-popup" class="popup hidden">
+<!-- ✏️ Edit Appointment Popup -->
+<div id="edit-appointment-popup" class="popup-overlay hidden">
+    <div class="popup-form">
     <form id="edit-appointment-form">
-        <h3>Edit Appointment</h3>
-
-        <input type="hidden" id="edit-appointment-id">
-
-        <label for="edit-patientName">Name:</label>
-        <input type="text" id="edit-patientName" required>
-
-        <label for="edit-contactInfo">Contact Info:</label>
-        <input type="text" id="edit-contactInfo" required>
-
-        <label for="edit-appointmentDate">Date:</label>
-        <input type="date" id="edit-appointmentDate" required>
-
-        <label for="edit-appointmentTime">Time:</label>
-        <input type="time" id="edit-appointmentTime" required>
-
-        <label for="edit-purpose">Purpose:</label>
-        <input type="text" id="edit-purpose" required>
-
-        <label for="edit-region">Region:</label>
-        <input type="text" id="edit-region" required>
-
-        <label for="edit-hospital">Hospital:</label>
-        <input type="text" id="edit-hospital" required>
-
-        <button type="submit">Update</button>
-        <button type="button" onclick="closeEditAppointmentPopup()">Cancel</button>
+        <h2>Edit Appointment</h2>
+        <input type="hidden" id="edit-appointment-id" />
+        <input type="text" id="edit-patientName" required />
+        <input type="text" id="edit-contactInfo" required />
+        <input type="date" id="edit-appointmentDate" required />
+        <input type="time" id="edit-appointmentTime" required />
+        <input type="text" id="edit-purpose" required />
+        <input type="text" id="edit-region" required />
+        <input type="text" id="edit-hospital" required />
+        <button type="submit">Save</button>
+        <button type="button" onclick="document.getElementById('edit-appointment-popup').classList.add('hidden')">Close</button>
     </form>
 </div>
 <!-- Chatbot container -->

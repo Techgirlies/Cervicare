@@ -364,12 +364,7 @@
                 <label for="recommender-item">Item Name (optional)</label>
                 <input type="text"
                        id="recommender-item"
-                       list="item-suggestions"
                        placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)"
-                       oninput="suggestItems(this.value)">
-                <datalist id="item-suggestions">
-                    <!-- Suggestions will be added here dynamically -->
-                </datalist>
             </div>
 
             <div class="form-group">
@@ -461,7 +456,7 @@
 </div>
 
 <!-- EDIT APPOINTMENT FORM POPUP (moved outside) -->
-<div id="edit-appointment-popup" class="popup hidden">
+<div id="edit-appointment-popup" class="popup-overlay hidden">
     <form id="edit-appointment-form">
         <h3>Edit Appointment</h3>
 
