@@ -3,6 +3,10 @@ const isLocal = window.location.hostname === "localhost";
 const API_BASE_URL = isLocal
   ? "http://localhost:8083"
   : "https://hospital-recommender-service-mknk.onrender.com";
+  const ASSESSMENT_API_BASE_URL = isLocal
+    ? "http://localhost:8080" // Local controller base
+    : "https://assessment-microservice-mknk.onrender.com"; // Production Render URL
+
 const progress = document.getElementById("progress");
 function showSection(id) {
     document.querySelectorAll('.content-section').forEach(section => {
@@ -164,7 +168,8 @@ window.showSection = function(id) {
             recommendation: document.getElementById("screening-recommendation")?.textContent || "N/A",
             email
         };
-        fetch('https://your-api-url.com/save-assessment', {
+        fetch(`${ASSESSMENT_API_BASE_URL}/api/save-assessment`, {
+         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(result)
@@ -837,11 +842,6 @@ showStep(currentStep); // Init
     document.querySelectorAll("[data-print]").forEach(el => {
         el.addEventListener("click", () => window.print());
     });
-
-    // Replace data-save-assessment
-    document.querySelectorAll("[data-save-assessment]").forEach(el => {
-        el.addEventListener("click", () => triggerSaveAssessment());
-    });
 document.addEventListener('DOMContentLoaded', function () {
     // Default section
     showSection('landing');
@@ -868,11 +868,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (section) showSection(section);
       });
     });
-    // Print buttons
-    document.querySelectorAll("[data-print]").forEach(el => {
-        el.addEventListener("click", () => window.print());
-    });
-
     // Start assessment button
     document.querySelector('.start-assessment-btn')?.addEventListener('click', () => {
         showSection('assessment');

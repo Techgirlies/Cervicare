@@ -122,8 +122,6 @@ button:hover {
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
     z-index: 1000;
 }
 
