@@ -14,16 +14,19 @@
         <h2>CerviCare</h2>
         <nav>
             <ul>
-                <li data-section="assessment">Assessment</li>
-                <li data-section="appointments">Appointments</li>
-                <li data-section="inventory">Inventory</li>
-                <li data-section="stock-check">Stock Check</li>
-                <li data-section="hospital-recommender">Hospital Recommender</li>
-
+                <li onclick="showSection('assessment')">Assessment</li>
+                <li onclick="showSection('appointments')">Appointments</li>
+                <li onclick="showSection('inventory')">Inventory</li>
+                <li onclick="showSection('stock-check')">Stock Checker</li>
+                <li onclick="showSection('hospital-recommender')">Hospital Recommender</li>
             </ul>
         </nav>
     </aside>
     <main class="main-content">
+        <div class="topbar-icons">
+            <div id="notification-btn" title="Notifications">🔔</div>
+            <div id="account-icon" title="Account">👤</div>
+        </div>
         <!-- LANDING SECTION -->
         <section id="landing" class="content-section">
             <div class="landing-container">
@@ -39,7 +42,6 @@
         <!-- Only the assessment form part updated -->
         <section id="assessment" class="content-section hidden">
             <h2>Biopsy Risk Assessment</h2>
-
             <form id="assessment-form">
                 <!-- Progress Bar -->
                 <div id="progress-bar">
@@ -323,23 +325,19 @@
         <section id="appointments" class="content-section hidden">
             <h2>Appointments</h2>
             <div class="crud-buttons">
-                <button onclick="openAppointmentForm()">➕ Add Appointment</button>
-                <button id="btn-get-appointments">📋 View Appointments</button>
+                <button onclick="openAppointmentForm()">➕ Book Appointment</button>
+                <button id="getAppointments">📋 View Appointments</button>
             </div>
-            <div id="appointments-results"></div>
         </section>
-
-        <!-- INVENTORY SECTION -->
+            <!-- INVENTORY SECTION -->
         <section id="inventory" class="content-section hidden">
             <h2>Inventory</h2>
             <div class="crud-buttons">
                 <button onclick="showInventoryForm()">➕ Add Item</button>
                 <button onclick="getInventory()">📋 View Inventory</button>
-
             </div>
             <div id="inventory-results"></div>
         </section>
-
         <!-- STOCK CHECK SECTION -->
         <section id="stock-check" class="content-section hidden">
             <h2>Stock Check</h2>
@@ -356,7 +354,6 @@
             </div>
             <div id="stock-results"></div>
         </section>
-
         <!-- HOSPITAL RECOMMENDER SECTION -->
         <section id="hospital-recommender" class="content-section hidden">
             <h2>Hospital Recommender</h2>
@@ -393,7 +390,7 @@
         <h2>Inventory Management</h2>
         <form id="inventory-form">
             <input type="hidden" id="item-id">
-            <div class="form-group"><label>Region</label><input type="text" id="region" required></div>
+            <div class="form-group"><label>Region</label><input type="text" id="inventory-region" required></div>
             <div class="form-group"><label>Ward</label><input type="text" id="ward"></div>
             <div class="form-group"><label>Facility Name</label><input type="text" id="facilityName" required></div>
             <div class="form-group"><label>KEPH Level</label><input type="text" id="kephLevel"></div>

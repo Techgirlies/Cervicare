@@ -3,6 +3,7 @@ const isLocal = window.location.hostname === "localhost";
 const API_BASE_URL = isLocal
   ? "http://localhost:8083"
   : "https://hospital-recommender-service-mknk.onrender.com";
+const progress = document.getElementById("progress");
 function showSection(id) {
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.add('hidden');
@@ -22,7 +23,13 @@ window.showSection = function(id) {
             activeSection.classList.remove('hidden');
         }
     };
-;
+   document.querySelectorAll('.sidebar li').forEach(item => {
+     item.addEventListener('click', () => {
+       const section = item.getAttribute('data-section');
+       if (section) showSection(section);
+     });
+   });
+
     function extractRecommendationData(data) {
         return {
             Age: parseInt(data.Age),
@@ -309,7 +316,7 @@ window.deleteAppointment = function (id) {
                 : 'http://localhost:8083/api/hospitals/items';
             const method = id ? 'PUT' : 'POST';
             const itemData = {
-    region: document.getElementById("region")?.value,
+    region: document.getElementById("inventory-region")?.value,
     ward: document.getElementById("ward")?.value,
     facilityName: document.getElementById("facilityName")?.value,
     kephLevel: document.getElementById("kephLevel")?.value,
@@ -361,7 +368,7 @@ window.deleteAppointment = function (id) {
         .then(response => response.json())
         .then(item => {
            document.getElementById("item-id").value = item.id;          // changed itemId -> item-id
-            document.getElementById("region").value = item.region;
+            document.getElementById("inventory-region").value = item.region;
             document.getElementById("ward").value = item.ward;
             document.getElementById("facilityName").value = item.facilityName;
             document.getElementById("kephLevel").value = item.kephLevel;
@@ -542,7 +549,6 @@ window.searchStock = function () {
 };
 const form = document.getElementById("assessment-form");
 const formSteps = form.querySelectorAll(".form-step");
-const progress = document.getElementById("progress");
 let currentStep = 0;
 function showStep(step) {
     formSteps.forEach((formStep, index) => {
@@ -826,10 +832,7 @@ form.addEventListener("click", (e) => {
         }
     }
 });
-let currentStep = 0;
 const steps = document.querySelectorAll('.form-step');
-const progress = document.getElementById('progress');
-
 function showStep(index) {
   steps.forEach((step, i) => {
     step.classList.toggle('active', i === index);
@@ -860,14 +863,6 @@ document.querySelectorAll('.prev-btn').forEach(btn => {
 });
 
 showStep(currentStep); // Init
-
- document.querySelectorAll("[data-action]").forEach(el => {
-        el.addEventListener("click", () => {
-            const fn = window[el.getAttribute("data-action")];
-            if (typeof fn === "function") fn();
-        });
-    });
-
     // Replace data-print
     document.querySelectorAll("[data-print]").forEach(el => {
         el.addEventListener("click", () => window.print());
@@ -888,7 +883,6 @@ document.addEventListener('DOMContentLoaded', function () {
             showSection(id);
         });
     });
-
     // Action buttons
     document.querySelectorAll("[data-action]").forEach(el => {
         el.addEventListener("click", () => {
@@ -898,7 +892,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
+    document.querySelectorAll('.sidebar li').forEach(item => {
+      item.addEventListener('click', () => {
+        const section = item.getAttribute('data-section');
+        if (section) showSection(section);
+      });
+    });
     // Print buttons
     document.querySelectorAll("[data-print]").forEach(el => {
         el.addEventListener("click", () => window.print());
@@ -908,4 +907,10 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.start-assessment-btn')?.addEventListener('click', () => {
         showSection('assessment');
     });
+  const notificationBtn = document.getElementById("notification-btn");
+      if (notificationBtn) {
+        notificationBtn.addEventListener("click", function () {
+          alert("🔔 Notifications (e.g., appointments, stock alerts) coming soon!");
+        });
+      }
 });
