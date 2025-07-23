@@ -156,35 +156,43 @@ window.showSection = function(id) {
             });
         });
     }
-    window.triggerSaveAssessment = function () {
-        const email = localStorage.getItem("userEmail");
-        if (!email) {
-            alert("Please log in to save your assessment.");
-            return;
-        }
-        const result = {
-            risk: document.getElementById("biopsy-risk")?.textContent || "N/A",
-            confidence: document.getElementById("confidence")?.textContent || "N/A",
-            recommendation: document.getElementById("screening-recommendation")?.textContent || "N/A",
-            email
-        };
-        fetch(`${ASSESSMENT_API_BASE_URL}/api/save-assessment`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(result)
-        })
-        .then(response => {
-            if (!response.ok) throw new Error("Save failed");
-            alert("Assessment saved successfully.");
-        })
-        .catch(err => {
-            console.error(err);
+    window.triggerSaveAssessment = async function () {
+        try {
+            const biopsyRisk = document.getElementById("biopsy-risk").textContent;
+            const confidence = document.getElementById("confidence").textContent;
+            const recommendation = document.getElementById("screening-recommendation").textContent;
+
+            const response = await fetch("https://assessment-microservice-mknk.onrender.com/assessment/save", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    biopsyRisk,
+                    confidence,
+                    recommendation,
+                    timestamp: new Date().toISOString(),
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to save assessment");
+            }
+
+            alert("Assessment data saved successfully!");
+        } catch (error) {
+            console.error("Error saving assessment:", error);
             alert("Failed to save assessment.");
-        });
+        }
     };
+
     window.closePopup = function () {
         const popup = document.getElementById('assessment-popup');
         if (popup) popup.classList.add('hidden');
+    };
+    window.closeAssessmentPopup = function () {
+        const popup = document.getElementById("assessment-popup");
+        if (popup) popup.classList.add("hidden");
     };
     window.closePopupinventory = function () {
         const popup = document.getElementById('inventory-popup');

@@ -1,9 +1,10 @@
-package com.cervicare.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -11,13 +12,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // ✅ Enable CORS handling from WebMvcConfigurer
+                .cors().configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("https://cervicare-frontend-mknk.onrender.com"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
+                    return config;
+                })
                 .and()
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll() // for dev/testing
-                        .anyRequest().authenticated()
-                );
+                .authorizeHttpRequests()
+                .requestMatchers("/user/**").permitAll() // <-- allow frontend access to /user
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable(); // Disable CSRF for simplicity, unless needed
 
         return http.build();
     }
