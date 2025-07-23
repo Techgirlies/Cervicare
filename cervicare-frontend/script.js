@@ -418,12 +418,15 @@ if (popup) popup.classList.remove('hidden');
         document.getElementById('popup-overlay').style.display = 'none';
         document.getElementById('popup-form').style.display = 'none';
     }
-    function closePopupinventory() {
-    const overlay = document.getElementById('popup-overlay');
-    const popup = document.getElementById('popup-form');
-    if (overlay) overlay.classList.add('hidden');
-    if (popup) popup.classList.add('hidden');
-}
+   function closePopup(popupId) {
+       const overlay = document.getElementById(popupId);
+       if (overlay) {
+           overlay.classList.add('hidden');
+           overlay.style.backdropFilter = "none";  // this explicitly disables the blur
+           overlay.style.webkitBackdropFilter = "none";
+       }
+   }
+
 window.closePopupinventory = closePopupinventory;
 window.getEnhancedRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value.trim();
@@ -465,49 +468,6 @@ window.getEnhancedRecommendations = function () {
             container.innerHTML = `❌ Error fetching recommendations: ${err.message}`;
         });
 };
-    container.style.display = 'block';
-    container.innerText = `🔄 Searching for "${itemOrService}" in "${region}"...`;
-    const url = `https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${region}/item/${encodeURIComponent(itemOrService)}?insurance=${encodeURIComponent(insurance)}&maxBudget=${encodeURIComponent(budget)}`;
-    fetch(url)
-        .then(res => {
-            if (!res.ok) throw new Error("Server error: " + res.status);
-            return res.json();
-        })
-        .then(data => {
-            if (!data || data.length === 0) {
-                container.innerText = "⚠️ No matching facilities found.";
-                return;
-            }
-            let html = `
-                <h3>Recommended Facilities</h3>
-                <table border="1" cellpadding="5" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Facility</th>
-                            <th>Item / Service</th>
-                            <th>Category</th>
-                            <th>Cost (KES)</th>
-                            <th>Available Stock</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
-            for (const entry of data) {
-                html += `
-                    <tr>
-                        <td>${entry.facilityName}</td>
-                        <td>${entry.item || entry.service || '-'}</td>
-                        <td>${entry.category || '-'}</td>
-                        <td>KES ${entry.price || entry.baseCost || entry.cost || '-'}</td>
-                        <td>${entry.availableStock !== undefined ? entry.availableStock : '-'}</td>
-                    </tr>`;
-            }
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        })
-        .catch(err => {
-            console.error("Error fetching recommendations:", err);
-            container.innerText = "❌ Failed to fetch recommendations.";
-        });
 window.searchStock = function () {
     const region = document.getElementById('stock-region')?.value.trim();
     const item = document.getElementById('stock-item')?.value.trim();
@@ -629,10 +589,11 @@ window.showInventoryForm = function () {
         overlay.classList.remove("hidden");
     }
 };
-function closeInventoryForm() {
-    const overlay = document.getElementById('popup-overlay');
-    if (overlay) overlay.classList.add('hidden');
+function closeInventoryPopup() {
+  const popup = document.getElementById("popup-form");
+  popup.classList.add("hidden");
 }
+
 function renderRecommendationTable(data) {
     const container = document.getElementById('recommender-results');
     if (!Array.isArray(data) || data.length === 0) {
@@ -759,6 +720,7 @@ const defaultCreateAppointment = async function (e) {
         alert("User not logged in. Please login first.");
         return;
     }
+
     const appointmentData = {
         patientName: form.patientName.value.trim(),
         contactInfo: form.contactInfo.value.trim(),
@@ -768,6 +730,7 @@ const defaultCreateAppointment = async function (e) {
         hospital: form.hospital.value.trim(),
         email: email,
     };
+
     try {
         const response = await fetch("https://appointment-mknk.onrender.com", {
             method: "POST",
@@ -779,30 +742,28 @@ const defaultCreateAppointment = async function (e) {
 
         alert("Appointment booked successfully!");
         form.reset();
-        if (typeof getAppointments === "function") getAppointments(); // refresh list
+        if (typeof getAppointments === "function") getAppointments();
     } catch (error) {
         alert("Error: " + error.message);
     }
 };
+
 function openAppointmentForm() {
     const popup = document.getElementById('appointment-form-popup');
     if (popup) popup.classList.remove('hidden');
 }
-window.openAppointmentForm = openAppointmentForm;
-
-
 function closeAppointmentForm() {
     const popup = document.getElementById('appointment-form-popup');
     if (popup) popup.classList.add('hidden');
     const form = document.getElementById('appointment-form');
-    if (form) {
-        form.reset();
-        form.onsubmit = defaultCreateAppointment;
-    }
+    if (form) form.reset();
 }
 window.openAppointmentForm = openAppointmentForm;
 window.closeAppointmentForm = closeAppointmentForm;
-document.getElementById('appointment-form').onsubmit = defaultCreateAppointment;
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('appointment-form');
+    if (form) form.onsubmit = defaultCreateAppointment;
+});
 function showStep(step) {
     formSteps.forEach((formStep, index) => {
         if (index === step) {
@@ -867,11 +828,6 @@ function prevStep() {
     showStep(currentStep);
   }
 }
-
-document.querySelectorAll('.next-btn').forEach(btn => {
-  btn.addEventListener('click', nextStep);
-});
-
 document.querySelectorAll('.prev-btn').forEach(btn => {
   btn.addEventListener('click', prevStep);
 });
