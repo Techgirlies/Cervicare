@@ -169,7 +169,6 @@ window.showSection = function(id) {
             email
         };
         fetch(`${ASSESSMENT_API_BASE_URL}/api/save-assessment`, {
-         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(result)
