@@ -1,53 +1,55 @@
-
-document.addEventListener("DOMContentLoaded", function () {
 console.log("Script loaded!");
+
 const isLocal = window.location.hostname === "localhost";
 const API_BASE_URL = isLocal
   ? "http://localhost:8083"
   : "https://hospital-recommender-service-mknk.onrender.com";
-  const APPOINTMENT_API_BASE_URL = isLocal
-    ? "http://localhost:8082"
-    : "https://appointment-mknk.onrender.com";
-  const USER_SERVICE_API_BASE_URL = isLocal
-      ? "http://localhost:8081"
-      : "https://cervicare-user-service-mknk.onrender.com";
-  const ASSESSMENT_API_BASE_URL = isLocal
-    ? "http://localhost:8080"
-    : "https://assessment-microservice-mknk.onrender.com";
-    const email = localStorage.getItem("userEmail");
-    const token = localStorage.getItem("authToken");
-    const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
-   const currentPage = window.location.pathname.split("/").pop();
-   if (protectedPages.includes(currentPage)) {
-     if (!email || !token) {
-       console.log("User email or token not found. Please log in.");
-       alert("You must be logged in.");
-       window.location.href = "index.html";
-     } else {
-       // ✅ Only fetch user data if logged in AND on protected page
-       fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
-         method: "GET",
-         headers: {
-           "Authorization": "Bearer " + token,
-           "Content-Type": "application/json"
-         }
-       })
-       .then(res => {
-         if (!res.ok) throw new Error("Unauthorized or user not found");
-         return res.json();
-       })
-       .then(data => {
-         console.log("User data loaded:", data);
-       })
-       .catch(err => {
-         console.error("Error fetching user:", err);
-         alert("Session expired. Please log in again.");
-         localStorage.clear();
-         window.location.href = "index.html";
-       });
-     }
-   }
-  const loginForm = document.getElementById("loginForm");
+const APPOINTMENT_API_BASE_URL = isLocal
+  ? "http://localhost:8082"
+  : "https://appointment-mknk.onrender.com";
+const USER_SERVICE_API_BASE_URL = isLocal
+  ? "http://localhost:8081"
+  : "https://cervicare-user-service-mknk.onrender.com";
+const ASSESSMENT_API_BASE_URL = isLocal
+  ? "http://localhost:8080"
+  : "https://assessment-microservice-mknk.onrender.com";
+
+const email = localStorage.getItem("userEmail");
+const token = localStorage.getItem("authToken");
+const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
+const currentPage = window.location.pathname.split("/").pop();
+
+if (protectedPages.includes(currentPage)) {
+  if (!email || !token) {
+    console.log("User email or token not found. Please log in.");
+    alert("You must be logged in.");
+    window.location.href = "index.html";
+  } else {
+    fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
+      method: "GET",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Unauthorized or user not found");
+      return res.json();
+    })
+    .then(data => {
+      console.log("User data loaded:", data);
+    })
+    .catch(err => {
+      console.error("Error fetching user:", err);
+      alert("Session expired. Please log in again.");
+      localStorage.clear();
+      window.location.href = "index.html";
+    });
+  }
+}
+
+// ✅ LOGIN HANDLER
+const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -69,19 +71,15 @@ if (loginForm) {
         return;
       }
 
-      // ✅ Store token and email
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("userEmail", email);
-
       if (data.role) {
         localStorage.setItem("userRole", data.role);
       }
 
-      if (data.role === "DOCTOR") {
-        window.location.href = "doctor-dashboard.html";
-      } else {
-        window.location.href = "patient-dashboard.html";
-      }
+      window.location.href = data.role === "DOCTOR"
+        ? "doctor-dashboard.html"
+        : "patient-dashboard.html";
 
     } catch (error) {
       console.error("Login error:", error);
@@ -89,7 +87,11 @@ if (loginForm) {
     }
   });
 }
-document.getElementById("signupForm").addEventListener("submit", async function (e) {
+
+// ✅ SIGNUP HANDLER
+const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+  signupForm.addEventListener("submit", async function (e) {
     e.preventDefault();
     const data = {
       fullName: document.getElementById("fullName").value,
@@ -99,7 +101,7 @@ document.getElementById("signupForm").addEventListener("submit", async function 
     };
 
     try {
-      const response = await  fetch(`${USER_SERVICE_API_BASE_URL}/api/users/register`, {
+      const response = await fetch(`${USER_SERVICE_API_BASE_URL}/api/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -113,34 +115,26 @@ document.getElementById("signupForm").addEventListener("submit", async function 
         return;
       }
 
-      if (result && result.id && result.email && result.role) {
-        // OPTIONAL: auto-login after signup (add fetch to /auth/login here)
-        localStorage.setItem("userId", result.id);
-        localStorage.setItem("userEmail", result.email);
-        localStorage.setItem("userRole", result.role);
-        // Optionally call /auth/login with same email/password to get token
-        const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: result.email, password: data.password })
-        });
+      localStorage.setItem("userId", result.id);
+      localStorage.setItem("userEmail", result.email);
+      localStorage.setItem("userRole", result.role);
 
-        const loginData = await loginRes.json();
+      const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: result.email, password: data.password })
+      });
 
-        if (loginRes.ok && loginData.token) {
-          localStorage.setItem("authToken", loginData.token);
-          if (result.role === "DOCTOR") {
-            window.location.href = "doctor-dashboard.html";
-          } else {
-            window.location.href = "patient-dashboard.html";
-          }
-        } else {
-          document.getElementById("signupMessage").innerText = "Signup succeeded but login failed. Please log in manually.";
-          window.location.href = "index.html";
-        }
+      const loginData = await loginRes.json();
 
+      if (loginRes.ok && loginData.token) {
+        localStorage.setItem("authToken", loginData.token);
+        window.location.href = result.role === "DOCTOR"
+          ? "doctor-dashboard.html"
+          : "patient-dashboard.html";
       } else {
-        document.getElementById("signupMessage").innerText = "Unexpected response from server.";
+        document.getElementById("signupMessage").innerText = "Signup succeeded but login failed. Please log in manually.";
+        window.location.href = "index.html";
       }
 
     } catch (error) {
@@ -148,47 +142,7 @@ document.getElementById("signupForm").addEventListener("submit", async function 
       console.error("Signup error:", error);
     }
   });
-  document.getElementById("loginForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      try {
-        const response = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.token) {
-          document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
-          return;
-        }
-
-        // ✅ Store token and email in localStorage
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("userEmail", email);
-
-        // Optional: save user role if your response has it
-        if (data.role) {
-          localStorage.setItem("userRole", data.role);
-        }
-
-        // ✅ Redirect based on role (optional)
-        if (data.role === "DOCTOR") {
-          window.location.href = "doctor-dashboard.html";
-        } else {
-          window.location.href = "patient-dashboard.html";
-        }
-
-      } catch (error) {
-        console.error("Login error:", error);
-        document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
-      }
-    });
+}
 
 const progress = document.getElementById("progress");
 function showSection(id) {
@@ -1077,5 +1031,4 @@ document.addEventListener('DOMContentLoaded', function () {
           alert("🔔 Notifications (e.g., appointments, stock alerts) coming soon!");
         });
       }
-});
 });
