@@ -43,7 +43,106 @@ const API_BASE_URL = isLocal
         window.location.href = "index.html";
       });
     }
+document.getElementById("signupForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const data = {
+      fullName: document.getElementById("fullName").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      role: document.getElementById("role").value
+    };
 
+    try {
+      const response = await  fetch(`${USER_SERVICE_API_BASE_URL}/api/users/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+        credentials: "include"
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        document.getElementById("signupMessage").innerText = result.message || "Signup failed.";
+        return;
+      }
+
+      if (result && result.id && result.email && result.role) {
+        // OPTIONAL: auto-login after signup (add fetch to /auth/login here)
+        localStorage.setItem("userId", result.id);
+        localStorage.setItem("userEmail", result.email);
+
+        // Optionally call /auth/login with same email/password to get token
+        const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: result.email, password: data.password })
+        });
+
+        const loginData = await loginRes.json();
+
+        if (loginRes.ok && loginData.token) {
+          localStorage.setItem("authToken", loginData.token);
+          if (result.role === "DOCTOR") {
+            window.location.href = "doctor-dashboard.html";
+          } else {
+            window.location.href = "patient-dashboard.html";
+          }
+        } else {
+          document.getElementById("signupMessage").innerText = "Signup succeeded but login failed. Please log in manually.";
+          window.location.href = "index.html";
+        }
+
+      } else {
+        document.getElementById("signupMessage").innerText = "Unexpected response from server.";
+      }
+
+    } catch (error) {
+      document.getElementById("signupMessage").innerText = "An error occurred. Please try again.";
+      console.error("Signup error:", error);
+    }
+  });
+  document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.token) {
+          document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
+          return;
+        }
+
+        // ✅ Store token and email in localStorage
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userEmail", email);
+
+        // Optional: save user role if your response has it
+        if (data.role) {
+          localStorage.setItem("userRole", data.role);
+        }
+
+        // ✅ Redirect based on role (optional)
+        if (data.role === "DOCTOR") {
+          window.location.href = "doctor-dashboard.html";
+        } else {
+          window.location.href = "patient-dashboard.html";
+        }
+
+      } catch (error) {
+        console.error("Login error:", error);
+        document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
+      }
+    });
 
 const progress = document.getElementById("progress");
 function showSection(id) {

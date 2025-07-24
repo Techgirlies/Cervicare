@@ -77,67 +77,6 @@
     <span>Already have an account? <a href="index.html">Sign in</a></span>
   </div>
 </div>
-<script>
-  document.getElementById("signupForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const data = {
-      fullName: document.getElementById("fullName").value,
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value,
-      role: document.getElementById("role").value
-    };
-
-    try {
-      const response = await  fetch(`${USER_SERVICE_API_BASE_URL}/api/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-        credentials: "include"
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        document.getElementById("signupMessage").innerText = result.message || "Signup failed.";
-        return;
-      }
-
-      if (result && result.id && result.email && result.role) {
-        // OPTIONAL: auto-login after signup (add fetch to /auth/login here)
-        localStorage.setItem("userId", result.id);
-        localStorage.setItem("userEmail", result.email);
-
-        // Optionally call /auth/login with same email/password to get token
-        const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: result.email, password: data.password })
-        });
-
-        const loginData = await loginRes.json();
-
-        if (loginRes.ok && loginData.token) {
-          localStorage.setItem("authToken", loginData.token);
-          if (result.role === "DOCTOR") {
-            window.location.href = "doctor-dashboard.html";
-          } else {
-            window.location.href = "patient-dashboard.html";
-          }
-        } else {
-          document.getElementById("signupMessage").innerText = "Signup succeeded but login failed. Please log in manually.";
-          window.location.href = "index.html";
-        }
-
-      } else {
-        document.getElementById("signupMessage").innerText = "Unexpected response from server.";
-      }
-
-    } catch (error) {
-      document.getElementById("signupMessage").innerText = "An error occurred. Please try again.";
-      console.error("Signup error:", error);
-    }
-  });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>

@@ -70,48 +70,6 @@
     <span>Don't have an account? <a href="signup.html">Sign up</a></span>
   </div>
 </div>
-<script>
-  document.getElementById("loginForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    try {
-      const response = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.token) {
-        document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
-        return;
-      }
-
-      // ✅ Store token and email in localStorage
-      localStorage.setItem("authToken", data.token);
-      localStorage.setItem("userEmail", email);
-
-      // Optional: save user role if your response has it
-      if (data.role) {
-        localStorage.setItem("userRole", data.role);
-      }
-
-      // ✅ Redirect based on role (optional)
-      if (data.role === "DOCTOR") {
-        window.location.href = "doctor-dashboard.html";
-      } else {
-        window.location.href = "patient-dashboard.html";
-      }
-
-    } catch (error) {
-      console.error("Login error:", error);
-      document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
-    }
-  });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
