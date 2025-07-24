@@ -891,8 +891,6 @@ const defaultCreateAppointment = async function (e) {
 
     try {
         const response = await fetch(`${APPOINTMENT_API_BASE_URL}`, {
-
-        }
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(appointmentData),
