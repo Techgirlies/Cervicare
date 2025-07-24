@@ -1,10 +1,9 @@
 package com.service;
 
-import com.dto.UserLoginRequest;
 import com.dto.UserRegistrationRequest;
 import com.entity.User;
 import com.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,35 +11,42 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserRepository repo;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repo) {
-        this.repo = repo;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User register(UserRegistrationRequest request) {
-        if (repo.existsByEmail(request.getEmail())) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             return null;
         }
 
         User user = new User();
-        user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole() != null ? request.getRole() : "DOCTOR");
+        user.setRole(request.getRole());
 
-        return repo.save(user);
+        return userRepository.save(user);
     }
 
-    public User login(UserLoginRequest request) {
-        Optional<User> userOpt = repo.findByEmail(request.getEmail());
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-                return user;
+    public String authenticateUser(String email, String password) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                // In production, generate a JWT token here.
+                return "mock-token-for-" + email;
             }
         }
         return null;
+    }
+
+    public String getUserRoleByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(User::getRole)
+                .orElse("UNKNOWN");
     }
 }

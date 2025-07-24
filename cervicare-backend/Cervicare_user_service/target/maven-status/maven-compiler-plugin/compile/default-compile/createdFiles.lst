@@ -1,4 +1,3 @@
-com\config\WebConfig.class
 com\controller\UserController.class
 com\repository\UserRepository.class
 com\config\GlobalExceptionHandler.class
