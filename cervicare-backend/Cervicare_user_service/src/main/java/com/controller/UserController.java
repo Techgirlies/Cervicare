@@ -27,9 +27,7 @@ public class UserController {
         User user = service.register(request);
 
         if (user == null) {
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "Email already registered");
-            return ResponseEntity.badRequest().body(error);
+            return ResponseEntity.badRequest().body(Map.of("message", "Email already registered"));
         }
 
         Map<String, Object> response = new HashMap<>();
@@ -39,6 +37,7 @@ public class UserController {
         response.put("message", "User registered successfully");
         return ResponseEntity.ok(response);
     }
+
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody UserLoginRequest request) {
         String token = service.authenticateUser(request.getEmail(), request.getPassword());
@@ -50,9 +49,9 @@ public class UserController {
             response.put("role", service.getUserRoleByEmail(request.getEmail()));
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Invalid credentials"));
         }
     }
-
-
 }

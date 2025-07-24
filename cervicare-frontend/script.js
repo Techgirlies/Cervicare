@@ -18,6 +18,8 @@ const email = localStorage.getItem("userEmail");
 const token = localStorage.getItem("authToken");
 const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
 const currentPage = window.location.pathname.split("/").pop();
+const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
+const currentPage = window.location.pathname.split("/").pop();
 
 if (protectedPages.includes(currentPage)) {
   if (!email || !token) {
@@ -28,20 +30,31 @@ if (protectedPages.includes(currentPage)) {
     fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
       method: "GET",
       headers: {
-        "Authorization": "Bearer " + token,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       }
     })
-    .then(res => {
-      if (!res.ok) throw new Error("Unauthorized or user not found");
+    .then(async (res) => {
+      if (!res.ok) {
+        // Attempt to extract error message
+        const text = await res.text();
+        console.warn("Fetch failed:", res.status, text);
+
+        if (res.status === 401 || res.status === 403) {
+          throw new Error("Session expired. Please log in again.");
+        } else {
+          throw new Error(`Unexpected error: ${res.status}`);
+        }
+      }
       return res.json();
     })
-    .then(data => {
+    .then((data) => {
       console.log("User data loaded:", data);
+      // Optional: Display user info here
     })
-    .catch(err => {
-      console.error("Error fetching user:", err);
-      alert("Session expired. Please log in again.");
+    .catch((err) => {
+      console.error("Error fetching user:", err.message);
+      alert(err.message);
       localStorage.clear();
       window.location.href = "index.html";
     });
@@ -64,30 +77,33 @@ if (loginForm) {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (err) {
+        const text = await response.text();
+        throw new Error(`Login failed: ${text}`);
+      }
 
       if (!response.ok || !data.token) {
-        document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
+        document.getElementById("loginMessage").innerText =
+          data.message || "Login failed. Check your credentials.";
         return;
       }
 
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("userEmail", email);
-      if (data.role) {
-        localStorage.setItem("userRole", data.role);
-      }
+      localStorage.setItem("userRole", data.role || "");
 
-      window.location.href = data.role === "DOCTOR"
-        ? "doctor-dashboard.html"
-        : "patient-dashboard.html";
-
+      window.location.href =
+        data.role === "DOCTOR" ? "doctor-dashboard.html" : "patient-dashboard.html";
     } catch (error) {
       console.error("Login error:", error);
-      document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
+      document.getElementById("loginMessage").innerText =
+        error.message || "An error occurred. Please try again.";
     }
   });
 }
-
 // ✅ SIGNUP HANDLER
 const signupForm = document.getElementById("signupForm");
 if (signupForm) {
