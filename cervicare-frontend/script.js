@@ -115,12 +115,10 @@ if (signupForm) {
         document.getElementById("signupMessage").innerText = result.message || "Signup failed.";
         return;
       }
-
       localStorage.setItem("userId", result.id);
       localStorage.setItem("userEmail", result.email);
       localStorage.setItem("userRole", result.role);
-
-      const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/api/users/auth/login', {
+      const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/api/users/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: result.email, password: data.password })
