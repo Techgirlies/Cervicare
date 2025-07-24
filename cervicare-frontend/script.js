@@ -677,32 +677,69 @@ window.searchStock = function () {
         });
 };
 const form = document.getElementById("assessment-form");
-const formSteps = form.querySelectorAll(".form-step");
-let currentStep = 0;
-function showStep(step) {
+let formSteps = [];
+if (form) {
+  formSteps = form.querySelectorAll(".form-step");
+
+  let currentStep = 0;
+
+  function showStep(step) {
     formSteps.forEach((formStep, index) => {
-        if (index === step) {
-            formStep.classList.add("active");
-        } else {
-            formStep.classList.remove("active");
-        }
+      formStep.classList.toggle("active", index === step);
     });
-    const progressPercent = ((step + 1) / formSteps.length) * 100;
-    progress.style.width = progressPercent + "%";
-}
-function validateStep(step) {
+    const progress = document.getElementById("progress");
+    if (progress) {
+      const progressPercent = ((step + 1) / formSteps.length) * 100;
+      progress.style.width = `${progressPercent}%`;
+    }
+  }
+
+  function validateStep(step) {
     const inputs = formSteps[step].querySelectorAll("input[required]");
     for (let input of inputs) {
-        if (input.type === "radio") {
-            const name = input.name;
-            const checked = formSteps[step].querySelector(`input[name="${name}"]:checked`);
-            if (!checked) return false;
-        } else {
-            if (!input.value.trim()) return false;
-        }
+      if (input.type === "radio") {
+        const name = input.name;
+        const checked = formSteps[step].querySelector(`input[name="${name}"]:checked`);
+        if (!checked) return false;
+      } else {
+        if (!input.value.trim()) return false;
+      }
     }
     return true;
+  }
+
+  form.addEventListener("click", (e) => {
+    if (e.target.matches(".next-btn")) {
+      e.preventDefault();
+      if (validateStep(currentStep)) {
+        if (currentStep < formSteps.length - 1) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      } else {
+        alert("Please fill out all required fields in this step.");
+      }
+    } else if (e.target.matches(".prev-btn")) {
+      e.preventDefault();
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    }
+  });
+
+  document.querySelectorAll('.prev-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+  });
+
+  showStep(currentStep);
 }
+
 window.closePopup = function () {
     const popup = document.getElementById('inventory-popup');
     if (popup) popup.classList.add('hidden');
