@@ -144,32 +144,18 @@ if (signupForm) {
 }
 
 const progress = document.getElementById("progress");
-function showSection(id) {
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.add('hidden');
-    });
-    const sectionToShow = document.getElementById(id);
-    if (sectionToShow) {
-        sectionToShow.classList.remove('hidden');
-    }
-}
-
 window.showSection = function(id) {
-        document.querySelectorAll('.content-section').forEach(section => {
-            section.classList.add('hidden');
-        });
-        const activeSection = document.getElementById(id);
-        if (activeSection) {
-            activeSection.classList.remove('hidden');
-        }
-    };
-   document.querySelectorAll('.sidebar li').forEach(item => {
-     item.addEventListener('click', () => {
-       const section = item.getAttribute('data-section');
-       if (section) showSection(section);
-     });
-   });
-
+  document.querySelectorAll("section").forEach((s) => {
+    s.style.display = s.id === id ? "block" : "none";
+  });
+};
+// Sidebar support (if you use <li data-section="...">)
+document.querySelectorAll(".sidebar li").forEach((item) => {
+  item.addEventListener("click", () => {
+    const section = item.getAttribute("data-section");
+    if (section) showSection(section);
+  });
+});
     function extractRecommendationData(data) {
         return {
             Age: parseInt(data.Age),
