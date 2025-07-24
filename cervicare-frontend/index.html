@@ -70,7 +70,6 @@
     <span>Don't have an account? <a href="signup.html">Sign up</a></span>
   </div>
 </div>
-
 <script>
   document.getElementById("loginForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -78,34 +77,41 @@
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const response = await fetch("https://cervicare-user-service-mknk.onrender.com/api/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
+    try {
+      const response = await fetch("https://appointment-mknk.onrender.com/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
 
-    if (!response.ok) {
-      document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
-      return;
-    }
+      const data = await response.json();
 
-    const user = await response.json();
+      if (!response.ok || !data.token) {
+        document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
+        return;
+      }
 
-    if (user && user.email && user.role) {
-      // ✅ Store email in localStorage
-      localStorage.setItem("userEmail", user.email);
+      // ✅ Store token and email in localStorage
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userEmail", email);
 
-      // ✅ Redirect based on role
-      if (user.role === "DOCTOR") {
-       window.location.href = "doctor-dashboard.html";
+      // Optional: save user role if your response has it
+      if (data.role) {
+        localStorage.setItem("userRole", data.role);
+      }
+
+      // ✅ Redirect based on role (optional)
+      if (data.role === "DOCTOR") {
+        window.location.href = "doctor-dashboard.html";
       } else {
         window.location.href = "patient-dashboard.html";
       }
-    } else {
-      document.getElementById("loginMessage").innerText = "Invalid response from server.";
+
+    } catch (error) {
+      console.error("Login error:", error);
+      document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
     }
   });
 </script>
-
 </body>
 </html>

@@ -5,7 +5,38 @@ const API_BASE_URL = isLocal
   : "https://hospital-recommender-service-mknk.onrender.com";
   const ASSESSMENT_API_BASE_URL = isLocal
     ? "http://localhost:8080" // Local controller base
-    : "https://assessment-microservice-mknk.onrender.com"; // Production Render URL
+    : "https://assessment-microservice-mknk.onrender.com";
+    const email = localStorage.getItem("userEmail");
+    const token = localStorage.getItem("authToken");
+
+    if (!email || !token) {
+      console.log("User email or token not found. Please log in.");
+      alert("You must be logged in.");
+      window.location.href = "index.html";
+    } else {
+      fetch("https://appointment-mknk.onrender.com/user?email=" + encodeURIComponent(email), {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token,
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Unauthorized or user not found");
+        return res.json();
+      })
+      .then(data => {
+        console.log("User data loaded:", data);
+        // Optionally render UI with user info here
+      })
+      .catch(err => {
+        console.error("Error fetching user:", err);
+        alert("Session expired. Please log in again.");
+        localStorage.clear();
+        window.location.href = "index.html";
+      });
+    }
+
 
 const progress = document.getElementById("progress");
 function showSection(id) {

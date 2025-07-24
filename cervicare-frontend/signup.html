@@ -103,14 +103,31 @@
       }
 
       if (result && result.id && result.email && result.role) {
+        // OPTIONAL: auto-login after signup (add fetch to /auth/login here)
         localStorage.setItem("userId", result.id);
         localStorage.setItem("userEmail", result.email);
 
-        if (result.role === "DOCTOR") {
-          window.location.href = "doctor-dashboard.html";
+        // Optionally call /auth/login with same email/password to get token
+        const loginRes = await fetch("https://appointment-mknk.onrender.com/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: result.email, password: data.password })
+        });
+
+        const loginData = await loginRes.json();
+
+        if (loginRes.ok && loginData.token) {
+          localStorage.setItem("authToken", loginData.token);
+          if (result.role === "DOCTOR") {
+            window.location.href = "doctor-dashboard.html";
+          } else {
+            window.location.href = "patient-dashboard.html";
+          }
         } else {
-          window.location.href = "patient-dashboard.html";
+          document.getElementById("signupMessage").innerText = "Signup succeeded but login failed. Please log in manually.";
+          window.location.href = "index.html";
         }
+
       } else {
         document.getElementById("signupMessage").innerText = "Unexpected response from server.";
       }
