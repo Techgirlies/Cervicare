@@ -204,61 +204,68 @@ window.showSection = function(id) {
     }
     window.getAppointments = function () {
         const email = localStorage.getItem("userEmail");
-        if (!email) {
-            alert("User email not found. Please log in.");
+        const token = localStorage.getItem("authToken"); // 🔑 Retrieve token from localStorage or session
+
+        if (!email || !token) {
+            alert("User email or token not found. Please log in.");
             return;
         }
 
-        fetch(`https://appointment-mknk.onrender.com/user?email=${encodeURIComponent(email)}`)
-            .then(response => {
-                if (!response.ok) throw new Error("Failed to fetch appointments.");
-                return response.json();
-            })
-            .then(data => {
-                if (data.length === 0) {
-                    document.getElementById("appointments-results").innerHTML = "<p>❌ You have no appointments.</p>";
-                    return;
-                }
+        fetch(`https://appointment-mknk.onrender.com/user?email=${encodeURIComponent(email)}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,  // ✅ Send token
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to fetch appointments.");
+            return response.json();
+        })
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) {
+                document.getElementById("appointments-results").innerHTML = "<p>❌ You have no appointments.</p>";
+                return;
+            }
 
-                let html = `
-                    <table>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>Date</th>
-                            <th>Purpose</th>
-                            <th>Hospital</th>
-                            <th>Region</th>
-                            <th>Actions</th>
-                        </tr>`;
+            let html = `
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Date</th>
+                        <th>Purpose</th>
+                        <th>Hospital</th>
+                        <th>Region</th>
+                        <th>Actions</th>
+                    </tr>`;
 
-                data.forEach(app => {
-                    html += `
-                        <tr>
-                            <td>${app.id}</td>
-                            <td>${app.patientName}</td>
-                            <td>${app.contactInfo}</td>
-                            <td>${new Date(app.appointmentDateTime).toLocaleString()}</td>
-                            <td>${app.purpose}</td>
-                            <td>${app.hospital}</td>
-                            <td>${app.region}</td>
-                            <td>
-                                <button onclick="editAppointment(${app.id})">✏️ Edit</button>
-                                <button onclick="deleteAppointment(${app.id})">🗑️ Delete</button>
-                            </td>
-                        </tr>`;
-                });
-
-                html += '</table>';
-                document.getElementById("appointments-results").innerHTML = html;
-            })
-            .catch(err => {
-                console.error("Error fetching appointments:", err);
-                alert("Could not load appointments.");
+            data.forEach(app => {
+                html += `
+                    <tr>
+                        <td>${app.id}</td>
+                        <td>${app.patientName}</td>
+                        <td>${app.contactInfo}</td>
+                        <td>${new Date(app.appointmentDateTime).toLocaleString()}</td>
+                        <td>${app.purpose}</td>
+                        <td>${app.hospital}</td>
+                        <td>${app.region}</td>
+                        <td>
+                            <button onclick="editAppointment(${app.id})">✏️ Edit</button>
+                            <button onclick="deleteAppointment(${app.id})">🗑️ Delete</button>
+                        </td>
+                    </tr>`;
             });
-    };
 
+            html += '</table>';
+            document.getElementById("appointments-results").innerHTML = html;
+        })
+        .catch(err => {
+            console.error("Error fetching appointments:", err);
+            alert("Could not load appointments.");
+        });
+    };
     window.editAppointment = function (id) {
         fetch(`https://appointment-mknk.onrender.com/${id}`)
             .then(response => response.json())
