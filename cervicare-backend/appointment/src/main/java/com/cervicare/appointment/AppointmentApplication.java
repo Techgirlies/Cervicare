@@ -6,15 +6,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AppointmentApplication {
-	public static void main(String[] args) {
-		// Load environment variables from .env file
-		Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-		// Set as system properties so Spring Boot can use them
+	public static void main(String[] args) {
+		// Load environment variables from .env file (if present)
+		Dotenv dotenv = Dotenv.configure()
+				.directory(System.getProperty("user.dir"))
+				.ignoreIfMissing()
+				.load();
+
+		// Set dotenv variables as system properties for Spring Boot access
 		dotenv.entries().forEach(entry ->
 				System.setProperty(entry.getKey(), entry.getValue())
 		);
 
+		// Launch the Spring Boot application
 		SpringApplication.run(AppointmentApplication.class, args);
 	}
 }
