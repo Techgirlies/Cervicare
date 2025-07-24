@@ -45,10 +45,48 @@ const API_BASE_URL = isLocal
        });
      }
    }
-   const loginForm = document.getElementById("loginForm");
-   if (loginForm) {
-     loginForm.addEventListener("submit", async function (e) { ... });
-   }
+  const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      const response = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.token) {
+        document.getElementById("loginMessage").innerText = "Login failed. Check your credentials.";
+        return;
+      }
+
+      // ✅ Store token and email
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userEmail", email);
+
+      if (data.role) {
+        localStorage.setItem("userRole", data.role);
+      }
+
+      if (data.role === "DOCTOR") {
+        window.location.href = "doctor-dashboard.html";
+      } else {
+        window.location.href = "patient-dashboard.html";
+      }
+
+    } catch (error) {
+      console.error("Login error:", error);
+      document.getElementById("loginMessage").innerText = "An error occurred. Please try again.";
+    }
+  });
+}
 document.getElementById("signupForm").addEventListener("submit", async function (e) {
     e.preventDefault();
     const data = {
