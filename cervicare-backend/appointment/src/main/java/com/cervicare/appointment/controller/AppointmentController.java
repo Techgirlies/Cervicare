@@ -4,12 +4,17 @@ import com.cervicare.appointment.model.Appointment;
 import com.cervicare.appointment.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/appointments")
 public class AppointmentController {
+
     @Autowired
     private AppointmentService service;
 
@@ -34,8 +39,17 @@ public class AppointmentController {
     public Appointment update(@PathVariable Long id, @RequestBody Appointment appointment) {
         return service.update(id, appointment);
     }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<Appointment>> getAppointmentsByLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // Ensure this returns the user's email
+        List<Appointment> appointments = service.getAppointmentsByEmail(email);
+        return ResponseEntity.ok(appointments);
     }
 }

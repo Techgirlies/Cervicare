@@ -10,27 +10,32 @@ import java.util.Optional;
 
 @Service
 public class AppointmentService {
+
         @Autowired
-        private AppointmentRepository repository;
+        private AppointmentRepository appointmentRepository;
 
         public Appointment create(Appointment appointment) {
-                return repository.save(appointment);
+                return appointmentRepository.save(appointment);
         }
 
         public List<Appointment> getAll() {
-                return repository.findAll();
+                return appointmentRepository.findAll();
         }
 
         public Optional<Appointment> getById(Long id) {
-                return repository.findById(id);
+                return appointmentRepository.findById(id);
         }
 
         public Appointment update(Long id, Appointment updated) {
                 updated.setId(id);
-                return repository.save(updated);
+                return appointmentRepository.save(updated);
         }
 
         public void delete(Long id) {
-                repository.deleteById(id);
+                appointmentRepository.deleteById(id);
+        }
+
+        public List<Appointment> getAppointmentsByEmail(String email) {
+                return appointmentRepository.findByEmail(email);
         }
 }
