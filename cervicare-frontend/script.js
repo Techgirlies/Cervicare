@@ -9,17 +9,23 @@ const API_BASE_URL = isLocal
   const USER_SERVICE_API_BASE_URL = isLocal
       ? "http://localhost:8081"
       : "https://cervicare-user-service-mknk.onrender.com";
-   const email = localStorage.getItem("userEmail");
-   const token = localStorage.getItem("authToken");
-
   const ASSESSMENT_API_BASE_URL = isLocal
     ? "http://localhost:8080"
     : "https://assessment-microservice-mknk.onrender.com";
+    const email = localStorage.getItem("userEmail");
+    const token = localStorage.getItem("authToken");
 
-    if (!email || !token) {
-      console.log("User email or token not found. Please log in.");
-      alert("You must be logged in.");
-      window.location.href = "index.html";
+    const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"]; // add more as needed
+    const currentPage = window.location.pathname.split("/").pop();
+
+    if (protectedPages.includes(currentPage)) {
+      if (!email || !token) {
+        console.log("User email or token not found. Please log in.");
+        alert("You must be logged in.");
+        window.location.href = "index.html";
+      }
+    }
+
     } else {
       fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
         method: "GET",
