@@ -14,40 +14,41 @@ const API_BASE_URL = isLocal
     : "https://assessment-microservice-mknk.onrender.com";
     const email = localStorage.getItem("userEmail");
     const token = localStorage.getItem("authToken");
-
-    const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"]; // add more as needed
-    const currentPage = window.location.pathname.split("/").pop();
-
-    if (protectedPages.includes(currentPage)) {
-      if (!email || !token) {
-        console.log("User email or token not found. Please log in.");
-        alert("You must be logged in.");
-        window.location.href = "index.html";
-      }
-    }
-    else {
-      fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
-        method: "GET",
-        headers: {
-          "Authorization": "Bearer " + token,
-          "Content-Type": "application/json"
-        }
-      })
-      .then(res => {
-        if (!res.ok) throw new Error("Unauthorized or user not found");
-        return res.json();
-      })
-      .then(data => {
-        console.log("User data loaded:", data);
-        // Optionally render UI with user info here
-      })
-      .catch(err => {
-        console.error("Error fetching user:", err);
-        alert("Session expired. Please log in again.");
-        localStorage.clear();
-        window.location.href = "index.html";
-      });
-    }
+    const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
+   const currentPage = window.location.pathname.split("/").pop();
+   if (protectedPages.includes(currentPage)) {
+     if (!email || !token) {
+       console.log("User email or token not found. Please log in.");
+       alert("You must be logged in.");
+       window.location.href = "index.html";
+     } else {
+       // ✅ Only fetch user data if logged in AND on protected page
+       fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
+         method: "GET",
+         headers: {
+           "Authorization": "Bearer " + token,
+           "Content-Type": "application/json"
+         }
+       })
+       .then(res => {
+         if (!res.ok) throw new Error("Unauthorized or user not found");
+         return res.json();
+       })
+       .then(data => {
+         console.log("User data loaded:", data);
+       })
+       .catch(err => {
+         console.error("Error fetching user:", err);
+         alert("Session expired. Please log in again.");
+         localStorage.clear();
+         window.location.href = "index.html";
+       });
+     }
+   }
+   const loginForm = document.getElementById("loginForm");
+   if (loginForm) {
+     loginForm.addEventListener("submit", async function (e) { ... });
+   }
 document.getElementById("signupForm").addEventListener("submit", async function (e) {
     e.preventDefault();
     const data = {
@@ -76,7 +77,7 @@ document.getElementById("signupForm").addEventListener("submit", async function 
         // OPTIONAL: auto-login after signup (add fetch to /auth/login here)
         localStorage.setItem("userId", result.id);
         localStorage.setItem("userEmail", result.email);
-
+        localStorage.setItem("userRole", result.role);
         // Optionally call /auth/login with same email/password to get token
         const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
           method: "POST",
