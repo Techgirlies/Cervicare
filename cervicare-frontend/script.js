@@ -1006,12 +1006,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Section navigation
-  function showSection(id) {
+  window.showSection = function(id) {
     document.querySelectorAll("section").forEach((s) => {
       s.style.display = s.id === id ? "block" : "none";
     });
-  }
-
+  };
   showSection("landing"); // Default section
 
   document.querySelectorAll("[data-section]").forEach((el) => {
