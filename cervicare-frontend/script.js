@@ -25,8 +25,7 @@ const API_BASE_URL = isLocal
         window.location.href = "index.html";
       }
     }
-
-    } else {
+    else {
       fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
         method: "GET",
         headers: {
