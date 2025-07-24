@@ -956,116 +956,117 @@ function closeAppointmentForm() {
 window.openAppointmentForm = openAppointmentForm;
 window.closeAppointmentForm = closeAppointmentForm;
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById('appointment-form');
-    if (form) form.onsubmit = defaultCreateAppointment;
-});
-function showStep(step) {
-    formSteps.forEach((formStep, index) => {
-        if (index === step) {
-            formStep.classList.add("active");
-        } else {
-            formStep.classList.remove("active");
-        }
+  const form = document.getElementById("appointment-form");
+  const steps = document.querySelectorAll(".form-step");
+  const progress = document.getElementById("progress");
+  let currentStep = 0;
+
+  function showStep(index) {
+    steps.forEach((step, i) => {
+      step.classList.toggle("active", i === index);
     });
-    const progressPercent = ((step + 1) / formSteps.length) * 100;
-    progress.style.width = progressPercent + "%";
-}
-function validateStep(step) {
-    const inputs = formSteps[step].querySelectorAll("input[required]");
+    if (progress) {
+      progress.style.width = `${((index + 1) / steps.length) * 100}%`;
+    }
+  }
+
+  function validateStep(stepIndex) {
+    const step = steps[stepIndex];
+    const inputs = step.querySelectorAll("input[required]");
     for (let input of inputs) {
-        if (input.type === "radio") {
-            const name = input.name;
-            const checked = formSteps[step].querySelector(`input[name="${name}"]:checked`);
-            if (!checked) return false;
-        } else {
-            if (!input.value.trim()) return false;
-        }
+      if (input.type === "radio") {
+        const name = input.name;
+        const checked = step.querySelector(`input[name="${name}"]:checked`);
+        if (!checked) return false;
+      } else {
+        if (!input.value.trim()) return false;
+      }
     }
     return true;
-}
-form.addEventListener("click", (e) => {
-    if (e.target.matches(".next-btn")) {
+  }
+
+  if (form) {
+    form.onsubmit = defaultCreateAppointment;
+
+    form.addEventListener("click", (e) => {
+      if (e.target.matches(".next-btn")) {
         e.preventDefault();
         if (validateStep(currentStep)) {
-            if (currentStep < formSteps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
-            }
+          if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+          }
         } else {
-            alert("Please fill out all required fields in this step.");
+          alert("Please fill out all required fields in this step.");
         }
-    } else if (e.target.matches(".prev-btn")) {
+      } else if (e.target.matches(".prev-btn")) {
         e.preventDefault();
         if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
+          currentStep--;
+          showStep(currentStep);
         }
-    }
-});
-const steps = document.querySelectorAll('.form-step');
-function showStep(index) {
-  steps.forEach((step, i) => {
-    step.classList.toggle('active', i === index);
-  });
-  progress.style.width = `${((index + 1) / steps.length) * 100}%`;
-}
-
-function nextStep() {
-  if (currentStep < steps.length - 1) {
-    currentStep++;
-    showStep(currentStep);
-  }
-}
-
-function prevStep() {
-  if (currentStep > 0) {
-    currentStep--;
-    showStep(currentStep);
-  }
-}
-document.querySelectorAll('.prev-btn').forEach(btn => {
-  btn.addEventListener('click', prevStep);
-});
-
-showStep(currentStep); // Init
-    // Replace data-print
-    document.querySelectorAll("[data-print]").forEach(el => {
-        el.addEventListener("click", () => window.print());
+      }
     });
-document.addEventListener('DOMContentLoaded', function () {
-    // Default section
-    showSection('landing');
 
-    // Navigation buttons (sidebar + landing)
-    document.querySelectorAll("[data-section]").forEach(el => {
-        el.addEventListener("click", () => {
-            const id = el.getAttribute("data-section");
-            showSection(id);
-        });
-    });
-    // Action buttons
-    document.querySelectorAll("[data-action]").forEach(el => {
-        el.addEventListener("click", () => {
-            const fnName = el.getAttribute("data-action");
-            if (typeof window[fnName] === "function") {
-                window[fnName]();
-            }
-        });
-    });
-    document.querySelectorAll('.sidebar li').forEach(item => {
-      item.addEventListener('click', () => {
-        const section = item.getAttribute('data-section');
-        if (section) showSection(section);
+    document.querySelectorAll(".prev-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (currentStep > 0) {
+          currentStep--;
+          showStep(currentStep);
+        }
       });
     });
-    // Start assessment button
-    document.querySelector('.start-assessment-btn')?.addEventListener('click', () => {
-        showSection('assessment');
+
+    showStep(currentStep); // Initialize the first step
+  }
+
+  // Section navigation
+  function showSection(id) {
+    document.querySelectorAll("section").forEach((s) => {
+      s.style.display = s.id === id ? "block" : "none";
     });
-  const notificationBtn = document.getElementById("notification-btn");
-      if (notificationBtn) {
-        notificationBtn.addEventListener("click", function () {
-          alert("🔔 Notifications (e.g., appointments, stock alerts) coming soon!");
-        });
+  }
+
+  showSection("landing"); // Default section
+
+  document.querySelectorAll("[data-section]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const id = el.getAttribute("data-section");
+      if (id) showSection(id);
+    });
+  });
+
+  document.querySelectorAll("[data-action]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const fnName = el.getAttribute("data-action");
+      if (typeof window[fnName] === "function") {
+        window[fnName]();
       }
+    });
+  });
+
+  document.querySelectorAll(".sidebar li").forEach((item) => {
+    item.addEventListener("click", () => {
+      const section = item.getAttribute("data-section");
+      if (section) showSection(section);
+    });
+  });
+
+  const startBtn = document.querySelector(".start-assessment-btn");
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      showSection("assessment");
+    });
+  }
+
+  document.querySelectorAll("[data-print]").forEach((el) => {
+    el.addEventListener("click", () => window.print());
+  });
+
+  const notificationBtn = document.getElementById("notification-btn");
+  if (notificationBtn) {
+    notificationBtn.addEventListener("click", function () {
+      alert("🔔 Notifications (e.g., appointments, stock alerts) coming soon!");
+    });
+  }
 });
