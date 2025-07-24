@@ -88,7 +88,7 @@
     };
 
     try {
-      const response = await fetch("https://cervicare-user-service-mknk.onrender.com/api/users/register", {
+      const response = await  fetch(`${USER_SERVICE_API_BASE_URL}/api/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -108,7 +108,7 @@
         localStorage.setItem("userEmail", result.email);
 
         // Optionally call /auth/login with same email/password to get token
-        const loginRes = await fetch("https://appointment-mknk.onrender.com/auth/login", {
+        const loginRes = await fetch(`${USER_SERVICE_API_BASE_URL}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: result.email, password: data.password })

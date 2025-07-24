@@ -3,18 +3,25 @@ const isLocal = window.location.hostname === "localhost";
 const API_BASE_URL = isLocal
   ? "http://localhost:8083"
   : "https://hospital-recommender-service-mknk.onrender.com";
+  const APPOINTMENT_API_BASE_URL = isLocal
+    ? "http://localhost:8082"
+    : "https://appointment-mknk.onrender.com";
+  const USER_SERVICE_API_BASE_URL = isLocal
+      ? "http://localhost:8081"
+      : "https://cervicare-user-service-mknk.onrender.com";
+   const email = localStorage.getItem("userEmail");
+   const token = localStorage.getItem("authToken");
+
   const ASSESSMENT_API_BASE_URL = isLocal
-    ? "http://localhost:8080" // Local controller base
+    ? "http://localhost:8080"
     : "https://assessment-microservice-mknk.onrender.com";
-    const email = localStorage.getItem("userEmail");
-    const token = localStorage.getItem("authToken");
 
     if (!email || !token) {
       console.log("User email or token not found. Please log in.");
       alert("You must be logged in.");
       window.location.href = "index.html";
     } else {
-      fetch("https://appointment-mknk.onrender.com/user?email=" + encodeURIComponent(email), {
+      fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
         method: "GET",
         headers: {
           "Authorization": "Bearer " + token,
@@ -187,35 +194,38 @@ window.showSection = function(id) {
             });
         });
     }
-    window.triggerSaveAssessment = async function () {
-        try {
-            const biopsyRisk = document.getElementById("biopsy-risk").textContent;
-            const confidence = document.getElementById("confidence").textContent;
-            const recommendation = document.getElementById("screening-recommendation").textContent;
+   window.triggerSaveAssessment = async function () {
+       try {
+           const biopsyRisk = document.getElementById("biopsy-risk").textContent;
+           const confidence = document.getElementById("confidence").textContent;
+           const recommendation = document.getElementById("screening-recommendation").textContent;
+           const email = localStorage.getItem("userEmail");
 
-            const response = await fetch("https://assessment-microservice-mknk.onrender.com/assessment/save", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    biopsyRisk,
-                    confidence,
-                    recommendation,
-                    timestamp: new Date().toISOString(),
-                }),
-            });
+           const response = await fetch(`${ASSESSMENT_API_BASE_URL}/assessment/save`, {
+               method: "POST",
+               headers: {
+                   "Content-Type": "application/json",
+               },
+               body: JSON.stringify({
+                   biopsyRisk,
+                   confidence,
+                   recommendation,
+                   email,
+                   timestamp: new Date().toISOString(),
+               }),
+           });
 
-            if (!response.ok) {
-                throw new Error("Failed to save assessment");
-            }
+           if (!response.ok) {
+               throw new Error("Failed to save assessment");
+           }
 
-            alert("Assessment data saved successfully!");
-        } catch (error) {
-            console.error("Error saving assessment:", error);
-            alert("Failed to save assessment.");
-        }
-    };
+           alert("✅ Assessment data saved successfully!");
+       } catch (error) {
+           console.error("Error saving assessment:", error);
+           alert("❌ Failed to save assessment.");
+       }
+   };
+
 
     window.closePopup = function () {
         const popup = document.getElementById('assessment-popup');
@@ -241,8 +251,7 @@ window.showSection = function(id) {
             alert("User email or token not found. Please log in.");
             return;
         }
-
-        fetch(`https://appointment-mknk.onrender.com/user?email=${encodeURIComponent(email)}`, {
+        fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token,  // ✅ Send token
@@ -298,7 +307,7 @@ window.showSection = function(id) {
         });
     };
     window.editAppointment = function (id) {
-        fetch(`https://appointment-mknk.onrender.com/${id}`)
+        fetch(`${APPOINTMENT_API_BASE_URL}/${id}`)
             .then(response => response.json())
             .then(app => {
                 document.getElementById("edit-appointment-id").value = app.id;
@@ -327,7 +336,7 @@ window.showSection = function(id) {
             region: document.getElementById("edit-region").value,
             hospital: document.getElementById("edit-hospital").value
         };
-        fetch(`https://appointment-mknk.onrender.com/${id}`, {
+        fetch(`${APPOINTMENT_API_BASE_URL}/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedAppointment)
@@ -349,7 +358,7 @@ window.showSection = function(id) {
 window.deleteAppointment = function (id) {
     if (!id) return;
     if (confirm("Are you sure you want to delete this appointment?")) {
-        fetch(`https://appointment-mknk.onrender.com/${id}`, {
+        fetch(`${APPOINTMENT_API_BASE_URL}/${id}`, {
             method: "DELETE"
         })
         .then(response => {
@@ -782,7 +791,9 @@ const defaultCreateAppointment = async function (e) {
     };
 
     try {
-        const response = await fetch("https://appointment-mknk.onrender.com", {
+        const response = await fetch(`${APPOINTMENT_API_BASE_URL}`, {
+
+        }
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(appointmentData),
