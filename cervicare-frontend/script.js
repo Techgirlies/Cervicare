@@ -18,9 +18,6 @@ const email = localStorage.getItem("userEmail");
 const token = localStorage.getItem("authToken");
 const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
 const currentPage = window.location.pathname.split("/").pop();
-const protectedPages = ["doctor-dashboard.html", "patient-dashboard.html"];
-const currentPage = window.location.pathname.split("/").pop();
-
 if (protectedPages.includes(currentPage)) {
   if (!email || !token) {
     console.log("User email or token not found. Please log in.");
@@ -165,7 +162,6 @@ window.showSection = function(id) {
     s.style.display = s.id === id ? "block" : "none";
   });
 };
-// Sidebar support (if you use <li data-section="...">)
 document.querySelectorAll(".sidebar li").forEach((item) => {
   item.addEventListener("click", () => {
     const section = item.getAttribute("data-section");
