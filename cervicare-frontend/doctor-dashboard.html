@@ -6,6 +6,7 @@
     <title>CerviCare</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -19,7 +20,7 @@
                 <li data-section="inventory">Inventory</li>
                 <li data-section="stock-check">Stock Checker</li>
                 <li data-section="hospital-recommender">Hospital Recommender</li>
-
+                <li data-section="analytics">📊 Analysis</li>
             </ul>
         </nav>
     </aside>
@@ -37,8 +38,18 @@
                 <button class="start-assessment-btn" data-section="assessment">🎗️ Take Assessment</button>
                 <img src="images/cervicare.png" alt="Women for women by women" class="landing-image">
             </div>
-        </section>
 
+            <hr>
+
+            <div class="analytics-container">
+                <h2>📊 Platform Insights</h2>
+                <div class="chart-grid">
+                    <canvas id="enrollmentChart"></canvas>
+                    <canvas id="riskChart"></canvas>
+                    <canvas id="facilityChart"></canvas>
+                </div>
+            </div>
+        </section>
         <!-- ASSESSMENT SECTION -->
         <!-- Only the assessment form part updated -->
         <section id="assessment" class="content-section hidden">

@@ -695,4 +695,17 @@ input[type="time"]:focus {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
 }
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.analytics-container h2 {
+  margin-top: 40px;
+  text-align: center;
+}
+
+
 

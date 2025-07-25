@@ -165,8 +165,6 @@ window.closeAccountPopup = function () {
   const popup = document.getElementById("account-popup");
   if (popup) popup.classList.add("hidden");
 };
-
-document.addEventListener("DOMContentLoaded", function () {
   const accountIcon = document.getElementById("account-icon");
   if (accountIcon) {
     accountIcon.addEventListener("click", () => {
@@ -176,8 +174,6 @@ document.addEventListener("DOMContentLoaded", function () {
       popup?.classList.remove("hidden");
     });
   }
-});
-
 const progress = document.getElementById("progress");
   // Section navigation
   window.showSection = function(id) {
@@ -566,7 +562,7 @@ window.deleteAppointment = function (id) {
             document.getElementById("kephLevel").value = item.kephLevel;
             document.getElementById("owner").value = item.owner;
             document.getElementById("code").value = item.code;
-            document.getElementById("item").value = item.item;            // changed itemName -> item
+            document.getElementById("item").value = item.item;
             document.getElementById("cost").value = item.cost;
             document.getElementById("availableStock").value = item.availableStock;
             document.getElementById("price").value = item.price;
@@ -1092,3 +1088,69 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+new Chart(document.getElementById("enrollmentChart"), {
+    type: "bar",
+    data: {
+      labels: ["Doctors Enrolled", "People Tested"],
+      datasets: [{
+        label: "Users",
+        data: [128, 3492],
+        backgroundColor: ["#4CAF50", "#2196F3"]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Platform User Overview"
+        }
+      }
+    }
+  });
+
+  // High Risk Detection Pie Chart
+  new Chart(document.getElementById("riskChart"), {
+    type: "doughnut",
+    data: {
+      labels: ["High Risk", "Normal"],
+      datasets: [{
+        data: [284, 3208],
+        backgroundColor: ["#FF6384", "#36A2EB"]
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "Assessment Risk Breakdown"
+        }
+      }
+    }
+  });
+
+  // Facilities Participation
+  new Chart(document.getElementById("facilityChart"), {
+    type: "bar",
+    data: {
+      labels: ["Medical Centers"],
+      datasets: [{
+        label: "Facilities",
+        data: [53],
+        backgroundColor: "#FFCE56"
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "Participating Facilities"
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
