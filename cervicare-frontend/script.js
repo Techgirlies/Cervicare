@@ -156,11 +156,20 @@ if (signupForm) {
 }
 
 const progress = document.getElementById("progress");
-window.showSection = function(id) {
-  document.querySelectorAll("section").forEach((s) => {
-    s.style.display = s.id === id ? "block" : "none";
-  });
-};
+  // Section navigation
+  window.showSection = function(id) {
+    document.querySelectorAll("section").forEach((s) => {
+      if (s.id === id) {
+        s.classList.remove("hidden");
+        s.style.display = "block";
+      } else {
+        s.classList.add("hidden");
+        s.style.display = "none";
+      }
+    });
+  };
+  showSection("landing"); // Default section
+
 document.querySelectorAll(".sidebar li").forEach((item) => {
   item.addEventListener("click", () => {
     const section = item.getAttribute("data-section");
@@ -1015,15 +1024,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showStep(currentStep); // Initialize the first step
   }
-
-  // Section navigation
-  window.showSection = function(id) {
-    document.querySelectorAll("section").forEach((s) => {
-      s.style.display = s.id === id ? "block" : "none";
-    });
-  };
-  showSection("landing"); // Default section
-
   document.querySelectorAll("[data-section]").forEach((el) => {
     el.addEventListener("click", () => {
       const id = el.getAttribute("data-section");
