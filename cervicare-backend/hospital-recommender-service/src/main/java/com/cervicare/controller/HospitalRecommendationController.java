@@ -94,5 +94,14 @@ public class HospitalRecommendationController {
             @PathVariable String item) {
         return ResponseEntity.ok(service.getUnifiedStockData(region, item));
     }
+    @GetMapping("/recommendations/hospitals")
+    public ResponseEntity<List<FacilityResourceDto>> recommendHospitals(
+            @RequestParam String query,
+            @RequestParam(required = false) String region,
+            @RequestParam(required = false) Double budget,
+            @RequestParam(required = false) Boolean insurance) {
+        return ResponseEntity.ok(service.recommendHospitals(query, region, budget, insurance));
+    }
+
 
 }

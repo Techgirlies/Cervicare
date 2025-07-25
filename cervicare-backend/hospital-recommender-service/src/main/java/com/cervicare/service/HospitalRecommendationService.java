@@ -82,4 +82,32 @@ public class HospitalRecommendationService {
                 ))
                 .collect(Collectors.toList());
     }
+    public List<FacilityResourceDto> recommendHospitals(String query, String region, Double budget, Boolean insurance) {
+        List<FacilityItem> items = itemRepo.findSmartRecommendations(query.toLowerCase(), region, budget);
+        List<FacilityService> services = serviceRepo.findSmartServices(query.toLowerCase(), region, budget, insurance);
+
+        return items.stream().map(i -> new FacilityResourceDto(
+                        i.getItem(),
+                        i.getCategory(),
+                        i.getFacilityName(),
+                        i.getRegion(),
+                        i.getCost(),
+                        i.getInsurance()
+                )).collect(Collectors.toList())
+                .stream().collect(Collectors.toCollection(() -> {
+                    List<FacilityResourceDto> combined = new java.util.ArrayList<>();
+                    for (FacilityService s : services) {
+                        combined.add(new FacilityResourceDto(
+                                s.getService(),
+                                s.getCategory(),
+                                s.getFacility(),
+                                s.getRegion(),
+                                s.getBaseCost(),
+                                s.getNhifCovered()
+                        ));
+                    }
+                    return combined;
+                }));
+    }
+
 }

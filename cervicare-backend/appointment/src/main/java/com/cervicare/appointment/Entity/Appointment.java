@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import java.time.LocalDateTime;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
+import lombok.Data;
 
 @Entity
 @Table(name = "appointment_data")
@@ -22,7 +23,6 @@ public class Appointment {
     private String hospital;
     @Column(nullable = false)
     private String email;
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -79,4 +79,12 @@ public class Appointment {
     public void setHospital(String hospital) {
         this.hospital = hospital;
     }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

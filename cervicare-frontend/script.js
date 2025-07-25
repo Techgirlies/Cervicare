@@ -343,10 +343,6 @@ document.querySelectorAll(".sidebar li").forEach((item) => {
         const popup = document.getElementById('inventory-popup');
         if (popup) popup.classList.add('hidden');
     };
-    function closeInventoryForm() {
-        const overlay = document.getElementById('popup-overlay');
-        if (overlay) overlay.classList.add('hidden');
-    }
     window.getAppointments = function () {
         const email = localStorage.getItem("userEmail");
         const token = localStorage.getItem("authToken"); // 🔑 Retrieve token from localStorage or session
@@ -595,17 +591,24 @@ window.getEnhancedRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value.trim();
     const itemOrService = document.getElementById('recommender-item')?.value.trim();
     const budget = document.getElementById('recommender-budget')?.value.trim();
-    // Insurance is optional
     const insuranceEl = document.getElementById('recommender-insurance');
-    // const insurance = insuranceEl ? insuranceEl.value.trim() : "";
-    const insurance = ""; // effectively disables it
+    const insurance = insuranceEl ? insuranceEl.checked : null;
+
     const container = document.getElementById('recommender-results');
+
     if (!region || !itemOrService) {
         container.style.display = 'block';
         container.innerText = "❌ Please enter both region and keyword (item / service / category).";
         return;
     }
-    const url = `https://hospital-recommender-service-mknk.onrender.com/api/recommendations/region/${encodeURIComponent(region)}/item/${encodeURIComponent(itemOrService)}?maxBudget=${encodeURIComponent(budget || "")}`;
+
+    const query = encodeURIComponent(itemOrService);
+    const regionParam = encodeURIComponent(region);
+    const budgetParam = encodeURIComponent(budget || '');
+    const insuranceParam = insurance !== null ? `&insurance=${insurance}` : '';
+
+    const url = `https://hospital-recommender-service-mknk.onrender.com/api/recommendations/hospitals?query=${query}&region=${regionParam}&budget=${budgetParam}${insuranceParam}`;
+
     container.innerHTML = "🔄 Fetching recommendations...";
 
     fetch(url)
@@ -618,12 +621,15 @@ window.getEnhancedRecommendations = function () {
                 container.innerHTML = "⚠️ No recommendations found for the given inputs.";
                 return;
             }
-            container.innerHTML = data.map(hospital => `
+
+            container.innerHTML = data.map(facility => `
                 <div class="hospital-card">
-                    <h4>${hospital.name}</h4>
-                    <p>📍 ${hospital.location}</p>
-                    <p>💰 Cost: KES ${hospital.price}</p>
-                    <p>✅ Insurance: ${hospital.insurance || "N/A"}</p>
+                    <h4>${facility.facilityName}</h4>
+                    <p>📍 Region: ${facility.region || '-'}</p>
+                    <p>🏥 Category: ${facility.category || '-'}</p>
+                    <p>🩺 Item / Service: ${facility.item || '-'}</p>
+                    <p>💰 Cost: KES ${facility.cost != null ? facility.cost : 'N/A'}</p>
+                    <p>✅ Insurance: ${facility.insurance ? "Yes" : "No"}</p>
                 </div>
             `).join('');
         })
@@ -631,6 +637,7 @@ window.getEnhancedRecommendations = function () {
             container.innerHTML = `❌ Error fetching recommendations: ${err.message}`;
         });
 };
+
 window.searchStock = function () {
     const region = document.getElementById('stock-region')?.value.trim();
     const item = document.getElementById('stock-item')?.value.trim();
