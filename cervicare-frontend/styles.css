@@ -661,3 +661,38 @@ input[type="time"]:focus {
   background-color: #ffe4ec; /* light pink on hover */
   transform: scale(1.1);
 }
+.hospital-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  transition: all 0.2s ease-in-out;
+}
+
+.hospital-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.hospital-card h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.hospital-card p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+#recommender-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+

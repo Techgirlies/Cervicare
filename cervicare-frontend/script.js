@@ -154,6 +154,29 @@ if (signupForm) {
     }
   });
 }
+// Show account popup
+document.getElementById("account-icon").addEventListener("click", () => {
+  const popup = document.getElementById("account-popup");
+  const email = localStorage.getItem("userEmail");
+  const role = localStorage.getItem("userRole");
+
+  document.getElementById("account-email").textContent = email || "N/A";
+  document.getElementById("account-role").textContent = role || "N/A";
+
+  if (popup) popup.classList.remove("hidden");
+});
+
+window.closeAccountPopup = function () {
+  const popup = document.getElementById("account-popup");
+  if (popup) popup.classList.add("hidden");
+};
+
+window.logout = function () {
+  if (confirm("Are you sure you want to logout?")) {
+    localStorage.clear();
+    window.location.href = "index.html"; // Redirect to login/landing page
+  }
+};
 
 const progress = document.getElementById("progress");
   // Section navigation
@@ -343,6 +366,22 @@ document.querySelectorAll(".sidebar li").forEach((item) => {
         const popup = document.getElementById('inventory-popup');
         if (popup) popup.classList.add('hidden');
     };
+    window.editAppointment = function (id) {
+            fetch(`${APPOINTMENT_API_BASE_URL}/${id}`)
+                .then(response => response.json())
+                .then(app => {
+                    document.getElementById("edit-appointment-id").value = app.id;
+                    document.getElementById("edit-patientName").value = app.patientName;
+                    document.getElementById("edit-contactInfo").value = app.contactInfo;
+                    const dateTime = new Date(app.appointmentDateTime);
+                    document.getElementById("edit-appointmentDate").value = dateTime.toISOString().split('T')[0];
+                    document.getElementById("edit-appointmentTime").value = dateTime.toTimeString().slice(0, 5);
+                    document.getElementById("edit-purpose").value = app.purpose;
+                    document.getElementById("edit-region").value = app.region;
+                    document.getElementById("edit-hospital").value = app.hospital;
+                    document.getElementById("edit-appointment-popup").classList.remove("hidden");
+                });
+        };
     window.getAppointments = function () {
         const email = localStorage.getItem("userEmail");
         const token = localStorage.getItem("authToken"); // 🔑 Retrieve token from localStorage or session
@@ -406,22 +445,7 @@ document.querySelectorAll(".sidebar li").forEach((item) => {
             alert("Could not load appointments.");
         });
     };
-    window.editAppointment = function (id) {
-        fetch(`${APPOINTMENT_API_BASE_URL}/${id}`)
-            .then(response => response.json())
-            .then(app => {
-                document.getElementById("edit-appointment-id").value = app.id;
-                document.getElementById("edit-patientName").value = app.patientName;
-                document.getElementById("edit-contactInfo").value = app.contactInfo;
-                const dateTime = new Date(app.appointmentDateTime);
-                document.getElementById("edit-appointmentDate").value = dateTime.toISOString().split('T')[0];
-                document.getElementById("edit-appointmentTime").value = dateTime.toTimeString().slice(0, 5);
-                document.getElementById("edit-purpose").value = app.purpose;
-                document.getElementById("edit-region").value = app.region;
-                document.getElementById("edit-hospital").value = app.hospital;
-                document.getElementById("edit-appointment-popup").classList.remove("hidden");
-            });
-    };
+
     document.getElementById("edit-appointment-form")?.addEventListener("submit", function (e) {
         e.preventDefault();
         const id = document.getElementById("edit-appointment-id").value;
