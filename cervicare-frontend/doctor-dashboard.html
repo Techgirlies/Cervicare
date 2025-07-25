@@ -36,9 +36,8 @@
                 <p>Together, we can beat cervical cancer — one assessment at a time.</p>
                 <button class="start-assessment-btn" data-section="assessment">🎗️ Take Assessment</button>
             </div>
-            <h1>
-                <div class="analytics"><label>Analysis</label>
-            </h1>
+            <h1> Analysis </h1>
+            <div class="analytics"><label>Analysis</label>
             <div class="insights-grid">
                 <div class="insight-card">
                     <h3>👩‍⚕️ Doctors Enrolled</h3>
@@ -64,9 +63,9 @@
                     <p class="description">Medical centers onboarded</p>
                 </div>
             </div>
+            </div>>
         </section>
         <!-- ASSESSMENT SECTION -->
-        <!-- Only the assessment form part updated -->
         <section id="assessment" class="content-section hidden">
             <h2>Biopsy Risk Assessment</h2>
             <form id="assessment-form">
@@ -489,18 +488,19 @@
         <button id="chatbot-toggle" title="Chat with us">💬</button>
         <div id="chat-container"></div>
     </div>
-</body>
-<!-- ACCOUNT DETAILS POPUP -->
-<div id="account-popup" class="popup-overlay hidden">
-    <div class="popup-form">
-        <h2>Account Details</h2>
-        <p><strong>Email:</strong> <span id="account-email"></span></p>
-        <p><strong>Role:</strong> <span id="account-role"></span></p>
-        <div class="crud-buttons">
-            <button onclick="logout()">🚪 Logout</button>
-            <button onclick="closeAccountPopup()">Close</button>
+    <!-- ACCOUNT DETAILS POPUP -->
+    <div id="account-popup" class="popup-overlay hidden">
+        <div class="popup-form">
+            <h2>Account Details</h2>
+            <p><strong>Email:</strong> <span id="account-email"></span></p>
+            <p><strong>Role:</strong> <span id="account-role"></span></p>
+            <div class="crud-buttons">
+                <button onclick="logout()">🚪 Logout</button>
+                <button onclick="closeAccountPopup()">Close</button>
+            </div>
         </div>
     </div>
 </div>
-
+</div>>
+</body>
 </html>
