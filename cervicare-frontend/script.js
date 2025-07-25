@@ -800,7 +800,6 @@ function closeInventoryPopup() {
   const popup = document.getElementById("popup-form");
   popup.classList.add("hidden");
 }
-
 function renderRecommendationTable(data) {
     const container = document.getElementById('recommender-results');
     if (!Array.isArray(data) || data.length === 0) {
