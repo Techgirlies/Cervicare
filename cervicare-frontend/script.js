@@ -1086,7 +1086,6 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("🔔 Notifications (e.g., appointments, stock alerts) coming soon!");
     });
   }
-  <script>
     document.addEventListener("DOMContentLoaded", function () {
       Microsoft365CopilotStudio.renderWebChat({
         containerId: "chat-container",
