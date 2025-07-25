@@ -17,5 +17,4 @@ public interface FacilityItemRepository extends JpaRepository<FacilityItem, Long
             " (LOWER(i.facilityName) LIKE %:query%)) AND " +
             "(:budget IS NULL OR i.cost <= :budget)")
     List<FacilityItem> findSmartRecommendations(String query, String region, Double budget);
-
 }
