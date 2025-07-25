@@ -475,8 +475,8 @@ window.deleteAppointment = function (id) {
             const id = document.getElementById("itemId")?.value;
             const itemName = document.getElementById("itemName")?.value;
             const url = id
-                ? `http://localhost:8083/api/hospitals/items/${id}`
-                : 'http://localhost:8083/api/hospitals/items';
+              ? `${API_BASE_URL}/api/hospitals/items/${id}`
+              : `${API_BASE_URL}/api/hospitals/items`;
             const method = id ? 'PUT' : 'POST';
             const itemData = {
     region: document.getElementById("inventory-region")?.value,

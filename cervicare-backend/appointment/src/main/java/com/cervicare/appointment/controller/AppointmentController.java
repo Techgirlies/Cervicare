@@ -20,8 +20,24 @@ public class AppointmentController {
 
     @PostMapping
     public Appointment create(@RequestBody Appointment appointment) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) {
+            throw new IllegalStateException("No authentication found in security context");
+        }
+
+        String userEmail = authentication.getName(); // Expecting email
+
+        if (userEmail == null || userEmail.isBlank()) {
+            throw new IllegalStateException("Authenticated user's email is null or empty");
+        }
+
+        System.out.println("Setting appointment email to: " + userEmail);
+        appointment.setEmail(userEmail);
+
         return service.create(appointment);
     }
+
 
     @GetMapping
     public List<Appointment> getAll() {
@@ -49,6 +65,7 @@ public class AppointmentController {
     public ResponseEntity<List<Appointment>> getAppointmentsByLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // Ensure this returns the user's email
+
         List<Appointment> appointments = service.getAppointmentsByEmail(email);
         return ResponseEntity.ok(appointments);
     }
