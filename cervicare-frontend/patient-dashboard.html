@@ -14,30 +14,59 @@
         <h2>CerviCare</h2>
         <nav>
             <ul>
-                <li onclick="showSection('assessment')">Assessment</li>
-                <li onclick="showSection('appointments')">Appointments</li>
-                <li onclick="showSection('hospital-recommender')">Hospital Recommender</li>
-
+                <li data-section="assessment">Assessment</li>
+                <li data-section="appointments">Appointments</li>
+                <li data-section="hospital-recommender">Hospital Recommender</li>
+                <li data-section="payment"> Payment</li>
             </ul>
         </nav>
     </aside>
     <main class="main-content">
+        <div class="topbar-icons">
+            <div id="notification-btn" title="Notifications">🔔</div>
+            <div id="account-icon" title="Account">👤</div>
+        </div>
         <!-- LANDING SECTION -->
         <section id="landing" class="content-section">
             <div class="landing-container">
                 <h1>Welcome to CerviCare 🌸</h1>
                 <p>Your health is our priority. CerviCare helps healthcare providers assess and guide women in early detection and prevention of cervical cancer.</p>
                 <p>Together, we can beat cervical cancer — one assessment at a time.</p>
-                <button class="start-assessment-btn" onclick="showSection('assessment')">🎗️ Take Assessment</button>
-                <img src="images/cervicare.png" alt="Women for women by women" class="landing-image">
+                <button class="start-assessment-btn" data-section="assessment">🎗️ Take Assessment</button>
+            </div>
+            <h1>
+                <div class="analytics"><label>Analysis</label>
+            </h1>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>👩‍⚕️ Doctors Enrolled</h3>
+                    <p class="number">128</p>
+                    <p class="description">Registered doctors as of July 2025</p>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🧪 People Tested</h3>
+                    <p class="number">3,492</p>
+                    <p class="description">Completed assessments to date</p>
+                </div>
+
+                <div class="insight-card">
+                    <h3>📈 High Risk Detected</h3>
+                    <p class="number">284</p>
+                    <p class="description">Marked for urgent follow-up</p>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🏥 Facilities Participating</h3>
+                    <p class="number">53</p>
+                    <p class="description">Medical centers onboarded</p>
+                </div>
             </div>
         </section>
-
         <!-- ASSESSMENT SECTION -->
         <!-- Only the assessment form part updated -->
-        <section id="assessment" class="content-section">
+        <section id="assessment" class="content-section hidden">
             <h2>Biopsy Risk Assessment</h2>
-
             <form id="assessment-form">
                 <!-- Progress Bar -->
                 <div id="progress-bar">
@@ -97,6 +126,7 @@
 
                     <div class="buttons">
                         <button type="button" class="next-btn">Next</button>
+
                     </div>
                 </div>
 
@@ -210,6 +240,7 @@
                     <div class="buttons">
                         <button type="button" class="prev-btn">Previous</button>
                         <button type="button" class="next-btn">Next</button>
+
                     </div>
                 </div>
 
@@ -319,23 +350,20 @@
         <section id="appointments" class="content-section hidden">
             <h2>Appointments</h2>
             <div class="crud-buttons">
-                <button onclick="openAppointmentForm()">➕ Add Appointment</button>
-                <button id="btn-get-appointments">📋 View Appointments</button>
+                <button onclick="openAppointmentForm()">➕ Book Appointment</button>
+                <button onclick="getAppointments()">View Appointments</button>
             </div>
             <div id="appointments-results"></div>
         </section>
-
         <!-- INVENTORY SECTION -->
         <section id="inventory" class="content-section hidden">
             <h2>Inventory</h2>
             <div class="crud-buttons">
                 <button onclick="showInventoryForm()">➕ Add Item</button>
                 <button onclick="getInventory()">📋 View Inventory</button>
-
             </div>
             <div id="inventory-results"></div>
         </section>
-
         <!-- STOCK CHECK SECTION -->
         <section id="stock-check" class="content-section hidden">
             <h2>Stock Check</h2>
@@ -352,7 +380,6 @@
             </div>
             <div id="stock-results"></div>
         </section>
-
         <!-- HOSPITAL RECOMMENDER SECTION -->
         <section id="hospital-recommender" class="content-section hidden">
             <h2>Hospital Recommender</h2>
@@ -364,17 +391,65 @@
                 <label for="recommender-item">Item Name (optional)</label>
                 <input type="text"
                        id="recommender-item"
-                       placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)"
+                       placeholder="Item, Service or Category (e.g. Ibuprofen, Lab Test, Medications)">
             </div>
 
             <div class="form-group">
                 <label for="recommender-budget">Max Budget (KES)</label>
                 <input type="number" id="recommender-budget" placeholder="e.g. 1000">
             </div>
+            <div class="form-group">
+                <label for="recommender-insurance">Insurance</label>
+                <input type="text" id="recommender-insurance" placeholder="Insurance">
+            </div>
             <div class="crud-buttons">
                 <button onclick="getEnhancedRecommendations()">📍 View Enhanced Recommendations</button>
             </div>
             <div id="recommender-results"></div>
+        </section>
+        <!-- PAYMENT SECTION -->
+        <section id="payment" class="content-section hidden">
+            <h2>💳 Hospital Payment Portal</h2>
+            <p>Securely pay your hospital bills or service fees below:</p>
+
+            <div class="payment-mockup">
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label>Patient Name</label>
+                        <input type="text" placeholder="e.g. Jane Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Invoice Number</label>
+                        <input type="text" placeholder="e.g. INV-2025-001" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount (KES)</label>
+                        <input type="number" placeholder="e.g. 1,200" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select required>
+                            <option value="">Select method</option>
+                            <option value="mpesa">M-Pesa</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="bank">Bank Transfer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone / Card Number</label>
+                        <input type="text" placeholder="e.g. 0712XXXXXX or 4111 1111 1111 1111" required>
+                    </div>
+
+                    <div class="crud-buttons">
+                        <button type="submit">💳 Make Payment</button>
+                        <button type="reset">🧹 Clear</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </main>
 </div>
@@ -384,7 +459,7 @@
         <h2>Inventory Management</h2>
         <form id="inventory-form">
             <input type="hidden" id="item-id">
-            <div class="form-group"><label>Region</label><input type="text" id="region" required></div>
+            <div class="form-group"><label>Region</label><input type="text" id="inventory-region" required></div>
             <div class="form-group"><label>Ward</label><input type="text" id="ward"></div>
             <div class="form-group"><label>Facility Name</label><input type="text" id="facilityName" required></div>
             <div class="form-group"><label>KEPH Level</label><input type="text" id="kephLevel"></div>
@@ -396,7 +471,7 @@
             <div class="form-group"><label>Price</label><input type="number" id="price" step="0.01"></div>
             <button type="submit">💾 Save Item</button>
         </form>
-        <button onclick="closePopupinventory()">Close</button>
+        <button onclick="closeInventoryPopup()">Close</button>
     </div>
 </div>
 
@@ -417,86 +492,63 @@
     </div>
 </div>
 <!-- APPOINTMENT FORM POPUP -->
-<div id="appointment-popup" class="popup-overlay hidden">
+<!-- 📅 Book Appointment Popup -->
+<div id="appointment-form-popup" class="popup-overlay hidden">
     <div class="popup-form">
-        <button class="popup-close" onclick="closeAppointmentForm()">❌</button>
-        <h2 id="form-title">📅 Book Appointment</h2>
         <form id="appointment-form">
-            <div class="form-group">
-                <label>Patient Name</label>
-                <input type="text" id="patientName" required>
-            </div>
-            <div class="form-group">
-                <label>Contact Info</label>
-                <input type="text" id="contactInfo" required>
-            </div>
-            <div class="form-group">
-                <label>Appointment Date</label>
-                <input type="date" id="appointmentDate" required>
-            </div>
-            <div class="form-group">
-                <label>Appointment Time</label>
-                <input type="time" id="appointmentTime" required>
-            </div>
-            <div class="form-group">
-                <label>Purpose</label>
-                <input type="text" id="purpose" required>
-            </div>
-            <div class="form-group">
-                <label>Region</label>
-                <input type="text" id="region" required>
-            </div>
-            <div class="form-group">
-                <label>Hospital</label>
-                <input type="text" id="hospital" required>
-            </div>
-            <button type="submit" id="submit-button">Book Now</button>
+            <h2>Book Appointment</h2>
+            <input type="text" name="patientName" placeholder="Patient Name" required />
+            <input type="text" name="contactInfo" placeholder="Contact Info" required />
+            <input type="date" name="appointmentDate" required />
+            <input type="time" name="appointmentTime" required />
+            <input type="text" name="purpose" placeholder="Purpose" required />
+            <input type="text" name="region" placeholder="Region" required />
+            <input type="text" name="hospital" placeholder="Hospital" required />
+            <button type="submit">Submit</button>
+            <button type="button" onclick="closeAppointmentForm()">Close</button>
         </form>
     </div>
-</div>
 
-<!-- EDIT APPOINTMENT FORM POPUP (moved outside) -->
-<div id="edit-appointment-popup" class="popup-overlay hidden">
-    <form id="edit-appointment-form">
-        <h3>Edit Appointment</h3>
-
-        <input type="hidden" id="edit-appointment-id">
-
-        <label for="edit-patientName">Name:</label>
-        <input type="text" id="edit-patientName" required>
-
-        <label for="edit-contactInfo">Contact Info:</label>
-        <input type="text" id="edit-contactInfo" required>
-
-        <label for="edit-appointmentDate">Date:</label>
-        <input type="date" id="edit-appointmentDate" required>
-
-        <label for="edit-appointmentTime">Time:</label>
-        <input type="time" id="edit-appointmentTime" required>
-
-        <label for="edit-purpose">Purpose:</label>
-        <input type="text" id="edit-purpose" required>
-
-        <label for="edit-region">Region:</label>
-        <input type="text" id="edit-region" required>
-
-        <label for="edit-hospital">Hospital:</label>
-        <input type="text" id="edit-hospital" required>
-
-        <button type="submit">Update</button>
-        <button type="button" onclick="closeEditAppointmentPopup()">Cancel</button>
-    </form>
-</div>
-<!-- Chatbot container -->
-<div id="chatbot-container">
-    <button id="chatbot-toggle" title="Chat with us">💬</button>
-    <div id="chatbot-window" class="hidden">
-        <!--<iframe
-      src="https://copilotstudio.microsoft.com/environments/Default-2b46485c-d418-44a1-861e-c150c60c3429/bots/cr6d8_agent3htR0j8/webchat?__version__=2"
-      frameborder="0"
-      style="width: 350px; height: 700px; border-radius: 10px; overflow: hidden;">
-        </iframe> -->
+    <!-- ✏️ Edit Appointment Popup -->
+    <div id="edit-appointment-popup" class="popup-overlay hidden">
+        <div class="popup-form">
+            <form id="edit-appointment-form">
+                <h2>Edit Appointment</h2>
+                <input type="hidden" id="edit-appointment-id" />
+                <input type="text" id="edit-patientName" required />
+                <input type="text" id="edit-contactInfo" required />
+                <input type="date" id="edit-appointmentDate" required />
+                <input type="time" id="edit-appointmentTime" required />
+                <input type="text" id="edit-purpose" required />
+                <input type="text" id="edit-region" required />
+                <input type="text" id="edit-hospital" required />
+                <button type="submit">Save</button>
+                <button type="button" onclick="document.getElementById('edit-appointment-popup').classList.add('hidden')">Close</button>
+            </form>
+        </div>
+        <!-- Chatbot container -->
+        <div id="chatbot-container">
+            <button id="chatbot-toggle" title="Chat with us">💬</button>
+            <div id="chatbot-window" class="hidden">
+                <!--<iframe
+                    src="https://copilotstudio.microsoft.com/environments/Default-2b46485c-d418-44a1-861e-c150c60c3429/bots/cr6d8_agent3htR0j8/webchat?__version__=2"
+                    frameborder="0"
+                    style="width: 350px; height: 700px; border-radius: 10px; overflow: hidden;">
+                      </iframe> -->
+            </div>
+        </div>
+</body>
+<!-- ACCOUNT DETAILS POPUP -->
+<div id="account-popup" class="popup-overlay hidden">
+    <div class="popup-form">
+        <h2>Account Details</h2>
+        <p><strong>Email:</strong> <span id="account-email"></span></p>
+        <p><strong>Role:</strong> <span id="account-role"></span></p>
+        <div class="crud-buttons">
+            <button onclick="logout()">🚪 Logout</button>
+            <button onclick="closeAccountPopup()">Close</button>
+        </div>
     </div>
 </div>
-</body>
+
 </html>

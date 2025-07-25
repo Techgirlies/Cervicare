@@ -6,7 +6,6 @@
     <title>CerviCare</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -20,7 +19,6 @@
                 <li data-section="inventory">Inventory</li>
                 <li data-section="stock-check">Stock Checker</li>
                 <li data-section="hospital-recommender">Hospital Recommender</li>
-                <li data-section="analytics">📊 Analysis</li>
             </ul>
         </nav>
     </aside>
@@ -36,17 +34,33 @@
                 <p>Your health is our priority. CerviCare helps healthcare providers assess and guide women in early detection and prevention of cervical cancer.</p>
                 <p>Together, we can beat cervical cancer — one assessment at a time.</p>
                 <button class="start-assessment-btn" data-section="assessment">🎗️ Take Assessment</button>
-                <img src="images/cervicare.png" alt="Women for women by women" class="landing-image">
             </div>
+            <h1>
+                <div class="analytics"><label>Analysis</label>
+            </h1>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>👩‍⚕️ Doctors Enrolled</h3>
+                    <p class="number">128</p>
+                    <p class="description">Registered doctors as of July 2025</p>
+                </div>
 
-            <hr>
+                <div class="insight-card">
+                    <h3>🧪 People Tested</h3>
+                    <p class="number">3,492</p>
+                    <p class="description">Completed assessments to date</p>
+                </div>
 
-            <div class="analytics-container">
-                <h2>📊 Platform Insights</h2>
-                <div class="chart-grid">
-                    <canvas id="enrollmentChart"></canvas>
-                    <canvas id="riskChart"></canvas>
-                    <canvas id="facilityChart"></canvas>
+                <div class="insight-card">
+                    <h3>📈 High Risk Detected</h3>
+                    <p class="number">284</p>
+                    <p class="description">Marked for urgent follow-up</p>
+                </div>
+
+                <div class="insight-card">
+                    <h3>🏥 Facilities Participating</h3>
+                    <p class="number">53</p>
+                    <p class="description">Medical centers onboarded</p>
                 </div>
             </div>
         </section>
