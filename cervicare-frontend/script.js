@@ -154,29 +154,29 @@ if (signupForm) {
     }
   });
 }
-// Show account popup
-document.getElementById("account-icon").addEventListener("click", () => {
-  const popup = document.getElementById("account-popup");
-  const email = localStorage.getItem("userEmail");
-  const role = localStorage.getItem("userRole");
-
-  document.getElementById("account-email").textContent = email || "N/A";
-  document.getElementById("account-role").textContent = role || "N/A";
-
-  if (popup) popup.classList.remove("hidden");
-});
+window.logout = function () {
+  if (confirm("Are you sure you want to logout?")) {
+    localStorage.clear();
+    window.location.href = "index.html";
+  }
+};
 
 window.closeAccountPopup = function () {
   const popup = document.getElementById("account-popup");
   if (popup) popup.classList.add("hidden");
 };
 
-window.logout = function () {
-  if (confirm("Are you sure you want to logout?")) {
-    localStorage.clear();
-    window.location.href = "index.html"; // Redirect to login/landing page
+document.addEventListener("DOMContentLoaded", function () {
+  const accountIcon = document.getElementById("account-icon");
+  if (accountIcon) {
+    accountIcon.addEventListener("click", () => {
+      const popup = document.getElementById("account-popup");
+      document.getElementById("account-email").textContent = localStorage.getItem("userEmail") || "N/A";
+      document.getElementById("account-role").textContent = localStorage.getItem("userRole") || "N/A";
+      popup?.classList.remove("hidden");
+    });
   }
-};
+});
 
 const progress = document.getElementById("progress");
   // Section navigation
@@ -362,7 +362,7 @@ document.querySelectorAll(".sidebar li").forEach((item) => {
         const popup = document.getElementById("assessment-popup");
         if (popup) popup.classList.add("hidden");
     };
-    window.closePopupinventory = function () {
+    window.closePopup = function () {
         const popup = document.getElementById('inventory-popup');
         if (popup) popup.classList.add('hidden');
     };
@@ -501,7 +501,7 @@ window.deleteAppointment = function (id) {
     if (inventoryForm) {
         inventoryForm.addEventListener("submit", function(e) {
             e.preventDefault();document.getElementById("item-id")?.value;
-            const id = document.getElementById("itemId")?.value;
+            const id = document.getElementById("item-id")?.value;
             const itemName = document.getElementById("itemName")?.value;
             const url = id
               ? `${API_BASE_URL}/api/hospitals/items/${id}`
@@ -609,8 +609,6 @@ if (popup) popup.classList.remove('hidden');
            overlay.style.webkitBackdropFilter = "none";
        }
    }
-
-window.closePopupinventory = closePopupinventory;
 window.getEnhancedRecommendations = function () {
     const region = document.getElementById('recommender-region')?.value.trim();
     const itemOrService = document.getElementById('recommender-item')?.value.trim();
@@ -660,6 +658,10 @@ window.getEnhancedRecommendations = function () {
         .catch(err => {
             container.innerHTML = `❌ Error fetching recommendations: ${err.message}`;
         });
+};
+window.closeAccountPopup = function () {
+  const popup = document.getElementById("account-popup");
+  if (popup) popup.classList.add("hidden");
 };
 
 window.searchStock = function () {
@@ -775,11 +777,6 @@ if (form) {
 
   showStep(currentStep);
 }
-
-window.closePopup = function () {
-    const popup = document.getElementById('inventory-popup');
-    if (popup) popup.classList.add('hidden');
-};
 window.getInventory = function () {
     fetch("https://hospital-recommender-service-mknk.onrender.com/api/inventory")
         .then(response => response.json())
