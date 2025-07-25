@@ -6,7 +6,7 @@ const API_BASE_URL = isLocal
   : "https://hospital-recommender-service-mknk.onrender.com";
 const APPOINTMENT_API_BASE_URL = isLocal
   ? "http://localhost:8082"
-  : "https://appointment-mknk.onrender.com";
+  : "https://appointment-mknk.onrender.com/api/appointments"
 const USER_SERVICE_API_BASE_URL = isLocal
   ? "http://localhost:8081"
   : "https://cervicare-user-service-mknk.onrender.com";
