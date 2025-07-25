@@ -103,5 +103,4 @@ public class HospitalRecommendationController {
         return ResponseEntity.ok(service.recommendHospitals(query, region, budget, insurance));
     }
 
-
 }

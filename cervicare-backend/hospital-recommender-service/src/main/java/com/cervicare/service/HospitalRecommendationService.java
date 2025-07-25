@@ -7,6 +7,7 @@ import com.cervicare.repository.FacilityServiceRepository;
 import com.cervicare.dto.FacilityResourceDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -82,32 +83,53 @@ public class HospitalRecommendationService {
                 ))
                 .collect(Collectors.toList());
     }
-    public List<FacilityResourceDto> recommendHospitals(String query, String region, Double budget, Boolean insurance) {
-        List<FacilityItem> items = itemRepo.findSmartRecommendations(query.toLowerCase(), region, budget);
-        List<FacilityService> services = serviceRepo.findSmartServices(query.toLowerCase(), region, budget, insurance);
 
-        return items.stream().map(i -> new FacilityResourceDto(
+    // ✅ Unified recommendation: item, service, category treated as one input
+    public List<FacilityResourceDto> recommendHospitals(String query, String region, Double budget, Boolean insurance) {
+        String loweredQuery = query.toLowerCase();
+
+        // Search FacilityItem by item or category
+        List<FacilityResourceDto> fromItems = itemRepo.findAll().stream()
+                .filter(i -> region == null || (i.getRegion() != null && i.getRegion().equalsIgnoreCase(region)))
+                .filter(i -> budget == null || (i.getCost() != null && i.getCost() <= budget))
+                .filter(i ->
+                        (i.getItem() != null && i.getItem().toLowerCase().contains(loweredQuery)) ||
+                                (i.getCategory() != null && i.getCategory().toLowerCase().contains(loweredQuery))
+                )
+                .filter(i -> insurance == null || (i.getInsurance() != null && i.getInsurance().equals(insurance)))
+                .map(i -> new FacilityResourceDto(
                         i.getItem(),
                         i.getCategory(),
                         i.getFacilityName(),
                         i.getRegion(),
                         i.getCost(),
                         i.getInsurance()
-                )).collect(Collectors.toList())
-                .stream().collect(Collectors.toCollection(() -> {
-                    List<FacilityResourceDto> combined = new java.util.ArrayList<>();
-                    for (FacilityService s : services) {
-                        combined.add(new FacilityResourceDto(
-                                s.getService(),
-                                s.getCategory(),
-                                s.getFacility(),
-                                s.getRegion(),
-                                s.getBaseCost(),
-                                s.getNhifCovered()
-                        ));
-                    }
-                    return combined;
-                }));
-    }
+                ))
+                .collect(Collectors.toList());
 
+        // Search FacilityService by service or category
+        List<FacilityResourceDto> fromServices = serviceRepo.findAll().stream()
+                .filter(s -> region == null || (s.getRegion() != null && s.getRegion().equalsIgnoreCase(region)))
+                .filter(s -> budget == null || (s.getBaseCost() != null && s.getBaseCost() <= budget))
+                .filter(s ->
+                        (s.getService() != null && s.getService().toLowerCase().contains(loweredQuery)) ||
+                                (s.getCategory() != null && s.getCategory().toLowerCase().contains(loweredQuery))
+                )
+                .filter(s -> insurance == null || (s.getNhifCovered() != null && s.getNhifCovered().equals(insurance)))
+                .map(s -> new FacilityResourceDto(
+                        s.getService(),
+                        s.getCategory(),
+                        s.getFacility(),
+                        s.getRegion(),
+                        s.getBaseCost(),
+                        s.getNhifCovered()
+                ))
+                .collect(Collectors.toList());
+
+        // Combine and return
+        List<FacilityResourceDto> results = new ArrayList<>();
+        results.addAll(fromItems);
+        results.addAll(fromServices);
+        return results;
+    }
 }
