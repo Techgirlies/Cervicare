@@ -1086,13 +1086,18 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("🔔 Notifications (e.g., appointments, stock alerts) coming soon!");
     });
   }
-    document.addEventListener("DOMContentLoaded", function () {
-      Microsoft365CopilotStudio.renderWebChat({
-        containerId: "chat-container",
-        chatConfig: {
-          conversationEndpoint:
-            "https://default2b46485cd41844a1861ec150c60c34.29.environment.api.powerplatform.com/copilotstudio/dataverse-backed/authenticated/bots/cr6d8_agent3htR0j8/conversations?api-version=2022-03-01-preview"
-        }
-      });
-    });
 });
+document.getElementById("chatbot-toggle").addEventListener("click", () => {
+  const chat = document.getElementById("chat-container");
+  chat.style.display = (chat.style.display === "none" || !chat.style.display) ? "block" : "none";
+});
+document.addEventListener("DOMContentLoaded", function () {
+  Microsoft365CopilotStudio.renderWebChat({
+    containerId: "chat-container",
+    chatConfig: {
+      conversationEndpoint: "https://default2b46485cd41844a1861ec150c60c34.29.environment.api.powerplatform.com/copilotstudio/dataverse-backed/authenticated/bots/cr6d8_agent3htR0j8/conversations?api-version=2022-03-01-preview"
+    }
+  });
+});
+
+

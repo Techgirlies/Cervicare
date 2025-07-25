@@ -764,6 +764,19 @@ input[type="time"]:focus {
   gap: 1rem;
   margin-top: 1rem;
 }
+#chat-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 360px;
+  height: 500px;
+  z-index: 9999;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
 
 
 
