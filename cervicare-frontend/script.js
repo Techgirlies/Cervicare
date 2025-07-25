@@ -1087,17 +1087,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-const toggleBtn = document.getElementById("chatbot-toggle");
-if (toggleBtn) {
-  toggleBtn.addEventListener("click", () => {
-    const chat = document.getElementById("chat-container");
-    if (chat) {
-      chat.style.display = (chat.style.display === "none" || !chat.style.display)
-        ? "block"
-        : "none";
-    }
-  });
-}
 
 
 
