@@ -1,5 +1,4 @@
 console.log("Script loaded!");
-
 const isLocal = window.location.hostname === "localhost";
 const API_BASE_URL = isLocal
   ? "http://localhost:8083"
