@@ -23,7 +23,7 @@ if (protectedPages.includes(currentPage)) {
     alert("You must be logged in.");
     window.location.href = "index.html";
   } else {
-    fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
+    fetch(`${APPOINTMENT_API_BASE_URL}?email=${encodeURIComponent(email)}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -346,7 +346,7 @@ document.querySelectorAll(".sidebar li").forEach((item) => {
             alert("User email or token not found. Please log in.");
             return;
         }
-        fetch(`${APPOINTMENT_API_BASE_URL}/user?email=${encodeURIComponent(email)}`, {
+        fetch(`${APPOINTMENT_API_BASE_URL}?email=${encodeURIComponent(email)}`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token,  // ✅ Send token
