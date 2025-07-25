@@ -765,18 +765,34 @@ input[type="time"]:focus {
   margin-top: 1rem;
 }
 #chat-container {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 360px;
-  height: 500px;
-  z-index: 9999;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  display: none;
+     position: fixed;
+     bottom: 90px;
+     right: 20px;
+     width: 400px;
+     height: 500px;
+     background: white;
+     border: 1px solid #ccc;
+     border-radius: 10px;
+     box-shadow: 0 0 10px rgba(0,0,0,0.3);
+     z-index: 1000;
+     overflow: hidden;
 }
-
+#chatbot-toggle{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
 
 
 
